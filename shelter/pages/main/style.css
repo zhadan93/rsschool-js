@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "arialRegular";
+  src: url("../../assets/fonts/arialRegular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "arialItalic";
+  src: url("../../assets/fonts/arialItalic.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "georgiaRegular";
+  src: url("../../assets/fonts/georgiaRegular.ttf");
+  font-weight: 400;
+}

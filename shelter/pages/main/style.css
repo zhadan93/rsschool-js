@@ -1,17 +1,23 @@
 @font-face {
   font-family: "arialRegular";
-  src: url("../../assets/fonts/arialRegular.ttf");
+  src: url("../../assets/fonts/arialRegular.woff2") format("woff2"),
+    url("../../assets/fonts/arialRegular.woff") format("woff"),
+    url("../../assets/fonts/arialRegular.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "arialItalic";
-  src: url("../../assets/fonts/arialItalic.ttf");
+  src: url("../../assets/fonts/arialItalic.woff2") format("woff2"),
+    url("../../assets/fonts/arialItalic.woff") format("woff"),
+    url("../../assets/fonts/arialItalic.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "georgiaRegular";
-  src: url("../../assets/fonts/georgiaRegular.ttf");
+  src: url("../../assets/fonts/georgiaRegular.woff2") format("woff2"),
+    url("../../assets/fonts/georgiaRegular.woff") format("woff"),
+    url("../../assets/fonts/georgiaRegular.ttf") format("truetype");
   font-weight: 400;
 }

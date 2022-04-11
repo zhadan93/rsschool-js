@@ -133,26 +133,6 @@ html {
   transition: 0.7s;
 }
 
-.navigation__link:after {
-  content: "";
-
-  position: absolute;
-  left: 50%;
-
-  display: block;
-  width: 0%;
-  height: 2.5px;
-  
-  background-color: var(--decoration-color);
-  
-  transition: width .3s ease-in-out;
-  transform: translateX(-50%);
-}
-
-.navigation__link:hover:after {
-  width: 100%;
-}
-
 .navigation__link:hover {
   color: var(--active-text-color);
 }
@@ -160,29 +140,12 @@ html {
 .navigation__link--active {
   color: var(--active-text-color);
   padding-bottom: 4px;
-}
-
-.navigation__link--active:after {
-  content: "";
-
-  position: absolute;
-  left: 50%;
-
-  display: block;
-  width: 100%;
-  height: 2.5px;
-  
-  background-color: var(--decoration-color);
-
-  transition: 0.7s;
+  border-bottom: 3px solid var(--decoration-color);
 }
 
 .navigation__link--active:hover {
   color: rgba(255, 255, 255, 0.8);
-}
-
-.navigation__link--active:hover.navigation__link--active:after {
-  background-color: var(--decoration-hover-color);
+  border-bottom: 3px solid var(--decoration-hover-color);
 }
 
 

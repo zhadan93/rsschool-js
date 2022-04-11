@@ -33,19 +33,19 @@
 
   <main>
     <section class="not-only">
-      <div class="wrapper">
+      <div class="wrapper not-only__wrapper">
         <div class="not-only__content">
-          <h2 class="title title__h2">Not only people need a house</h2>
-          <p class="paragraph paragraph--l">We offer to give a chance to a little and nice puppy with an extremely wide and open heart. He or she will
+          <h2 class="title title--colored title__h2">Not only people need a house</h2>
+          <p class="paragraph paragraph--colored">We offer to give a chance to a little and nice puppy with an extremely wide and open heart. He or she will
             love you more than anybody else in the world, you will see!</p>
-          <a class="button button--colored" href="#our-friends">Make a friend</a>
+          <a class="button button__link button--colored" href="#our-friends">Make a friend</a>
         </div>
         <img src="../../assets/img/start-screen-puppy.png" alt="Start screen puppy" width="698" height="728">
       </div>
     </section>
 
     <section class="about">
-      <div class="wrapper wrapper--centered">
+      <div class="wrapper about__wrapper">
         <img src="../../assets/img/about-pets.png" alt="About pets" width="300" height="408">
         <div class="about__content">
           <h3 class="title title__h3">About the shelter “Cozy House”</h3>
@@ -59,38 +59,36 @@
     </section>
 
     <section class="our-friends" id="our-friends">
-      <div class="wrapper">
-        <h3 class="title title__h3">Our friends who are looking for a house</h3>
-        <div class="our-friends__slider">
-          <div class="slider">
-            <div class="slider__list">
-              <div class="slider__item">
-                <img src="../../assets/img/pets-katrine.jpg" alt="Pets Katrine">
-                <p class="slider__pet-name">Katrine</p>
-                <button class="button button--bordered">Learn more</button>
-              </div>
-              <div class="slider__item">
-                <img src="../../assets/img/pets-jennifer.jpg" alt="Pets Jennifer">
-                <p class="slider__pet-name">Jennifer</p>
-                <button class="button button--bordered">Learn more</button>
-              </div>
-              <div class="slider__item">
-                <img src="../../assets/img/pets-woody.jpg" alt="Pets Woody">
-                <p class="slider__pet-name">Woody</p>
-                <button class="button button--bordered">Learn more</button>
-              </div>
+      <div class="wrapper our-friends__wrapper">
+        <h3 class="title our-friends__title title__h3 title__h3--centered">Our friends who<br>are looking for a house</h3>
+        <div class="slider">
+          <div class="slider__list">
+            <div class="slider__item">
+              <img class="slider__img" src="../../assets/img/pets-katrine.jpg" alt="Pets Katrine">
+              <p class="slider__pet-name">Katrine</p>
+              <button class="button button--bordered">Learn more</button>
             </div>
-            <button class="slider__button-prev slider__button-prev--disabled"><span class="ico ico__button-prev"></span></button>
-            <button class="slider__button-next"><span class="ico ico__button-next"></span></button>
+            <div class="slider__item">
+              <img class="slider__img" src="../../assets/img/pets-jennifer.jpg" alt="Pets Jennifer">
+              <p class="slider__pet-name">Jennifer</p>
+              <button class="button button--bordered">Learn more</button>
+            </div>
+            <div class="slider__item">
+              <img class="slider__img" src="../../assets/img/pets-woody.jpg" alt="Pets Woody">
+              <p class="slider__pet-name">Woody</p>
+              <button class="button button--bordered">Learn more</button>
+            </div>
           </div>
+          <button class="slider__button slider__button--prev slider__button--disabled"><span class="ico__button ico__button--prev"></span></button>
+          <button class="slider__button slider__button--next"><span class="ico__button ico__button--next"></span></button>
         </div>
-        <a class="button button--colored" href="../pets/index.html">Get to know the rest</a>
+        <a class="button button__link button--colored" href="../pets/index.html">Get to know the rest</a>
       </div>
     </section>
 
     <section class="help" id="help">
-      <div class="wrapper wrapper--centered">
-        <h3>How you can help our shelter</h3>
+      <div class="wrapper help__wrapper">
+        <h3 class="title title__h3 title__h3--centered">How you can help our shelter</h3>
         <div class="help__list">
           <div class="help__item">
             <img class="help__icon" src="../../assets/svg/icon-pet-food.svg" alt="Pet food">
@@ -133,14 +131,16 @@
     </section>
 
     <section class="in-addition">
-      <div class="wrapper wrapper--centered">
+      <div class="wrapper in-addition__wrapper">
         <img src="../../assets/img/donation-dog.png" alt="Donation dog" width="505" height="261">
-        <h3 class="title title__h3">You can also make a donation</h3>
-        <h5 class="title title__h5">Name of the bank / Type of bank account</h5>
-        <p class="credit-card"><span class="ico ico__credit-card"></span><a class="credit-card__number" href="#!">8380 2880 8028 8791 7435</a></p>
-        <p class="paragraph paragraph--s">Legal information and lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a ipsum at libero
-          sagittis dignissim sed ac diam. Praesent ultrices maximus tortor et vulputate. Interdum et malesuada fames ac ante ipsum primis
-          in faucibus.</p>
+        <div class="in-addition__content">
+          <h3 class="title title__h3">You can also make a donation</h3>
+          <h5 class="title title__h5">Name of the bank / Type of bank account</h5>
+          <div class="credit-card"><a class="credit-card__link" href="#!"><span class="ico__credit-card"></span><h4 class="title title__h4 credit-card__h4">8380 2880 8028 8791 7435</h4></a></div>
+          <p class="paragraph paragraph__s">Legal information and lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas a ipsum at libero
+            sagittis dignissim sed ac diam. Praesent ultrices maximus tortor et vulputate. Interdum et malesuada fames ac ante ipsum primis
+            in faucibus.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -148,7 +148,7 @@
   <footer class="footer" id="footer">
     <div class="wrapper">
       <div class="footer__contacts">
-        <h3 class="title title__h3 title__h3--colored">For questions and suggestions</h3>
+        <h3 class="title title--colored title__h3">For questions and suggestions</h3>
         <p>
           <a class="footer__link" href="mailto:email@shelter.com"> 
             <svg class="icon icon__email">
@@ -167,7 +167,7 @@
         </p>
       </div>
       <div class="footer__locations">
-        <h3 class="title title__h3 title__h3--colored">We are waiting for your visit</h3>
+        <h3 class="title title--colored title__h3">We are waiting for your visit</h3>
         <p>
           <a class="footer__link" href="https://goo.gl/maps/b5aKVBiAxExxgixS9" target="_blanc">
             <svg class="icon icon__marker">

@@ -1,0 +1,146 @@
+:root {
+  --grey-background: #f6f6f6;
+  --white-background: #ffffff;
+  --card-background: #fafafa;
+  --gradient-background: url("../../assets/img/background.png"), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
+
+  --white-title: #ffffff;
+  --grey-title: #545454;
+  --button-text-color: #292929;
+  --decoration-color: #f1cdb3;
+  --decoration-hover-color: #fddcc4;
+  --inactive-color: #cdcdcd;
+  --active-text-color: #fafafa;
+  --main-text-color: #4c4c4c;
+  --paragraph-s-color: #b2b2b2;
+  
+  --logo-title: 32px;
+  --logo-subtitle: 13px;
+  --font2: 44px;
+  --font3: 35px;
+  --font4: 20px;
+  --font5: 15px;
+  
+  --button-font: 17px;
+  --paragraph-l: 15px;
+  --paragraph-s: 12px;
+
+  --padding: 40px;
+}
+
+@font-face {
+  font-family: "arialRegular";
+  src: url("../../assets/fonts/arialRegular.woff2") format("woff2"),
+    url("../../assets/fonts/arialRegular.woff") format("woff"),
+    url("../../assets/fonts/arialRegular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "georgiaRegular";
+  src: url("../../assets/fonts/georgiaRegular.woff2") format("woff2"),
+    url("../../assets/fonts/georgiaRegular.woff") format("woff"),
+    url("../../assets/fonts/georgiaRegular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; 
+}
+
+.wrapper {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 var(--padding);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  max-width: 310px;
+  font-family: 'georgiaRegular', serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  
+  color: var(--grey-title);
+}
+
+.title--colored {
+  color: var(--white-title);
+}
+
+.title__h3 {
+  font-size: 35px;
+  letter-spacing: 0.06em;
+}
+
+.title__h4 {
+  font-size: 20px;
+  line-height: 115%;
+
+  letter-spacing: 0.06em;
+}
+
+
+.footer {
+  padding-top: 40px;
+  background: var(--gradient-background);
+}
+
+.footer__wrapper {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer__contacts {
+  display: flex;
+  padding-top: 16px;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.footer__contacts:nth-child(2) {
+  margin-left: 20px;
+}
+
+.footer__link {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  text-decoration: none;
+}
+
+.icon__contact {
+  display: block;
+  width: 40px;
+  height: 32px;
+  fill: var(--decoration-color);
+}
+
+.icon__contact--smalled {
+  width: 22px;
+}
+
+.title__h4--colored {
+  color: var(--decoration-color);
+}
+
+.footer__link:hover  .title__h4--colored {
+  color: var(--decoration-hover-color);
+}
+
+.footer__link:hover  .icon__contact {
+  fill: var(--decoration-hover-color);
+}
+
+.footer__contacts--gap {
+  gap: 33px;
+}

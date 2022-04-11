@@ -1,3 +1,32 @@
+:root {
+  --grey-background: #f6f6f6;
+  --white-background: #ffffff;
+  --gradient-background: ;
+
+  --white-title: #ffffff;
+  --grey-title: #545454;
+  --button-text-color: #292929;
+  --decoration-color: #f1cdb3;
+  --decoration-hover-color: #fddcc4;
+  --inactive-color: #cdcdcd;
+  --active-text-color: #fafafa;
+  --main-text-color: #4c4c4c;
+  --paragraph-s-color: #b2b2b2;
+  
+  --logo-title: 32px;
+  --logo-subtitle: 13px;
+  --font2: 44px;
+  --font3: 35px;
+  --font4: 20px;
+  --font5: 15px;
+  
+  --button-font: 17px;
+  --paragraph-l: 15px;
+  --paragraph-s: 12px;
+
+  --padding: 40px;
+}
+
 @font-face {
   font-family: "arialRegular";
   src: url("../../assets/fonts/arialRegular.woff2") format("woff2"),
@@ -20,4 +49,144 @@
     url("../../assets/fonts/georgiaRegular.woff") format("woff"),
     url("../../assets/fonts/georgiaRegular.ttf") format("truetype");
   font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; 
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 60px;
+}
+
+.wrapper {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 var(--padding);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo__link {
+  display: block;
+
+  text-decoration: none;
+}
+
+.logo__title {
+  margin: 0;
+  padding-bottom: 10px;
+
+  font-family: 'georgiaRegular', serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: var(--logo-title);
+  line-height: 110%;
+  color: var(--decoration-color);
+  letter-spacing: 0.06em;
+}
+
+.logo__subtitle {
+  font-family: 'arialRegular', sans-serif;
+  font-weight: 400;
+  font-size: var(--logo-subtitle);
+  line-height: 15px;
+  color: var(--white-title);
+  letter-spacing: 0.1em;
+}
+
+.logo:hover .logo__title {
+  color: var(--decoration-hover-color);
+}
+
+.navigation {
+  display: flex;
+  column-gap: 36px;
+  margin: 0;
+  padding: 0px;
+
+  font-family: 'arialRegular', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--paragraph-l);
+  line-height: 160%;
+  
+  list-style: none;
+}
+
+.navigation__link {
+  position: relative;
+
+  text-decoration: none;
+  color: var(--inactive-color);
+  
+  transition: 0.7s;
+}
+
+.navigation__link:after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+
+  display: block;
+  width: 0%;
+  height: 2.5px;
+  
+  background-color: var(--decoration-color);
+  
+  transition: width .3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.navigation__link:hover:after {
+  width: 100%;
+}
+
+.navigation__link:hover {
+  color: var(--active-text-color);
+}
+
+.navigation__link--active {
+  color: var(--active-text-color);
+  padding-bottom: 4px;
+}
+
+.navigation__link--active:after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  
+  background-color: var(--decoration-color);
+
+  transition: 0.7s;
+}
+
+.navigation__link--active:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.navigation__link--active:hover.navigation__link--active:after {
+  background-color: var(--decoration-hover-color);
 }

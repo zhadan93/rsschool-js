@@ -14,34 +14,34 @@
   --main-text-color: #4c4c4c;
   --paragraph-s-color: #b2b2b2;
   
-  --logo-title: 32px;
-  --logo-subtitle: 13px;
-  --font2: 44px;
-  --font3: 35px;
-  --font4: 20px;
-  --font5: 15px;
-  
-  --button-font: 17px;
-  --paragraph-l: 15px;
-  --paragraph-s: 12px;
+  --font-arial: "Arial", "Verdana", sans-serif;
+  --font-georgia: "Georgia", "Times New Roman", serif;
 
   --padding: 40px;
+
+  --desktop-width: 1280px;
+  --tablet-width: 768px;
+  --mobile-small-width: 320px;
 }
 
 @font-face {
-  font-family: "arialRegular";
-  src: url("../../assets/fonts/arialRegular.woff2") format("woff2"),
+  font-family: "Arial";
+  src: local("Arial Regular"), local("Arial-Regular"),
+    url("../../assets/fonts/arialRegular.woff2") format("woff2"),
     url("../../assets/fonts/arialRegular.woff") format("woff"),
     url("../../assets/fonts/arialRegular.ttf") format("truetype");
   font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-  font-family: "georgiaRegular";
-  src: url("../../assets/fonts/georgiaRegular.woff2") format("woff2"),
+  font-family: "Georgia";
+  src: local("Georgia Regular"), local("Georgia-Regular"),
+    url("../../assets/fonts/georgiaRegular.woff2") format("woff2"),
     url("../../assets/fonts/georgiaRegular.woff") format("woff"),
     url("../../assets/fonts/georgiaRegular.ttf") format("truetype");
   font-weight: 400;
+  font-style: normal;
 }
 
 * {
@@ -50,6 +50,13 @@
 
 html {
   scroll-behavior: smooth; 
+  font-size: 10px;
+}
+
+.page {
+  font-size: 1.5rem;
+  font-family: var(--font-arial);
+  font-weight: 400; 
 }
 
 .header {
@@ -91,10 +98,9 @@ html {
   margin: 0;
   padding-bottom: 10px;
 
-  font-family: 'georgiaRegular', serif;
+  font-family: var(--font-georgia);
   font-weight: 400;
-  font-style: normal;
-  font-size: var(--logo-title);
+  font-size: 3.2rem;
   line-height: 110%;
   color: var(--grey-title);
   letter-spacing: 0.06em;
@@ -103,10 +109,8 @@ html {
 }
 
 .logo__subtitle {
-  font-family: 'arialRegular', sans-serif;
-  font-weight: 400;
-  font-size: var(--logo-subtitle);
-  line-height: 15px;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
   color: var(--button-text-color);
   letter-spacing: 0.1em;
 }
@@ -121,10 +125,6 @@ html {
   margin: 0;
   padding: 0px;
 
-  font-family: 'arialRegular', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: var(--paragraph-l);
   line-height: 160%;
   
   list-style: none;
@@ -157,8 +157,7 @@ html {
 .title {
   margin: 0;
   max-width: 310px;
-  font-family: 'georgiaRegular', serif;
-  font-style: normal;
+  font-family: var(--font-georgia);
   font-weight: 400;
   line-height: 130%;
   
@@ -170,7 +169,7 @@ html {
 }
 
 .title__h3 {
-  font-size: 35px;
+  font-size: 3.5rem;
   letter-spacing: 0.06em;
 }
 
@@ -179,7 +178,7 @@ html {
 }
 
 .title__h4 {
-  font-size: 20px;
+  font-size: 2.0rem;
   line-height: 115%;
 
   letter-spacing: 0.06em;
@@ -192,10 +191,9 @@ html {
   background-color: transparent;
 
   color: var(--button-text-color);
-  font-family: 'georgiaRegular', serif;
-  font-style: normal;
+  font-family: var(--font-georgia);
   font-weight: 400;
-  font-size: 17px;
+  font-size: 1.7rem;
   line-height: 130%;
 
   letter-spacing: 0.06em;
@@ -270,11 +268,10 @@ html {
 
 .slider__pet-name {
   margin: 0;
-  font-family: 'georgiaRegular', serif;
-  font-style: normal;
+  font-family: var(--font-georgia);
   font-weight: 400;
-  font-size: 20px;
-  line-height: 23px;
+  font-size: 2.0rem;
+  line-height: 2.3rem;
   
   letter-spacing: 0.06em;
 }

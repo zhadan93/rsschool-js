@@ -572,7 +572,8 @@ html {
   }
 
   .not-only__wrapper,
-  .footer__wrapper {
+  .footer__wrapper,
+  .help__wrapper {
     padding: 0 3.12%;
   }
 
@@ -586,6 +587,16 @@ html {
 
   .about__wrapper {
     flex-wrap: wrap;
+  }
+
+  .help__list {
+    padding: 0 calc(7.14% - 8px);
+    justify-content: space-between;
+    column-gap: 60px;
+  }
+
+  .help__item {
+    width: 170px;
   }
 
   .footer {
@@ -693,7 +704,8 @@ html {
     min-width: 260px;
   }
 
-  .about {
+  .about,
+  .help {
     padding-top: 42px;
     padding-bottom: 42px;
   }
@@ -718,6 +730,31 @@ html {
     width: 42.45%;
     max-width: 300px;
     min-width: 260px;
+  }
+
+  .help__wrapper {
+    padding: 0 calc(3.1% - 10px);
+    gap: 42px;
+  }
+
+  .help__list {
+    gap: 30px;
+  }
+
+  .help__item {
+    width: 26.9%;
+    min-width: 130px;
+    gap: 20px;
+  }
+
+  .title__h4--smalled {
+    font-size: 1.5rem;
+    line-height: 110%;
+  }
+
+  .help__icon {
+    min-width: 50px;
+    width: 35%;
   }
 
   .footer__wrapper {

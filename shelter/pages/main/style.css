@@ -501,8 +501,10 @@ html {
 }
 
 .footer__wrapper {
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 61px;
 }
 
 .footer__contacts {
@@ -512,8 +514,13 @@ html {
   gap: 40px;
 }
 
+.footer__contacts:first-child {
+  width: 279px;
+}
+
 .footer__contacts:nth-child(2) {
-  margin-left: 20px;
+  width: 300px;
+  gap: 33px;
 }
 
 .footer__link {
@@ -546,8 +553,8 @@ html {
   fill: var(--decoration-hover-color);
 }
 
-.footer__contacts--gap {
-  gap: 33px;
+.footer__image {
+  width: 300px;
 }
 
 
@@ -564,7 +571,8 @@ html {
     padding-top: 14%;
   }
 
-  .not-only__wrapper {
+  .not-only__wrapper,
+  .footer__wrapper {
     padding: 0 3.12%;
   }
 
@@ -578,6 +586,14 @@ html {
 
   .about__wrapper {
     flex-wrap: wrap;
+  }
+
+  .footer {
+    padding-top: 3.12%;
+  }
+
+  .footer__contacts {
+    padding-top: 1.3%;
   }
 }
 
@@ -604,6 +620,25 @@ html {
   .not-only__image {
     max-width: 569px;
     align-self: flex-end;
+  }
+}
+
+@media (max-width: 1068px) {  
+  .footer__wrapper {
+    justify-content: center;
+    row-gap: 65px;
+  }
+
+  .footer {
+    padding-top: 30px;
+  }
+
+  .footer__wrapper {
+    padding: 0 30px;
+  }
+
+  .footer__contacts {
+    padding-top: 0;
   }
 }
 
@@ -684,17 +719,48 @@ html {
     max-width: 300px;
     min-width: 260px;
   }
+
+  .footer__wrapper {
+    padding: 0 3.9%;
+    row-gap: 40px;
+  }
+
+  .footer__image {
+    width: 42.45%;
+    max-width: 300px;
+    min-width: 260px;
+  }
 }
 
-@media (max-width: 319px) {
+@media (max-width: 694px) {
+  .footer__wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer__contacts:first-child{
+    align-items: center;
+  }
+
+  .footer__contacts:nth-child(2) {
+    gap: 40px;
+  }
+
+  .footer__contacts:nth-child(2) .title__h3{
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 320px) {
   .not-only__wrapper,
-  .about__wrapper {
+  .about__wrapper,
+  .footer__wrapper {
     padding: 0 10px;
   }
 
   .not-only__image {
-    width: 86.6%;
-    min-width: 86.6%;
+    width: 86.67%;
+    min-width: 86.67%;
   }
 
   .about__content {
@@ -704,7 +770,20 @@ html {
   }
 
   .about__image {
-    width: 86.6%;
-    min-width: 86.6%;
+    width: 86.67%;
+    min-width: 86.67%;
+  }
+
+  .footer__image {
+    width: 86.67%;
+    min-width: 86.67%;
+  }
+
+  .footer__contacts:first-child {
+    width: calc(100% - 20px);
+  }
+  
+  .footer__contacts:nth-child(2) {
+    width: calc(100% - 20px);
   }
 }

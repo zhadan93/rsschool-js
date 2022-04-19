@@ -613,6 +613,20 @@ html {
   }
 }
 
+@media (max-width: 1177px) {
+  .slider__item:nth-last-child(-n+1) {
+    display: none;
+  }
+
+  .slider__list {
+    gap: 40px;
+  }
+
+  .slider {
+    max-width: 708px;
+  }
+}
+
 @media (max-width: 1141px) {  
   .not-only {
     padding-top: 150px;
@@ -719,7 +733,8 @@ html {
 
   .about,
   .help,
-  .in-addition {
+  .in-addition,
+  .our-friends {
     padding-top: 42px;
     padding-bottom: 42px;
   }
@@ -744,6 +759,47 @@ html {
     width: 42.45%;
     max-width: 300px;
     min-width: 260px;
+  }
+
+  .our-friends__wrapper {
+    padding: 0 3.9%;
+    gap: 42px;
+  }
+
+  .slider__item:nth-last-child(-n+2) {
+    display: none;
+  }
+
+  .slider {
+    max-width: 270px;
+    padding-bottom: 72px;
+  }
+
+  .our-friends__title {
+    max-width: 300px;
+  }
+
+  .slider__button {
+    position: absolute;
+    top: 95%;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background: transparent;
+    border: 2px solid var(--decoration-color);
+    
+    transition: 0.7s;
+  }
+  
+  .slider__button--prev {
+    left: 43px;
+  }
+  
+  .slider__button--next {
+    right: 43px;
   }
 
   .help__wrapper {
@@ -827,7 +883,8 @@ html {
 @media (max-width: 319px) {
   .not-only__wrapper,
   .about__wrapper,
-  .footer__wrapper {
+  .footer__wrapper,
+  .our-friends__wrapper {
     padding: 0 10px;
   }
 

@@ -63,6 +63,7 @@ html {
 }
 
 .page {
+  min-width: 320px;
   font-size: 1.5rem;
   font-family: var(--font-arial);
   font-weight: 400; 

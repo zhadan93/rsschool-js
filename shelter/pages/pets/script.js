@@ -4,27 +4,66 @@ window.onload = function() {
 
 
 const addBurgerMenuClickHandler = () => {
-  document.querySelector('.burger-menu').addEventListener('click', toggleBurgerMenu);
+  document.querySelector('.burger-button').addEventListener('click', toggleBurgerMenu);
 };
 
-
 const toggleBurgerMenu = () => {
-  document.querySelector('.burger-menu').classList.toggle('open');
-  document.querySelector('.burger-logo').classList.toggle('open');
-  document.querySelector('.header__navigation').classList.toggle('open');
-  document.querySelector('.overlay').classList.toggle('open');
-  document.querySelector('.page').classList.toggle('open');
+  const classNameElements = ['.burger-button', '.burger-logo', '.header__navigation', '.overlay'];
 
-  if (document.querySelector('.burger-menu').classList.contains('open')) {
-    addNavigationMenuClickHandler();
-    addOverlayClickHandler();
-    addLogoBurgerMenuHandler();
-  } else {
+  const burgerMenuElements = getBurgerMenuElements(classNameElements);
+  const page = getElements('.page');
+  const logo = getElements('.logo');
+  
+  if (document.querySelector('.burger-button').classList.contains('open')) {
+    removeBurgerMenu(burgerMenuElements, 'open');
     removeNavigationMenuClickHandler();
     removeOverlayClickHandler();
     removeLogoBurgerMenuHandler();
+    removeRightPaddingForDocument();
+    removeClassName(page, 'removeScrollBar');
+    removeClassName(logo, 'hidden');
+  } else {
+    addBurgerMenu(burgerMenuElements, 'open'); 
+    addNavigationMenuClickHandler();
+    addOverlayClickHandler();
+    addLogoBurgerMenuHandler();
+    addRightPaddingForDocument();
+    addClassName(page, 'removeScrollBar');
+    addClassName(logo, 'hidden');
   } 
 };
+
+const getBurgerMenuElements = (classNames) => {
+   const burgerMenuElements = [];
+
+   classNames.forEach(className => burgerMenuElements.push(getElements(className)));
+
+   return burgerMenuElements;
+}
+
+const getElements = (className) => {
+  return document.querySelector(className);
+}
+
+const addBurgerMenu = (elements, className) => {
+  elements.forEach(element => {
+    addClassName(element, className);
+  });
+}
+
+const addClassName = (element, className) => {
+  element.classList.add(className);
+}
+
+const removeBurgerMenu = (elements, className) => {
+  elements.forEach(element => {
+    removeClassName(element, className);
+  });
+}
+
+const removeClassName = (element, className) => {
+  element.classList.remove(className);
+}
 
 const addLogoBurgerMenuHandler = () => {
   document.querySelector('.burger-logo').addEventListener('click', toggleBurgerMenu);
@@ -43,13 +82,29 @@ const removeOverlayClickHandler = () => {
 }; 
 
 const addNavigationMenuClickHandler = () => {
-  document.querySelector('.header__navigation').addEventListener('click', closeBurgerMenu)
+  document.querySelector('.header__navigation').addEventListener('click', closeBurgerMenu);
+};
+
+const removeNavigationMenuClickHandler = () => {
+  document.querySelector('.header__navigation').removeEventListener('click', closeBurgerMenu);
 };
 
 const closeBurgerMenu = (e) => {
   if (e.target.classList.contains('navigation__link')) toggleBurgerMenu();
 };
 
-const removeNavigationMenuClickHandler = () => {
-  document.querySelector('.overlay').removeEventListener('click', closeBurgerMenu);
-};
+const addRightPaddingForDocument = () => {
+  document.documentElement.style.paddingRight = `${getScrollBarWidth()}px`;
+}
+
+const getScrollBarWidth = () => {
+  let documentWithScrollBarWidth = window.innerWidth;
+
+  let scrollBarWidth = documentWithScrollBarWidth - document.documentElement.clientWidth;
+
+  return scrollBarWidth;
+}
+
+const removeRightPaddingForDocument = () => {
+  document.documentElement.style.paddingRight = '';
+}

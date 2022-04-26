@@ -1,5 +1,11 @@
+import { Popup } from './Popup.js'
+
+import { pets } from './pets.js'
+
 window.onload = function() {
   addBurgerMenuClickHandler();
+
+  addPetsCardClickHandler();
 };
 
 
@@ -106,5 +112,31 @@ const getScrollBarWidth = () => {
 }
 
 const removeRightPaddingForDocument = () => {
-  document.documentElement.style.paddingRight = '';
+  document.documentElement.style.paddingRight = '0px';
 }
+
+const addPetsCardClickHandler = () => {
+  document.querySelector('.slider__list').addEventListener('click', openPopupWindow);
+}
+
+const openPopupWindow = (e) => {
+  if (e.target.closest('.slider__item')) {
+    const clickedPetCard = e.target.closest('.slider__item').dataset.petName;
+    const content = getPetInformation(clickedPetCard);
+
+    renderPopup(content);
+  }
+}
+
+const getPetInformation = (name) => {
+  return pets.find(pet => pet.name === name)
+}
+
+const renderPopup = (content) => {
+  let popup = new Popup(content);
+  popup.renderPopupContent();
+}
+
+
+console.log(`Реализованы бургер меню и popup.
+Общая оценка 35 баллов`)

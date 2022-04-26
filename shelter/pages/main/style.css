@@ -2,6 +2,7 @@
   --grey-background: #f6f6f6;
   --white-background: #ffffff;
   --card-background: #fafafa;
+  --burger-menu-background: #292929;
   --gradient-background: url("../../assets/img/background.png"), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
 
   --white-title: #ffffff;
@@ -13,6 +14,7 @@
   --active-text-color: #fafafa;
   --main-text-color: #4c4c4c;
   --paragraph-s-color: #b2b2b2;
+  --popup-text-color: #000000;
 
   --font-arial: "Arial", "Verdana", sans-serif;
   --font-georgia: "Georgia", "Times New Roman", serif;
@@ -53,6 +55,16 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Georgia";
+  src: local("Georgia Bold"), local("Georgia-Bold"),
+    url("../../assets/fonts/georgiaBold.woff2") format("woff2"),
+    url("../../assets/fonts/georgiaBold.woff") format("woff"),
+    url("../../assets/fonts/georgiaBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -63,9 +75,41 @@ html {
 }
 
 .page {
+  position: relative;
+  min-width: 320px;
   font-size: 1.5rem;
   font-family: var(--font-arial);
   font-weight: 400; 
+}
+
+.page.removeScrollBar {
+  overflow-y: hidden;
+}
+
+.overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(41, 41, 41, 0.6);
+}
+
+.popup-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(41, 41, 41, 0.6);
+}
+
+.popup-overlay:hover {
+  cursor: pointer;
 }
 
 .header {
@@ -87,6 +131,11 @@ html {
 
 .header__wrapper {
   justify-content: space-between;
+}
+
+.logo {
+  opacity: 1;
+  transition: 0.7s;
 }
 
 .logo__link {
@@ -122,6 +171,15 @@ html {
   color: var(--decoration-hover-color);
 }
 
+.burger-logo {
+  position: fixed;
+  top: 30px;
+  right: -200px;
+  z-index: 1;
+
+  transition: 0.7s;
+}
+
 .navigation {
   display: flex;
   column-gap: 36px;
@@ -134,8 +192,6 @@ html {
 }
 
 .navigation__link {
-  position: relative;
-
   text-decoration: none;
   color: var(--inactive-color);
   
@@ -153,13 +209,11 @@ html {
 }
 
 .navigation__link--active:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   border-bottom: 3px solid var(--decoration-hover-color);
 }
 
-.burger-menu {
-  z-index: 20;
-  
+.burger-button {  
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -183,7 +237,7 @@ html {
   margin-bottom: 0;
 }
 
-.burger-menu:hover .line {
+.burger-button:hover .line {
   background-color: var(--decoration-hover-color);
 }
 
@@ -240,6 +294,7 @@ html {
   padding: 13px 43px;
   border-radius: 100px;
   background-color: transparent;
+  border: 2px solid var(--decoration-color);
 
   color: var(--button-text-color);
   font-family: var(--font-georgia);
@@ -256,6 +311,7 @@ html {
 .button:hover {
   cursor: pointer;
   background-color: var(--decoration-hover-color);
+  border-color: var(--decoration-hover-color);
 }
 
 .button__link {
@@ -264,7 +320,6 @@ html {
 
 .button--colored {
   background-color: var(--decoration-color);
-  border: 2px solid var(--decoration-color);
 }
 
 .not-only__image {
@@ -369,16 +424,89 @@ html {
   box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
 }
 
-.slider__item:hover .button--bordered,
-.slider__button:hover {
-  cursor: pointer;
-  border-color: var(--decoration-hover-color);
-  background-color: var(--decoration-hover-color);
+.popup {
+  position: relative;
+  width: 900px;
+  height: 500px;
+
+  background-color: var(--card-background);
+  border-radius: 9px;
 }
 
-.slider__button {
+.popup:hover {
+  cursor: default;
+}
+
+.popup__content {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-right: 20px;
+  overflow: auto;
+}
+
+.popup__image {
+  height: 100%;
+  border-radius: 9px 0 0 9px;
+}
+
+.popup__pets-description {
+  width: 351px;
+  padding-top: 51px;
+}
+
+.popup__title--h3,
+.popup__title--h4,
+.popup__title--h5 {
+  color: var(--popup-text-color);
+}
+
+.popup__title--h3 {
+  margin-bottom: 9px;
+}
+
+.popup__title--h4,
+.popup__title--h5 {
+  margin-bottom: 40px;
+}
+
+.popup__list {
+  margin: 0;
+  padding: 0;
+}
+
+.popup__title--h5,
+.popup__item {
+  font-size: 1.5rem;
+  line-height: 113%;
+  letter-spacing: 0.06em;
+  max-width: 100%;
+}
+
+.popup__item {
+  margin-bottom: 11px;
+  list-style-type: none;
+}
+
+.popup__item::before {
+  color: var(--decoration-color);
+  content: "•";
+  margin: 0;
+  padding-right: 8px;
+ }
+
+.popup__item:last-child {
+  margin-bottom: 0;
+}
+
+.popup__title--bold {
+  font-weight: 700;
+}
+
+.slider__button,
+.popup__close-button {
   position: absolute;
-  top: 50%;
   width: 52px;
   height: 52px;
   display: flex;
@@ -387,6 +515,33 @@ html {
   border-radius: 100%;
   background: transparent;
   border: 2px solid var(--decoration-color);
+}
+
+.popup__close-button {
+  top: -52px;
+  right: -42px;
+  background-image: url('../../assets/svg/close-btn.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.slider__item:hover .button--bordered,
+.slider__button:hover,
+.popup-overlay:hover .popup__close-button,
+.popup-overlay:hover .popup__close-button:hover {
+  cursor: pointer;
+  border-color: var(--decoration-hover-color);
+  background-color: var(--decoration-hover-color);
+  transition: 0.7s;
+}
+
+.popup:hover .popup__close-button {
+  border-color: var(--decoration-color);
+  background-color: transparent;
+}
+
+.slider__button {
+  top: 50%;
   transform: translateY(-50%);
 
   transition: 0.7s;
@@ -537,6 +692,8 @@ html {
   gap: 20px;
   align-items: center;
   text-decoration: none;
+
+  transition: 0.7s;
 }
 
 .icon__contact {
@@ -544,6 +701,8 @@ html {
   width: 40px;
   height: 32px;
   fill: var(--decoration-color);
+
+  transition: 0.7s;
 }
 
 .icon__contact--smalled {
@@ -552,6 +711,8 @@ html {
 
 .title__h4--colored {
   color: var(--decoration-color);
+  
+  transition: 0.7s;
 }
 
 .footer__link:hover  .title__h4--colored {
@@ -623,6 +784,33 @@ html {
     max-width: 708px;
   }
 
+  .popup {
+    width: 630px;
+    height: 350px;
+  }
+
+  .popup__content {
+    padding-right: 10px;
+  }
+
+  .popup__pets-description {
+    width: 260px;
+    padding-top: 10px;
+  }
+
+  .popup__title--h4,
+  .popup__title--h5 {
+    margin-bottom: 20px;
+  }
+
+  .popup__title--h5 {
+    font-size: 1.3rem;
+  }
+
+  .popup__item {
+    margin-bottom: 5px;
+  }
+
   .in-addition__wrapper {
     flex-direction: column-reverse;
     gap: 60px;
@@ -691,6 +879,10 @@ html {
 }
 
 @media (max-width: 767px) {
+  .overlay.open {
+    display: block;
+  }
+
   .header {
     padding-top: 30px;
   }
@@ -699,12 +891,56 @@ html {
     padding: 0 53px 0 3.13%;
   }
 
-  .header__navigation {
-    display: none;
+  .logo.hidden {
+    opacity: 0;
   }
 
-  .burger-menu {
+  .burger-logo.open {
+    display: block;
+    right: 124px;
+  }
+
+  .burger-button {
     display: flex;
+    transition: 0.7s;
+  }
+
+  .burger-button.open {
+    transform: rotate(90deg);
+  }
+ 
+  .header__navigation {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 320px;
+    height: 100%;
+    background-color: var(--burger-menu-background);
+
+    transition: 0.7s;
+  }
+
+  .header__navigation.open {
+    right: 0;
+  }
+
+  .navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 62px;
+  }
+
+  .navigation__link {
+    font-size: 3.2rem;
+  }
+
+  .navigation__link--active {
+    padding-bottom: 7px;
   }
 
   .not-only__wrapper {
@@ -787,16 +1023,8 @@ html {
   .slider__button {
     position: absolute;
     top: 95%;
-    width: 52px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100%;
     background: transparent;
     border: 2px solid var(--decoration-color);
-    
-    transition: 0.7s;
   }
   
   .slider__button--prev {
@@ -805,6 +1033,42 @@ html {
   
   .slider__button--next {
     right: 43px;
+  }
+
+  .popup {
+    width: 240px;
+    height: auto;
+    padding: 10px;
+  }
+
+  .popup__content {
+    padding: 0;
+  }
+
+  .popup__pets-description {
+    padding: 0;
+  }
+
+  .popup__image {
+    display: none;
+  }
+  
+  .popup__title--h3 {
+    font-size: 3.5rem;
+  }
+
+  .popup__title--h4 {
+    text-align: center;
+  }
+
+  .popup__title--h5 {
+    text-align: justify;
+    line-height: 110%;
+    margin-bottom: 24px;
+  }
+
+  .popup__close-button {
+    right: -30px;
   }
 
   .in-addition__content {

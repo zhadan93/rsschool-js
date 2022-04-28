@@ -562,6 +562,7 @@ html {
 
 .slider__item:hover .button--bordered,
 .slider__button:hover,
+.popup-overlay:hover .popup__close-button,
 .popup-overlay:hover .popup__close-button:hover {
   cursor: pointer;
   border-color: var(--decoration-hover-color);

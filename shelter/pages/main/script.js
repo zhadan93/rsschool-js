@@ -1,13 +1,17 @@
 import { Popup } from './Popup.js'
-
 import { pets } from './pets.js'
+import { Slider } from './Slider.js'
+
+const slider = new Slider(pets);
+slider.initializeSlider();
 
 window.onload = function() {
   addBurgerMenuClickHandler();
 
   addPetsCardClickHandler();
-};
 
+  addPetSliderButtonsClickHandler();
+};
 
 const addBurgerMenuClickHandler = () => {
   document.querySelector('.burger-button').addEventListener('click', toggleBurgerMenu);
@@ -137,6 +141,13 @@ const renderPopup = (content) => {
   popup.renderPopupContent();
 }
 
+const addPetSliderButtonsClickHandler = () => {
+  document.querySelectorAll('.slider__button').forEach(element => element.addEventListener('click', switchPetSlider));
+}
+
+const switchPetSlider = (e) => {
+  slider.switchSlider(e);
+}
 
 console.log(`Реализованы бургер меню и popup.
 Общая оценка 35 баллов`)

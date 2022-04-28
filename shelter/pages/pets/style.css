@@ -473,6 +473,7 @@ html {
   transition: 0.7s;
 }
 
+.popup-overlay:hover .popup__close-button,
 .popup-overlay:hover .popup__close-button:hover {
   cursor: pointer;
   border-color: var(--decoration-hover-color);

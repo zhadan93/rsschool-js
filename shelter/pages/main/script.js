@@ -149,5 +149,5 @@ const switchPetSlider = (e) => {
   slider.switchSlider(e);
 }
 
-console.log(`Реализованы бургер меню и popup.
-Общая оценка 35 баллов`)
+console.log(`Реализованы бургер меню, popup и slider на странице main.
+Общая оценка 60 баллов`)

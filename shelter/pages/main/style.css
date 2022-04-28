@@ -376,14 +376,47 @@ html {
 }
 
 .slider {
+  display: flex;
+  justify-content: center;
   position: relative;
   width: 100%;
 }
 
 .slider__list {
+  max-width: 990px;
+  overflow-x: hidden;
+}
+
+.slider__content {
   display: flex;
   gap: 90px;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.right {
+  animation: move-to-the-right 0.7s ease-out forwards;
+}
+
+@keyframes move-to-the-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-1080px);
+  }
+}
+
+.left {
+  animation: move-to-the-left 0.7s ease-out forwards;
+}
+
+@keyframes move-to-the-left {
+  from {
+    transform: translateX(-1080px);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .slider__item {
@@ -523,11 +556,12 @@ html {
   background-image: url('../../assets/svg/close-btn.svg');
   background-repeat: no-repeat;
   background-position: center;
+
+  transition: 0.7s;
 }
 
 .slider__item:hover .button--bordered,
 .slider__button:hover,
-.popup-overlay:hover .popup__close-button,
 .popup-overlay:hover .popup__close-button:hover {
   cursor: pointer;
   border-color: var(--decoration-hover-color);
@@ -772,16 +806,38 @@ html {
     gap: 79px;
   }
 
-  .slider__item:nth-last-child(-n+1) {
+  /*.slider__item:nth-last-child(-n+1) {
     display: none;
-  }
+  }*/
 
   .slider__list {
+    max-width: 580px;
+  }
+
+  .slider__content {
     gap: 40px;
   }
 
   .slider {
     max-width: 708px;
+  }
+
+  @keyframes move-to-the-right {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-620px);
+    }
+  }
+
+  @keyframes move-to-the-left {
+    from {
+      transform: translateX(-620px);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 
   .popup {
@@ -1007,13 +1063,35 @@ html {
     min-width: 260px;
   }
 
-  .slider__item:nth-last-child(-n+2) {
+  /*.slider__item:nth-last-child(-n+2) {
     display: none;
-  }
+  }*/
 
   .slider {
     max-width: 270px;
     padding-bottom: 72px;
+  }
+
+  .slider__list {
+    max-width: 100%;
+  }
+
+  @keyframes move-to-the-right {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-310px);
+    }
+  }
+  
+  @keyframes move-to-the-left {
+    from {
+      transform: translateX(-310px);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 
   .our-friends__title {

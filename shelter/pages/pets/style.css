@@ -470,9 +470,9 @@ html {
   background-image: url('../../assets/svg/close-btn.svg');
   background-repeat: no-repeat;
   background-position: center;
+  transition: 0.7s;
 }
 
-.popup-overlay:hover .popup__close-button,
 .popup-overlay:hover .popup__close-button:hover {
   cursor: pointer;
   border-color: var(--decoration-hover-color);

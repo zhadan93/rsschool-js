@@ -21,11 +21,11 @@ export class Popup {
 
   generatePopupContent () {
     let template = '';
-    const petCard = document.createElement('div');
-    petCard.classList.add('popup__content');
+    const petCardContent = document.createElement('div');
+    petCardContent.classList.add('popup__content');
 
     this.img && 
-      (template += `<img class="popup__image" src=${this.img}></img>`)
+      (template += `<img class="popup__image" src=${this.img} alt=${this.name}></img>`)
 
     if (this.name || this.type || this.breed || this.description || this.age || this.inoculations || this.diseases || this.parasites) {
       template += `<div class="popup__pets-description">`
@@ -62,9 +62,9 @@ export class Popup {
       template += `</div>`
     } 
 
-    petCard.innerHTML = template;
+    petCardContent.innerHTML = template;
 
-    return petCard;
+    return petCardContent;
   }
 
   buildPopup(content) {

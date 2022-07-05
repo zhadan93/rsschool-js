@@ -1,3 +1,4 @@
+import Img from '../../../assets/img/news_placeholder.jpg';
 import './news.css';
 import { NewsDetails } from '../../app/interfaces';
 
@@ -14,7 +15,7 @@ class News {
             if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
 
             (newsClone.querySelector('.news__meta-photo') as HTMLElement).style.backgroundImage = `url(${
-                item.urlToImage || 'img/news_placeholder.jpg'
+                item.urlToImage || Img
             })`;
             (newsClone.querySelector('.news__meta-author') as HTMLElement).textContent =
                 item.author || item.source.name;

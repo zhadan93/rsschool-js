@@ -1,5 +1,10 @@
+import AppOptions from '../app/types';
+
 class Loader {
-    constructor(baseLink, options) {
+    readonly baseLink: string;
+    readonly options: AppOptions;
+
+    constructor(baseLink: string, options: AppOptions) {
         this.baseLink = baseLink;
         this.options = options;
     }

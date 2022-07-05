@@ -10,19 +10,16 @@
     },
     "overrides": [
         {
-            "files": [
-                "*.ts",
-                "*.tsx"
+            "files": ["./src/**/*.ts"],
+            "plugins": [
+                "@typescript-eslint"
             ],
             "extends": [
                 "plugin:@typescript-eslint/recommended"
             ],
-            "plugins": [
-                "@typescript-eslint"
-            ],
             "parser": "@typescript-eslint/parser",
             "parserOptions": {
-                "project": "tsconfig.json",
+                "project": "./tsconfig.json",
                 "tsconfigRootDir": "."
             },
             "rules": {

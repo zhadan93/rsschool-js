@@ -3,7 +3,7 @@ import { AppOptions, EndpointStrings, MyCallback } from '../app/types';
 
 class Loader {
     readonly baseLink: string;
-    readonly options: AppOptions;
+    private options: AppOptions;
 
     constructor(baseLink: string, options: AppOptions) {
         this.baseLink = baseLink;

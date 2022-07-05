@@ -78,7 +78,7 @@
 }
 
 .news__item .news__description .news__read-more a {
-    color: #53d4ca;
+    color: #c1c0fd;
     display: inline-block;
     position: relative;
     text-decoration: none;
@@ -96,6 +96,11 @@
 .news__item .news__description .news__read-more a:hover:after {
     margin-left: 5px;
     opacity: 1;
+    color: #53d4ca;
+}
+
+.news__item .news__description .news__read-more a:hover {
+    color: #53d4ca;
 }
 
 .news__item p {
@@ -111,7 +116,7 @@
     content: '';
     position: absolute;
     height: 5px;
-    background: #53d4ca;
+    background: #c1c0fd;
     width: 35px;
     top: -0.75rem;
     border-radius: 3px;

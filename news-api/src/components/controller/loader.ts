@@ -1,4 +1,5 @@
-import AppOptions from '../app/types';
+import { ApiRequest } from '../app/interfaces';
+import { AppOptions, EndpointStrings, MyCallback } from '../app/types';
 
 class Loader {
     readonly baseLink: string;
@@ -9,16 +10,16 @@ class Loader {
         this.options = options;
     }
 
-    getResp(
-        { endpoint, options = {} },
-        callback = () => {
+    getResp<T>(
+        { endpoint, options = {} }: ApiRequest,
+        callback: MyCallback<T> = () => {
             console.error('No callback for GET response');
         }
-    ) {
-        this.load('GET', endpoint, callback, options);
+    ): void {
+        this.load<T>('GET', endpoint, callback, options);
     }
 
-    errorHandler(res) {
+    errorHandler(res: Response): Response {
         if (!res.ok) {
             if (res.status === 401 || res.status === 404)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -28,8 +29,8 @@ class Loader {
         return res;
     }
 
-    makeUrl(options, endpoint) {
-        const urlOptions = { ...this.options, ...options };
+    makeUrl(options: { [index: string]: string }, endpoint: EndpointStrings): string {
+        const urlOptions: { [index: string]: string } = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key) => {
@@ -39,12 +40,17 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method, endpoint, callback, options = {}) {
+    load<T>(
+        method: string,
+        endpoint: EndpointStrings,
+        callback: MyCallback<T>,
+        options: { [index: string]: string } = {}
+    ): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
-            .then((res) => res.json())
-            .then((data) => callback(data))
-            .catch((err) => console.error(err));
+            .then((res): Promise<T> => res.json())
+            .then((data: T): void => callback(data))
+            .catch((err: Error): void => console.error(err));
     }
 }
 

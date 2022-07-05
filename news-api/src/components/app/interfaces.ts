@@ -1,3 +1,5 @@
+import { EndpointStrings, QueryStringParameters } from './types';
+
 export interface NewsDetails {
     source: Pick<SourceDetails, 'id' | 'name'>;
     author: string | null;
@@ -27,4 +29,9 @@ export interface SourceDetails {
 export interface SourceList {
     status: string;
     sources: SourceDetails[];
+}
+
+export interface ApiRequest {
+    endpoint: EndpointStrings;
+    options?: Partial<QueryStringParameters>;
 }

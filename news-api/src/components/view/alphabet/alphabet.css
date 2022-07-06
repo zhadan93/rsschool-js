@@ -13,17 +13,17 @@
 }
 
 .alphabet__item {
-  list-style: none;
-  transition: 0.7s;
+    list-style: none;
+    transition: 0.7s;
 }
 
 .alphabet__item:hover {
-  color: #c1c0fd;
-  cursor: pointer;
-  transform: scale(1.2);
+    color: #c1c0fd;
+    cursor: pointer;
+    transform: scale(1.2);
 }
 
 .alphabet__item_active {
-  color: #53d4ca;
-  text-shadow: 1px 1px 2px #be27ff, 0 0 1em #0602fe, 0 0 0.2em #0602fe;
+    color: #53d4ca;
+    text-shadow: 1px 1px 2px #be27ff, 0 0 1em #0602fe, 0 0 0.2em #0602fe;
 }

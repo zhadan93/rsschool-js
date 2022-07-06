@@ -9,6 +9,9 @@ class AppController extends AppLoader {
         if (target.closest('.alphabet__item')) {
             const letterId = <string>target.getAttribute('data-letter-id');
             if (alphabetContainer.getAttribute('data-alphabet') !== letterId) {
+                const letter = document.querySelector('.alphabet__item_active');
+                letter?.classList.toggle('alphabet__item_active');
+                target.classList.toggle('alphabet__item_active');
                 alphabetContainer.setAttribute('data-alphabet', letterId);
                 super.getResp<SourceList>(
                     {

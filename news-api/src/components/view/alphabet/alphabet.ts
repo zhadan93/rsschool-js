@@ -16,7 +16,7 @@ class Alphabet {
         });
 
         nav.append(navList);
-        document.querySelector('.main')?.prepend(nav);
+        document.querySelector('.main__container')?.prepend(nav);
     }
 }
 

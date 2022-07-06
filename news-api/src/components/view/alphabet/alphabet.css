@@ -4,6 +4,8 @@
     justify-content: center;
     column-gap: 40px;
     row-gap: 10px;
+    max-width: 70%;
+    margin: 0 auto;
 
     color: #53d4ca;
     font-size: 28px;
@@ -19,4 +21,9 @@
   color: #c1c0fd;
   cursor: pointer;
   transform: scale(1.2);
+}
+
+.alphabet__item_active {
+  color: #53d4ca;
+  text-shadow: 1px 1px 2px #be27ff, 0 0 1em #0602fe, 0 0 0.2em #0602fe;
 }

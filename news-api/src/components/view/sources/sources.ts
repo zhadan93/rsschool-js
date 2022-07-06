@@ -3,6 +3,13 @@ import { SourceDetails } from '../../app/interfaces';
 
 class Sources {
     draw(data: SourceDetails[]) {
+        const sources = document.querySelectorAll('.source__item');
+
+        if (sources.length) {
+            const sourcesList = Array.from(sources);
+            sourcesList.forEach((item) => item.remove());
+        }
+
         const fragment = document.createDocumentFragment();
         const sourceItemTemp = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
 

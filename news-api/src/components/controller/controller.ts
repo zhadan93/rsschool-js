@@ -3,13 +3,21 @@ import { SourceList, NewsList } from '../app/interfaces';
 import { MyCallback } from '../app/types';
 
 class AppController extends AppLoader {
-    getSources(callback?: MyCallback<SourceList>) {
-        super.getResp<SourceList>(
-            {
-                endpoint: 'sources',
-            },
-            callback
-        );
+    getSources(e: MouseEvent, callback?: MyCallback<SourceList>) {
+        const target = <HTMLElement>e.target;
+        const alphabetContainer = <HTMLElement>e.currentTarget;
+        if (target.closest('.alphabet__item')) {
+            const letterId = <string>target.getAttribute('data-letter-id');
+            if (alphabetContainer.getAttribute('data-alphabet') !== letterId) {
+                alphabetContainer.setAttribute('data-alphabet', letterId);
+                super.getResp<SourceList>(
+                    {
+                        endpoint: 'sources',
+                    },
+                    callback
+                );
+            }
+        }
     }
 
     getNews(e: MouseEvent, callback: MyCallback<NewsList>) {

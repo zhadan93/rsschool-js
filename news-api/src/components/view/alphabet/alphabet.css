@@ -1,0 +1,22 @@
+.alphabet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 40px;
+    row-gap: 10px;
+
+    color: #53d4ca;
+    font-size: 28px;
+    font-family: "GloriaHallelujah", sans-serif;
+}
+
+.alphabet__item {
+  list-style: none;
+  transition: 0.7s;
+}
+
+.alphabet__item:hover {
+  color: #c1c0fd;
+  cursor: pointer;
+  transform: scale(1.2);
+}

@@ -1,7 +1,7 @@
 import './alphabet.css';
 
 class Alphabet {
-    draw(data: string[]) {
+    draw(data: string[]): void {
         const nav = document.createElement('nav');
         const navList = document.createElement('ul');
         navList.classList.add('alphabet');
@@ -16,7 +16,9 @@ class Alphabet {
         });
 
         nav.append(navList);
-        document.querySelector('.main__container')?.prepend(nav);
+
+        const mainContainer = document.querySelector('.main__container');
+        mainContainer?.prepend(nav);
     }
 }
 

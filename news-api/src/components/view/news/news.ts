@@ -3,38 +3,68 @@ import './news.css';
 import { NewsDetails } from '../../app/interfaces';
 
 class News {
-    draw(data: NewsDetails[]) {
+    draw(data: NewsDetails[]): void {
         const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
         const fragment = document.createDocumentFragment();
-        const newsItemTemp = document.querySelector('#newsItemTemp') as HTMLTemplateElement;
+        const newsItemTemp = document.querySelector<HTMLTemplateElement>('#newsItemTemp');
 
-        news.forEach((item, idx) => {
-            const newsClone = newsItemTemp.content.cloneNode(true) as HTMLElement;
+        if (newsItemTemp) {
+            news.forEach((item, idx) => {
+                const newsClone = newsItemTemp.content.cloneNode(true) as HTMLElement;
+                const newsCloneItem = newsClone.querySelector<HTMLElement>('.news__item');
 
-            if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
+                if (idx % 2) newsCloneItem?.classList.add('alt');
 
-            (newsClone.querySelector('.news__meta-photo') as HTMLElement).style.backgroundImage = `url(${
-                item.urlToImage || Img
-            })`;
-            (newsClone.querySelector('.news__meta-author') as HTMLElement).textContent =
-                item.author || item.source.name;
-            (newsClone.querySelector('.news__meta-date') as HTMLElement).textContent = item.publishedAt
-                .slice(0, 10)
-                .split('-')
-                .reverse()
-                .join('-');
+                const newsClonePhoto = newsClone.querySelector<HTMLElement>('.news__meta-photo');
 
-            (newsClone.querySelector('.news__description-title') as HTMLElement).textContent = item.title;
-            (newsClone.querySelector('.news__description-source') as HTMLElement).textContent = item.source.name;
-            (newsClone.querySelector('.news__description-content') as HTMLElement).textContent = item.description;
-            newsClone.querySelector('.news__read-more a')?.setAttribute('href', item.url);
+                if (newsClonePhoto) {
+                    newsClonePhoto.style.backgroundImage = `url(${item.urlToImage || Img})`;
+                }
 
-            fragment.append(newsClone);
-        });
+                const newsCloneAuthor = newsClone.querySelector('.news__meta-author');
 
-        (document.querySelector('.news') as HTMLElement).innerHTML = '';
-        document.querySelector('.news')?.appendChild(fragment);
+                if (newsCloneAuthor) {
+                    newsCloneAuthor.textContent = item.author || item.source.name;
+                }
+
+                const newsCloneDate = newsClone.querySelector('.news__meta-date');
+
+                if (newsCloneDate) {
+                    newsCloneDate.textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
+                }
+
+                const newsCloneTitle = newsClone.querySelector('.news__description-title');
+
+                if (newsCloneTitle) {
+                    newsCloneTitle.textContent = item.title;
+                }
+
+                const newsCloneSource = newsClone.querySelector('.news__description-source');
+
+                if (newsCloneSource) {
+                    newsCloneSource.textContent = item.source.name;
+                }
+
+                const newsCloneContent = newsClone.querySelector('.news__description-content');
+
+                if (newsCloneContent) {
+                    newsCloneContent.textContent = item.description;
+                }
+
+                const newsCloneReadMore = newsClone.querySelector('.news__read-more a');
+                newsCloneReadMore?.setAttribute('href', item.url);
+
+                fragment.append(newsClone);
+            });
+
+            const newsContainer = document.querySelector('.news');
+
+            if (newsContainer) {
+                newsContainer.innerHTML = '';
+                newsContainer.appendChild(fragment);
+            }
+        }
     }
 }
 

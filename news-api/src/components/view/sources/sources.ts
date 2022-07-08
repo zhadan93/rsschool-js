@@ -2,7 +2,7 @@ import './sources.css';
 import { SourceDetails } from '../../app/interfaces';
 
 class Sources {
-    draw(data: SourceDetails[]) {
+    draw(data: SourceDetails[]): void {
         const sources = document.querySelectorAll('.source__item');
 
         if (sources.length) {
@@ -11,18 +11,26 @@ class Sources {
         }
 
         const fragment = document.createDocumentFragment();
-        const sourceItemTemp = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
+        const sourceItemTemp = document.querySelector<HTMLTemplateElement>('#sourceItemTemp');
 
-        data.forEach((item) => {
-            const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
+        if (sourceItemTemp) {
+            data.forEach((item) => {
+                const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
+                const sourceCloneName = sourceClone.querySelector('.source__item-name');
 
-            (sourceClone.querySelector('.source__item-name') as HTMLElement).textContent = item.name;
-            sourceClone.querySelector('.source__item')?.setAttribute('data-source-id', item.id);
+                if (sourceCloneName) {
+                    sourceCloneName.textContent = item.name;
 
-            fragment.append(sourceClone);
-        });
+                    const sourceCloneItem = sourceClone.querySelector('.source__item');
+                    sourceCloneItem?.setAttribute('data-source-id', item.id);
 
-        document.querySelector('.sources')?.append(fragment);
+                    fragment.append(sourceClone);
+                }
+            });
+
+            const sourcesContainer = document.querySelector('.sources');
+            sourcesContainer?.append(fragment);
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-enum Endpoints {
+const enum Endpoints {
     sources = 'sources',
     everything = 'everything',
 }

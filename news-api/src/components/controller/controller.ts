@@ -1,23 +1,28 @@
 import AppLoader from './appLoader';
 import { SourceList, NewsList } from '../app/interfaces';
-import { MyCallback } from '../app/types';
+import MyCallback from '../app/types';
+import Endpoints from '../app/enums';
 
 class AppController extends AppLoader {
-    getSources(e: MouseEvent, callback?: MyCallback<SourceList>) {
-        const target = <HTMLElement>e.target;
-        const alphabetContainer = <HTMLElement>e.currentTarget;
+    getSources(e: Event, callback: MyCallback<SourceList>): void {
+        const target = e.target;
+        const alphabetContainer = e.currentTarget;
 
-        if (target.closest('.alphabet__item')) {
-            const letterId = <string>target.getAttribute('data-letter-id');
+        if (target instanceof Element && target.closest('.alphabet__item')) {
+            const letterId = target.getAttribute('data-letter-id');
 
-            if (alphabetContainer.getAttribute('data-alphabet') !== letterId) {
+            if (
+                alphabetContainer instanceof Element &&
+                alphabetContainer.getAttribute('data-alphabet') !== letterId &&
+                letterId
+            ) {
                 const letter = document.querySelector('.alphabet__item_active');
                 letter?.classList.toggle('alphabet__item_active');
                 target.classList.toggle('alphabet__item_active');
                 alphabetContainer.setAttribute('data-alphabet', letterId);
                 super.getResp<SourceList>(
                     {
-                        endpoint: 'sources',
+                        endpoint: Endpoints.sources,
                     },
                     callback
                 );
@@ -25,29 +30,35 @@ class AppController extends AppLoader {
         }
     }
 
-    getNews(e: MouseEvent, callback: MyCallback<NewsList>) {
-        let target = <HTMLElement>e.target;
-        const newsContainer = <HTMLElement>e.currentTarget;
+    getNews(e: Event, callback: MyCallback<NewsList>): void {
+        let target = e.target;
+        const newsContainer = e.currentTarget;
 
         while (target !== newsContainer) {
-            if (target.classList.contains('source__item')) {
-                const sourceId = <string>target.getAttribute('data-source-id');
+            if (target instanceof Element) {
+                if (target.classList.contains('source__item')) {
+                    const sourceId = target.getAttribute('data-source-id');
 
-                if (newsContainer.getAttribute('data-source') !== sourceId) {
-                    newsContainer.setAttribute('data-source', sourceId);
-                    super.getResp<NewsList>(
-                        {
-                            endpoint: 'everything',
-                            options: {
-                                sources: sourceId,
+                    if (
+                        newsContainer instanceof Element &&
+                        newsContainer.getAttribute('data-source') !== sourceId &&
+                        sourceId
+                    ) {
+                        newsContainer.setAttribute('data-source', sourceId);
+                        super.getResp<NewsList>(
+                            {
+                                endpoint: Endpoints.everything,
+                                options: {
+                                    sources: sourceId,
+                                },
                             },
-                        },
-                        callback
-                    );
+                            callback
+                        );
+                    }
+                    return;
                 }
-                return;
+                target = target.parentNode;
             }
-            target = <typeof target>target.parentNode;
         }
     }
 }

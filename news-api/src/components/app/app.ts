@@ -2,13 +2,7 @@ import AppController from '../controller/controller';
 import AppView from '../view/appView';
 
 class App {
-    private controller: AppController;
-    private view: AppView;
-
-    constructor() {
-        this.controller = new AppController();
-        this.view = new AppView();
-    }
+    constructor(private controller: AppController = new AppController(), private view: AppView = new AppView()) {}
 
     start() {
         const romanAlphabet: string[] = [
@@ -40,11 +34,15 @@ class App {
             'Z',
         ];
 
-        (document.querySelector('.sources') as HTMLElement).addEventListener('click', (e) =>
+        const sourcesContainer = document.querySelector('.sources');
+        sourcesContainer?.addEventListener('click', (e) =>
             this.controller.getNews(e, (data) => this.view.drawNews(data))
         );
+
         this.view.drawAlphabet(romanAlphabet);
-        (document.querySelector('.alphabet') as HTMLElement).addEventListener('click', (e) =>
+
+        const alphabetContainer = document.querySelector('.alphabet');
+        alphabetContainer?.addEventListener('click', (e) =>
             this.controller.getSources(e, (data) => this.view.drawSources(data))
         );
     }

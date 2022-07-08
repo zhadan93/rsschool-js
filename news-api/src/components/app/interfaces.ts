@@ -1,4 +1,4 @@
-import { EndpointStrings, QueryStringParameters } from './types';
+import Endpoints from './enums';
 
 export interface NewsDetails {
     source: Pick<SourceDetails, 'id' | 'name'>;
@@ -32,6 +32,14 @@ export interface SourceList {
 }
 
 export interface ApiRequest {
-    endpoint: EndpointStrings;
-    options?: Partial<QueryStringParameters>;
+    endpoint: Endpoints;
+    options?: QueryStringParameters;
+}
+
+export interface QueryStringParameters {
+    sources?: string;
+}
+
+export interface AppOptions {
+    apiKey: string;
 }

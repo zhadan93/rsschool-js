@@ -11,21 +11,21 @@
 
 .source__item {
     background: none;
-    border: 2px solid #c1c0fd;
+    border: 2px solid var(--purple-color);
     font: inherit;
     line-height: 1;
     margin: 0.5em;
     padding: 1em 2em;
-    color: #c1c0fd;
+    color: var(--purple-color);
     transition: 0.25s;
     cursor: pointer;
 }
 
 .source__item:hover,
 .source__item:focus {
-    border-color: #53d4ca;
-    color: #53d4ca;
-    box-shadow: 0 0.5em 0.5em -0.4em #53d4ca;
+    border-color: var(--turquoise-color);
+    color: var(--turquoise-color);
+    box-shadow: 0 0.5em 0.5em -0.4em var(--turquoise-color);
     transform: translateY(-0.25em);
 }
 

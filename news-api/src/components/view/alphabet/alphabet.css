@@ -7,7 +7,7 @@
     max-width: 70%;
     margin: 0 auto;
 
-    color: #53d4ca;
+    color: var(--turquoise-color);
     font-size: 28px;
     font-family: "GloriaHallelujah", sans-serif;
 }
@@ -18,12 +18,12 @@
 }
 
 .alphabet__item:hover {
-    color: #c1c0fd;
+    color: var(--purple-color);
     cursor: pointer;
     transform: scale(1.2);
 }
 
 .alphabet__item_active {
-    color: #53d4ca;
-    text-shadow: 1px 1px 2px #be27ff, 0 0 1em #0602fe, 0 0 0.2em #0602fe;
+    color: var(--turquoise-color);
+    text-shadow: 1px 1px 2px var(--footer-gradient-from), 0 0 1em var(--footer-gradient-to), 0 0 0.2em var(--footer-gradient-to);
 }

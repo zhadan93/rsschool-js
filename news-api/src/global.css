@@ -1,3 +1,14 @@
+:root {
+    --main-bg-color: #17181c;
+    --black-text-color: #000;
+    --turquoise-color: #53d4ca;
+    --purple-color: #c1c0fd;
+    --copyright-color: #18a095;
+    --hover-copyright-color: #148e84;
+    --footer-gradient-from: #be27ff;
+    --footer-gradient-to: #0602fe;
+}
+
 @font-face {
     font-family: "GloriaHallelujah";
     src: url("./assets/fonts/GloriaHallelujahRegular.woff2") format("woff2"),
@@ -13,8 +24,8 @@
 }
 
 .page {
-    color: #000;
-    background: #17181c;
+    color: var(--black-text-color);
+    background: var(--main-bg-color);
     font-family: sans-serif;
 }
 
@@ -33,7 +44,7 @@
     align-items: center;
     min-height: 95px;
 
-    background-image: linear-gradient(to left, #53d4ca, #c1c0fd);
+    background-image: linear-gradient(to left, var(--turquoise-color), var(--purple-color));
 }
 
 h1 {
@@ -55,7 +66,7 @@ h1 {
 
     font-family: "GloriaHallelujah", sans-serif;
     font-size: 16px;
-    background-image: linear-gradient(90deg, #53d4ca, #c1c0fd);
+    background-image: linear-gradient(90deg, var(--turquoise-color), var(--purple-color));
 }
 
 .footer__container {
@@ -63,16 +74,18 @@ h1 {
 }
 
 .copyright {
-    color: #18a095;
+    color: var(--copyright-color);
     text-align: center;
 }
 
 .copyright a {
-    color: #18a095;
+    color: var(--copyright-color);
     text-decoration: none;
+    
+    transition: 0.7s;
 }
 .copyright a:hover {
-    color: #148e84;
+    color: var(--hover-copyright-color);
 }
 
 .copyright:before {
@@ -94,7 +107,7 @@ h1 {
     color: transparent;    
     -webkit-background-clip: text;
     background-clip: text;
-    background-image: linear-gradient(120deg, #be27ff, #0602fe);
+    background-image: linear-gradient(120deg, var(--footer-gradient-from), var(--footer-gradient-to));
 
     transition: 0.7s;
 }
@@ -111,11 +124,11 @@ h1 {
 }
 
 .rss__logo:hover .left {
-    stop-color: #be27ff;
+    stop-color: var(--footer-gradient-from);
 }
 
 .rss__logo:hover .right {
-    stop-color: #0602fe;
+    stop-color: var(--footer-gradient-to);
 } 
 
 @media (max-width: 498px) {

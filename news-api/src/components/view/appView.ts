@@ -4,26 +4,26 @@ import Alphabet from './alphabet/alphabet';
 import { SourceList, NewsList } from '../app/interfaces';
 
 class AppView {
-    private news: News;
-    private sources: Sources;
-    private alphabet: Alphabet;
-
-    constructor() {
-        this.news = new News();
-        this.sources = new Sources();
-        this.alphabet = new Alphabet();
-    }
+    constructor(
+        private news: News = new News(),
+        private sources: Sources = new Sources(),
+        private alphabet: Alphabet = new Alphabet()
+    ) {}
 
     drawNews(data?: NewsList): void {
-        const values = data?.articles ? data?.articles : [];
+        const values = data?.articles ? data.articles : [];
         this.news.draw(values);
     }
 
     drawSources(data?: SourceList): void {
-        let values = data?.sources ? data?.sources : [];
+        let values = data?.sources ? data.sources : [];
         const alphabetContainer = document.querySelector('.alphabet');
-        const letterId = alphabetContainer?.getAttribute('data-alphabet') as string;
-        values = values.filter((item) => item.name.startsWith(letterId));
+        const letterId = alphabetContainer?.getAttribute('data-alphabet');
+
+        if (letterId) {
+            values = values.filter((item) => item.name.startsWith(letterId));
+        }
+
         this.sources.draw(values);
     }
 

@@ -23,34 +23,6 @@ module.exports = ({develop}) => ({
     app: './src/index.ts',
   },
 
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].[contenthash].js',
-    assetModuleFilename: 'assets/[hash][ext]',
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.(png|svg|jpg|jpeg|ico|gif)$/i,
-        type: 'asset/resource',
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
-      },
-      {
-        test: /\.[tj]s$/i,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/i,
-        use: [getStyleLoader(develop), 'css-loader'],
-      },
-    ]
-  },
-
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -71,13 +43,42 @@ module.exports = ({develop}) => ({
     
     new CopyWebpackPlugin({
       patterns: [
-        {from: './src/public'}
+        {from: './src/public'},
+        {from: './src/content', to: 'content'},
       ]
     }),
   ],
 
+  module: {
+    rules: [
+      {
+        test: /\.[tj]s$/i,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/i,
+        use: [getStyleLoader(develop), 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+      },
+    ],
+  },
+
   resolve: {
     extensions: ['.ts', '.js'],
+  },
+
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'assets/[name][ext]',
   },
 
   ...devServer(develop),

@@ -1,4 +1,4 @@
-const data = [
+const cardData = [
   {
     id: '1',
     name: 'Bork K702',
@@ -249,6 +249,6 @@ const data = [
     material: 'нерж. сталь',
     favorite: false,
   },
-]
+];
 
-export default data;
+export default cardData;

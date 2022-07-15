@@ -78,7 +78,7 @@ module.exports = ({develop}) => ({
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/[name][ext]',
+    assetModuleFilename: 'assets/svg/[hash][ext]',
   },
 
   ...devServer(develop),

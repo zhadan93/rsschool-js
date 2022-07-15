@@ -1,13 +1,13 @@
 import CardDetails from '../types/dataInterface';
-import Control from '../common/control';
-import Img from '../common/imgControl';
+import Control from '../common/control/htmlControl';
+import Img from '../common/control/htmlImgControl';
 
 export default class Card extends Control {
   constructor(parentNode: HTMLElement, tagName = 'div', className = '') {
     super(parentNode, tagName, className);
   }
 
-  createCard(data: CardDetails) {
+  createCard(data: CardDetails): void {
     const { id, name, quantity, year, producer, color, material, favorite } = data;
     const isFavorite = favorite ? 'да' : 'нет';
     new Control(this.node, 'div', 'card__name', `${name}`);

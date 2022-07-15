@@ -1,4 +1,4 @@
-import Control from './control';
+import Control from './htmlControl';
 
 export default class Img extends Control<HTMLImageElement> {
   constructor(parentNode: HTMLElement | null, tagName = 'div', className = '', url = '', alt = '') {

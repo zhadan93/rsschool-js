@@ -1,4 +1,4 @@
-import Control from '../common/control';
+import Control from '../common/control/htmlControl';
 import Card from './card';
 import CardDetails from '../types/dataInterface';
 import './cards.css';
@@ -8,7 +8,7 @@ export default class CardList extends Control {
     super(parentNode, tagName, className);
   }
 
-  draw(data: CardDetails[]) {
+  draw(data: CardDetails[]): void {
     data.forEach((item) => {
       const card = new Card(this.node, 'li', 'card');
       card.createCard(item);

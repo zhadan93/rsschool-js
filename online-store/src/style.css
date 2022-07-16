@@ -1,23 +1,72 @@
 :root {
   --decor-text-color: #fff;
   --hover-decor-text-color: #ffe0bf;
+  --black-bg-color: #000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  padding: 10px 0;
+
+  background-color: var(--black-bg-color);
+}
+
+.logo {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  font-size: 26px;
+}
+
+.logo__icon {
+  width: 60px;
+  height: 60px;
+
+  transition: 0.7s;
+}
+
+.logo:hover .logo__icon{
+  fill: var(--hover-decor-text-color);
+}
+
+.logo__link {
+  display: block;
+  color: var(--decor-text-color);
+  text-decoration: none;
+  font-size: 28px;;
+
+  transition: 0.7s;
+}
+
+.logo:hover .logo__link {
+  color: var(--hover-decor-text-color);
+}
+
+.shopping-cart {
+  padding: 10px;
+  background-color: var(--hover-decor-text-color);
+  border-radius: 10px;
 }
 
 .container {
   max-width: 1920px;
+  width: 90%;
   display: flex;
   margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer {
-  background-color: black;
-  color: var(--decor-text-color);
-}
+  padding: 10px 0;
 
-.footer__container {
-  width: 90%;
-  justify-content: space-between;
-  align-items: center;
+  background-color: var(--black-bg-color);
+  color: var(--decor-text-color);
 }
 
 .author {
@@ -44,11 +93,15 @@
 
 .icon {
   display: block;
-  width: 100%;
-  height: 100%;
   fill: var(--decor-text-color);
 
   transition: 0.7s;
+  cursor: pointer;
+}
+
+.rss-logo__icon {
+  width: 100%;
+  height: 100%;
 }
 
 .rss__link:hover .icon {

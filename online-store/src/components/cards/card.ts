@@ -1,6 +1,7 @@
 import CardDetails from '../types/dataInterface';
 import Control from '../common/control/htmlControl';
 import Img from '../common/control/htmlImgControl';
+import CardState from '../cardState';
 
 export default class Card extends Control {
   constructor(parentNode: HTMLElement, tagName = 'div', className = '') {
@@ -18,5 +19,13 @@ export default class Card extends Control {
     new Control(this.node, 'div', 'card__color', `Цвет: ${color}`);
     new Control(this.node, 'div', 'card__material', `Материал корпуса: ${material}`);
     new Control(this.node, 'div', 'card__favorite', `Популярный: ${isFavorite}`);
+  }
+
+  increaseCartProductCount(state: CardState) {
+    state.data = { ...state.data, cartProductCount: ++state.data.cartProductCount };
+  }
+
+  decreaseCartProductCount(state: CardState) {
+    state.data = { ...state.data, cartProductCount: --state.data.cartProductCount };
   }
 }

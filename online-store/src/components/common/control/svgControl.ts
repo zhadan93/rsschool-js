@@ -4,7 +4,7 @@ export default class SVGControl<TypeNode extends SVGElement = SVGElement> {
   constructor(parentNode: SVGElement | HTMLElement | null, tagName = 'svg', className?: string) {
     const el = document.createElementNS('http://www.w3.org/2000/svg', tagName);
 
-    if (className) el.classList.add(className);
+    if (className) className.split(' ').forEach((className) => el.classList.add(className));
 
     if (parentNode) {
       parentNode.appendChild(el);

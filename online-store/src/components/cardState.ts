@@ -1,5 +1,5 @@
 import State from './types/stateInterface';
-import Signal from './common/signal';
+import Signal from './helpers/signal';
 
 export default class CardState {
   private _data: State;

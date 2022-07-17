@@ -1,8 +1,8 @@
-import Control from './control/htmlControl';
-import Anchor from './control/htmlAnchorControl';
+import Control from '../helpers/control/htmlControl';
+import Anchor from '../helpers/control/htmlAnchorControl';
 import RssLogo from '../../assets/svg/sprite.svg';
-import SVGControl from './control/svgControl';
-import SVGUseControl from './control/svgUseControl';
+import SVGControl from '../helpers/control/svgControl';
+import SVGUseControl from '../helpers/control/svgUseControl';
 
 export default class Footer extends Control {
   constructor(parentNode: HTMLElement, tagName = 'div', className = '') {

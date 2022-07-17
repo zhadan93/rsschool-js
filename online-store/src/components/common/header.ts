@@ -1,20 +1,18 @@
-import Control from './control/htmlControl';
-import Anchor from './control/htmlAnchorControl';
-import SVGControl from './control/svgControl';
-import SVGUseControl from './control/svgUseControl';
+import Control from '../helpers/control/htmlControl';
+import Anchor from '../helpers/control/htmlAnchorControl';
+import SVGControl from '../helpers/control/svgControl';
+import SVGUseControl from '../helpers/control/svgUseControl';
 import SVGSprite from '../../assets/svg/sprite.svg';
+import Style from '../helpers/style';
 
 export default class Header extends Control {
   cartCount: HTMLElement;
 
   set cartContent(productCount: number) {
-    let count = productCount || '';
+    const count = productCount || '';
 
     if (productCount === 1 || productCount === 0) {
-      this.cartCount.classList.toggle('shopping-cart__count--active');
-    } else if (productCount === 21) {
-      alert('Извините, все слоты заполнены');
-      count = 20;
+      Style.toggleClass(this.cartCount, 'shopping-cart__count--active');
     }
 
     this.cartCount.innerHTML = `${count}`;

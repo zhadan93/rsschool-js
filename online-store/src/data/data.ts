@@ -105,7 +105,7 @@ const cardData = [
     quantity: '4',
     year: '2012',
     producer: 'Kenwood',
-    color: 'серебристый, черный',
+    color: 'серебристый',
     material: 'нерж. сталь, стекло',
     favorite: false,
   },

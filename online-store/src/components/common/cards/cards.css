@@ -3,7 +3,7 @@
   width: 90%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 30px;
   margin: 20px auto 0;
 }
@@ -43,17 +43,10 @@
 
 .empty {
   font-size: 30px;
-  text-align: center;
 }
 
 @media (max-width: 1067px) {
   .cards {
     width: 70%
-  }
-}
-
-@media (max-width: 900px) {
-  .cards {
-    justify-content: center;
   }
 }

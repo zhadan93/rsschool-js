@@ -54,6 +54,5 @@ export default class CardList extends Control {
       empty.node.innerText = 'Извините, совпадений не найдено';
       this.cards.set('1', empty);
     }
-    console.log(this.cards);
   }
 }

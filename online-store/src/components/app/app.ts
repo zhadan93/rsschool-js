@@ -7,6 +7,7 @@ import Header from '../common/header';
 import AppState from '../appState';
 import { CartState, CardState } from '../types/stateInterfaces';
 import FilterList from '../common/filtration/filterList';
+import '../helpers/taskCheck';
 
 export default class App {
   private header: Header;

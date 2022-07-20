@@ -7,6 +7,7 @@ import Header from '../common/header';
 import AppState from '../appState';
 import { CartState, CardState } from '../types/stateInterfaces';
 import FilterList from '../common/filtration/filterList';
+import Filter from '../common/filtration/filters/filter';
 import '../helpers/taskCheck';
 
 export default class App {
@@ -31,7 +32,8 @@ export default class App {
       producers: [],
       materials: [],
       favorites: [],
-      resultCardData: [],
+      sort: ['name_asc'],
+      resultCardData: this.data,
     };
     this.cardState = new AppState<CardState>(initialCardState);
     const updateCards = (data: CardState) => {
@@ -44,7 +46,8 @@ export default class App {
     this.filterContainer = new FilterList(body.node, 'div', 'filters', this.cardState);
     this.filterContainer.draw(this.data);
     this.cardContainer = new CardList(body.node, 'ul', 'cards', this.cartState);
-    this.cardContainer.draw(this.data);
+    const sortData = Filter.sort(this.data, 'name_asc');
+    this.cardContainer.draw(sortData);
     new Footer(document.body, 'footer', 'footer');
   }
 }

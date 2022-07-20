@@ -2,6 +2,7 @@ import Control from '../../../helpers/control/htmlControl';
 import CardDetails from '../../../types/dataInterface';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
+import Filter from './filter';
 import Style from '../../../helpers/style';
 
 export default class FilterByFavorite extends Control {
@@ -45,6 +46,7 @@ export default class FilterByFavorite extends Control {
         if (
           key !== 'resultCardData' &&
           key !== 'favorites' &&
+          key !== 'sort' &&
           this.state.data[key as keyof typeof this.state.data].length
         ) {
           filterNames.set(key, this.state.data[key as keyof typeof this.state.data] as string[]);
@@ -71,10 +73,11 @@ export default class FilterByFavorite extends Control {
       }
 
       if (result.length) {
-        result = Array.from(new Set(result)).sort((data1, data2) => +data1.id - +data2.id);
+        result = Array.from(new Set(result));
       }
 
       result = filterNames.size ? result : data;
+      result = Filter.sort(result, this.state.data.sort[0]);
       this.state.data = { ...this.state.data, favorites: selectedFavorite, resultCardData: result };
     });
   }

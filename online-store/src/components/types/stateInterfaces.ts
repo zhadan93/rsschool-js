@@ -9,5 +9,6 @@ export interface CardState {
   producers: string[];
   materials: string[];
   favorites: string[];
+  sort: string[];
   resultCardData: CardDetails[];
 }

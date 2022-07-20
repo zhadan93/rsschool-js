@@ -7,6 +7,7 @@ import FilterByProducer from './filters/filterByProducer';
 import FilterByMaterial from './filters/filterByMaterial';
 import CardDetails from '../../types/dataInterface';
 import FilterByFavorite from './filters/filterByFavorite';
+import SortBy from './filters/sortBy';
 
 export default class FilterGroup extends Control {
   private filterMap: Map<string, (data: CardDetails[], filterField: string) => CardDetails[]> = new Map<
@@ -25,7 +26,7 @@ export default class FilterGroup extends Control {
     super(parentNode, tagName, className);
     new Control(this.node, 'h3', 'filters__title', title);
 
-    const [byValue /*, byRange, search*/] = FILTER_GROUP_TITLES;
+    const [byValue, /*, byRange,*/ search] = FILTER_GROUP_TITLES;
     if (title === byValue) {
       const filterByProducerContainer = new FilterByProducer(
         this.node,
@@ -60,8 +61,10 @@ export default class FilterGroup extends Control {
       );
       filterByFavoritesContainer.draw(data, this.filterMap);
       this.filterMap.set('favorites', filterByFavoritesContainer.filter);
-    } /*else if (title === byRange) {
     } else if (title === search) {
-    }*/
+      new Control(this.node, 'h3', 'filters__title', 'Сортировка');
+      const sorting = new SortBy(this.node, 'div', 'filters__by-value', '', this.state);
+      sorting.draw();
+    }
   }
 }

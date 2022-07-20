@@ -2,6 +2,7 @@ import Control from '../../../helpers/control/htmlControl';
 import CardDetails from '../../../types/dataInterface';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
+import Filter from './filter';
 import Style from '../../../helpers/style';
 
 export default class FilterByMaterial extends Control {
@@ -47,6 +48,7 @@ export default class FilterByMaterial extends Control {
           if (
             key !== 'resultCardData' &&
             key !== 'materials' &&
+            key !== 'sort' &&
             this.state.data[key as keyof typeof this.state.data].length
           ) {
             filterNames.set(key, this.state.data[key as keyof typeof this.state.data] as string[]);
@@ -77,6 +79,7 @@ export default class FilterByMaterial extends Control {
         }
 
         result = filterNames.size ? result : data;
+        result = Filter.sort(result, this.state.data.sort[0]);
         this.state.data = { ...this.state.data, materials: selectedMaterials, resultCardData: result };
       });
     });

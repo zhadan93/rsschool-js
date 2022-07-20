@@ -4,6 +4,7 @@ import { COLORS } from '../../../../config';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
 import Style from '../../../helpers/style';
+import Filter from './filter';
 //import Filtration from './filter';
 
 export default class FilterByColor extends Control {
@@ -50,6 +51,7 @@ export default class FilterByColor extends Control {
           if (
             key !== 'resultCardData' &&
             key !== 'colors' &&
+            key !== 'sort' &&
             this.state.data[key as keyof typeof this.state.data].length
           ) {
             filterNames.set(key, this.state.data[key as keyof typeof this.state.data] as string[]);
@@ -76,10 +78,11 @@ export default class FilterByColor extends Control {
         }
 
         if (result.length) {
-          result = Array.from(new Set(result)).sort((data1, data2) => +data1.id - +data2.id);
+          result = Array.from(new Set(result));
         }
 
         result = filterNames.size ? result : data;
+        result = Filter.sort(result, this.state.data.sort[0]);
         this.state.data = { ...this.state.data, colors: selectedColors, resultCardData: result };
       });
     });

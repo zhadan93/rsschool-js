@@ -80,7 +80,11 @@ export default class FilterByProducer extends Control {
         }
 
         result = filterNames.size ? result : data;
-        result = Filter.sort(result, this.state.data.sort[0]);
+
+        if (result.length) {
+          result = Filter.sort(result, this.state.data.sort[0]);
+        }
+
         this.state.data = { ...this.state.data, producers: selectedProducers, resultCardData: result };
       });
     });

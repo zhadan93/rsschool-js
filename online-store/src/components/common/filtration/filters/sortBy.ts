@@ -3,6 +3,7 @@ import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
 import { SORT_BY } from '../../../../config';
 import Filter from './filter';
+import CardDetails from '../../../types/dataInterface';
 
 export default class SortBy extends Control {
   private selectedSort: Set<string> = new Set<string>();
@@ -29,7 +30,11 @@ export default class SortBy extends Control {
           this.selectedSort.add(value);
 
           const selectedSort = Array.from(this.selectedSort);
-          const resData = Filter.sort(this.state.data.resultCardData, value);
+          const currentData = this.state.data.resultCardData;
+          let resData: CardDetails[] = [];
+
+          if (currentData.length) resData = Filter.sort(currentData, value);
+
           this.state.data = { ...this.state.data, sort: selectedSort, resultCardData: resData };
         }
       }

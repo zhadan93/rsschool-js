@@ -9,6 +9,7 @@ import Filter from './filter';
 
 export default class FilterByColor extends Control {
   private selectedColorFilters: Set<string> = new Set<string>();
+  private colorFilters: Map<string, HTMLElement> = new Map<string, HTMLElement>();
 
   constructor(
     parentNode: HTMLElement,
@@ -30,6 +31,7 @@ export default class FilterByColor extends Control {
     uniqueColors.forEach((color) => {
       const colorFilter = new Control(colorContainer.node, 'li', `color-list__item color-list__item--${COLORS[color]}`);
       colorFilter.node.title = `${color}`;
+      this.colorFilters.set(color, colorFilter.node);
 
       const colorFilterEl = colorFilter.node;
       const selectedColorClassName = 'color-list__item--active';
@@ -94,5 +96,16 @@ export default class FilterByColor extends Control {
 
   filter(data: CardDetails[], filterField: string): CardDetails[] {
     return data.filter((item) => item.color.split(', ').includes(filterField));
+  }
+
+  reset() {
+    this.state.data.colors.forEach((color) => {
+      this.selectedColorFilters.delete(color);
+
+      const colorFilter = this.colorFilters.get(color);
+      if (colorFilter) {
+        Style.toggleClass(colorFilter, 'color-list__item--active');
+      }
+    });
   }
 }

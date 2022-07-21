@@ -7,6 +7,7 @@ import Style from '../../../helpers/style';
 
 export default class FilterByMaterial extends Control {
   private selectedMaterialFilters: Set<string> = new Set<string>();
+  private materialFilters: Map<string, HTMLElement> = new Map<string, HTMLElement>();
 
   constructor(
     parentNode: HTMLElement,
@@ -27,6 +28,7 @@ export default class FilterByMaterial extends Control {
     const uniqueMaterials = Array.from(new Set(materials));
     uniqueMaterials.forEach((material) => {
       const materialFilter = new Control(materialContainer.node, 'li', 'material-list__item', material);
+      this.materialFilters.set(material, materialFilter.node);
 
       const materialFilterEl = materialFilter.node;
       const selectedMaterialClassName = 'material-list__item--active';
@@ -91,5 +93,16 @@ export default class FilterByMaterial extends Control {
 
   filter(data: CardDetails[], filterField: string): CardDetails[] {
     return data.filter((item) => item.material.split(', ').includes(filterField));
+  }
+
+  reset() {
+    this.state.data.materials.forEach((material) => {
+      this.selectedMaterialFilters.delete(material);
+
+      const materialFilter = this.materialFilters.get(material);
+      if (materialFilter) {
+        Style.toggleClass(materialFilter, 'material-list__item--active');
+      }
+    });
   }
 }

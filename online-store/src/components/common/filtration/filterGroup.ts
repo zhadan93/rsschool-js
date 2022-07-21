@@ -15,6 +15,7 @@ export default class FilterGroup extends Control {
     string,
     (data: CardDetails[], filterField: string) => CardDetails[]
   >();
+  private static filtersReset: Map<string, () => void> = new Map<string, () => void>();
 
   constructor(
     parentNode: HTMLElement,
@@ -38,10 +39,12 @@ export default class FilterGroup extends Control {
       );
       filterByProducerContainer.draw(data, this.filterMap);
       this.filterMap.set('producers', filterByProducerContainer.filter);
+      FilterGroup.filtersReset.set('producers', filterByProducerContainer.reset.bind(filterByProducerContainer));
 
       const filterByColorContainer = new FilterByColor(this.node, 'div', 'filters__by-value', 'Цвет:', this.state);
       filterByColorContainer.draw(data, this.filterMap);
       this.filterMap.set('colors', filterByColorContainer.filter);
+      FilterGroup.filtersReset.set('colors', filterByColorContainer.reset.bind(filterByColorContainer));
 
       const filterByMaterialContainer = new FilterByMaterial(
         this.node,
@@ -52,6 +55,7 @@ export default class FilterGroup extends Control {
       );
       filterByMaterialContainer.draw(data, this.filterMap);
       this.filterMap.set('materials', filterByMaterialContainer.filter);
+      FilterGroup.filtersReset.set('materials', filterByMaterialContainer.reset.bind(filterByMaterialContainer));
 
       const filterByFavoritesContainer = new FilterByFavorite(
         this.node,
@@ -62,6 +66,7 @@ export default class FilterGroup extends Control {
       );
       filterByFavoritesContainer.draw(data, this.filterMap);
       this.filterMap.set('favorites', filterByFavoritesContainer.filter);
+      FilterGroup.filtersReset.set('favorites', filterByFavoritesContainer.reset.bind(filterByFavoritesContainer));
     } else if (title === search) {
       const search = new Control<HTMLInputElement>(this.node, 'input', 'search');
       search.node.focus();
@@ -75,6 +80,19 @@ export default class FilterGroup extends Control {
       const resetBtn = new Control(this.node, 'button', 'reset', 'Сброс фильтров');
       resetBtn.node.addEventListener('click', () => {
         const result = Filter.sort(data, this.state.data.sort[0]);
+
+        const colorFilterReset = FilterGroup.filtersReset.get('colors');
+        if (colorFilterReset) colorFilterReset();
+
+        const producerFilterReset = FilterGroup.filtersReset.get('producers');
+        if (producerFilterReset) producerFilterReset();
+
+        const materialFilterReset = FilterGroup.filtersReset.get('materials');
+        if (materialFilterReset) materialFilterReset();
+
+        const favoriteFilterReset = FilterGroup.filtersReset.get('favorites');
+        if (favoriteFilterReset) favoriteFilterReset();
+
         this.state.data = {
           ...this.state.data,
           colors: [],

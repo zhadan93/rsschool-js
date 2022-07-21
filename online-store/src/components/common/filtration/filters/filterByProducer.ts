@@ -7,6 +7,7 @@ import Style from '../../../helpers/style';
 
 export default class FilterByProducer extends Control {
   private selectedProducerFilters: Set<string> = new Set<string>();
+  private producerFilters: Map<string, HTMLElement> = new Map<string, HTMLElement>();
 
   constructor(
     parentNode: HTMLElement,
@@ -27,6 +28,7 @@ export default class FilterByProducer extends Control {
     const uniqueProducer = Array.from(new Set(producers));
     uniqueProducer.forEach((producer) => {
       const producerFilter = new Control(producerContainer.node, 'li', 'producer-list__item', `${producer}`);
+      this.producerFilters.set(producer, producerFilter.node);
 
       const producerFilterEl = producerFilter.node;
       const selectedProducerClassName = 'producer-list__item--active';
@@ -92,5 +94,16 @@ export default class FilterByProducer extends Control {
 
   filter(data: CardDetails[], filterValue: string): CardDetails[] {
     return data.filter((item) => item.producer === filterValue);
+  }
+
+  reset() {
+    this.state.data.producers.forEach((producer) => {
+      this.selectedProducerFilters.delete(producer);
+
+      const producerFilter = this.producerFilters.get(producer);
+      if (producerFilter) {
+        Style.toggleClass(producerFilter, 'producer-list__item--active');
+      }
+    });
   }
 }

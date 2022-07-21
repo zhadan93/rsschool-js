@@ -7,6 +7,7 @@ import Style from '../../../helpers/style';
 
 export default class FilterByFavorite extends Control {
   private selectedFavoriteFilters: Set<string> = new Set<string>();
+  private favoriteFilters: Map<string, HTMLElement> = new Map<string, HTMLElement>();
 
   constructor(
     parentNode: HTMLElement,
@@ -24,6 +25,7 @@ export default class FilterByFavorite extends Control {
     const favoriteFilterLabel = new Control(favoriteContainer.node, 'label', 'favorite__label');
     const favoriteFilterInput = new Control<HTMLInputElement>(favoriteFilterLabel.node, 'input', 'favorite__input');
     favoriteFilterInput.node.type = 'checkbox';
+    this.favoriteFilters.set('favorite', favoriteFilterLabel.node);
 
     const favoriteFilterEl = favoriteFilterLabel.node;
     const selectedFavoriteClassName = 'favorite__item--active';
@@ -88,5 +90,16 @@ export default class FilterByFavorite extends Control {
 
   filter(data: CardDetails[], filterValue?: string): CardDetails[] {
     return data.filter((item) => '' + item.favorite === filterValue);
+  }
+
+  reset() {
+    this.state.data.favorites.forEach((favorite) => {
+      this.selectedFavoriteFilters.delete(favorite);
+
+      const favoriteFilter = this.favoriteFilters.get(favorite);
+      if (favoriteFilter) {
+        Style.toggleClass(favoriteFilter, 'fvorite__item--active');
+      }
+    });
   }
 }

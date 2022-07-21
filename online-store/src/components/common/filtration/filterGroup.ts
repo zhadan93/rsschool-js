@@ -8,6 +8,7 @@ import FilterByMaterial from './filters/filterByMaterial';
 import CardDetails from '../../types/dataInterface';
 import FilterByFavorite from './filters/filterByFavorite';
 import SortBy from './filters/sortBy';
+import Filter from './filters/filter';
 
 export default class FilterGroup extends Control {
   private filterMap: Map<string, (data: CardDetails[], filterField: string) => CardDetails[]> = new Map<
@@ -62,9 +63,27 @@ export default class FilterGroup extends Control {
       filterByFavoritesContainer.draw(data, this.filterMap);
       this.filterMap.set('favorites', filterByFavoritesContainer.filter);
     } else if (title === search) {
+      const search = new Control<HTMLInputElement>(this.node, 'input', 'search');
+      search.node.focus();
+      search.node.placeholder = 'Введите текст';
+      search.node.autocomplete = 'off';
+
       new Control(this.node, 'h3', 'filters__title', 'Сортировка');
       const sorting = new SortBy(this.node, 'div', 'filters__by-value', '', this.state);
       sorting.draw();
+
+      const resetBtn = new Control(this.node, 'button', 'reset', 'Сброс фильтров');
+      resetBtn.node.addEventListener('click', () => {
+        const result = Filter.sort(data, this.state.data.sort[0]);
+        this.state.data = {
+          ...this.state.data,
+          colors: [],
+          producers: [],
+          materials: [],
+          favorites: [],
+          resultCardData: result,
+        };
+      });
     }
   }
 }

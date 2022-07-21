@@ -8,6 +8,7 @@ import AppState from '../appState';
 import { CartState, CardState } from '../types/stateInterfaces';
 import FilterList from '../common/filtration/filterList';
 import Filter from '../common/filtration/filters/filter';
+//import LocalStorage from '../helpers/localStorage';
 import '../helpers/taskCheck';
 
 export default class App {
@@ -42,6 +43,7 @@ export default class App {
     this.cardState.onChange.add(updateCards);
 
     this.header = new Header(document.body, 'header', 'header');
+
     const body = new Control(document.body, 'main', 'main');
     this.filterContainer = new FilterList(body.node, 'div', 'filters', this.cardState);
     this.filterContainer.draw(this.data);

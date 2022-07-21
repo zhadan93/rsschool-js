@@ -97,7 +97,7 @@ export default class FilterByFavorite extends Control {
       this.selectedFavoriteFilters.delete(favorite);
 
       const favoriteFilter = this.favoriteFilters.get(favorite);
-      console.log(favoriteFilter);
+
       if (favoriteFilter) {
         favoriteFilter.checked = false;
       }

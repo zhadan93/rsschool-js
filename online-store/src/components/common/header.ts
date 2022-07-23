@@ -3,6 +3,8 @@ import Anchor from '../helpers/control/htmlAnchorControl';
 import SVGControl from '../helpers/control/svgControl';
 import SVGUseControl from '../helpers/control/svgUseControl';
 import SVGSprite from '../../assets/svg/sprite.svg';
+import AppState from '../appState';
+import { CartState } from '../types/stateInterfaces';
 import Style from '../helpers/style';
 
 export default class Header extends Control {
@@ -18,7 +20,7 @@ export default class Header extends Control {
     this.cartCount.innerHTML = `${count}`;
   }
 
-  constructor(parentNode: HTMLElement, tagName = 'div', className = '') {
+  constructor(parentNode: HTMLElement, tagName = 'div', className = '', private state: AppState<CartState>) {
     super(parentNode, tagName, className);
 
     const headerContainer = new Control(this.node, 'div', 'container header__container');
@@ -28,7 +30,8 @@ export default class Header extends Control {
     const title = new Control(logo.node, 'h1', 'logo__title');
     new Anchor(title.node, 'a', 'logo__link', 'Online Store', '#');
     const cart = new Control(headerContainer.node, 'div', 'shopping-cart', 'Корзина');
-    const cartCount = new Control(cart.node, 'div', 'shopping-cart__count');
+    const count = `${this.state.data.cartProductCount}` || '';
+    const cartCount = new Control(cart.node, 'div', 'shopping-cart__count', count);
     this.cartCount = cartCount.node;
   }
 }

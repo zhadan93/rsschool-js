@@ -11,12 +11,6 @@ import SortBy from './filters/sortBy';
 import Filter from './filters/filter';
 
 export default class FilterGroup extends Control {
-  private filterMap: Map<string, (data: CardDetails[], filterField: string) => CardDetails[]> = new Map<
-    string,
-    (data: CardDetails[], filterField: string) => CardDetails[]
-  >();
-  private static filtersReset: Map<string, () => void> = new Map<string, () => void>();
-
   constructor(
     parentNode: HTMLElement,
     tagName = 'div',
@@ -37,14 +31,10 @@ export default class FilterGroup extends Control {
         'Производитель:',
         this.state
       );
-      filterByProducerContainer.draw(data, this.filterMap);
-      this.filterMap.set('producers', filterByProducerContainer.filter);
-      FilterGroup.filtersReset.set('producers', filterByProducerContainer.reset.bind(filterByProducerContainer));
+      filterByProducerContainer.draw(data);
 
       const filterByColorContainer = new FilterByColor(this.node, 'div', 'filters__by-value', 'Цвет:', this.state);
-      filterByColorContainer.draw(data, this.filterMap);
-      this.filterMap.set('colors', filterByColorContainer.filter);
-      FilterGroup.filtersReset.set('colors', filterByColorContainer.reset.bind(filterByColorContainer));
+      filterByColorContainer.draw(data);
 
       const filterByMaterialContainer = new FilterByMaterial(
         this.node,
@@ -53,9 +43,7 @@ export default class FilterGroup extends Control {
         'Материал:',
         this.state
       );
-      filterByMaterialContainer.draw(data, this.filterMap);
-      this.filterMap.set('materials', filterByMaterialContainer.filter);
-      FilterGroup.filtersReset.set('materials', filterByMaterialContainer.reset.bind(filterByMaterialContainer));
+      filterByMaterialContainer.draw(data);
 
       const filterByFavoritesContainer = new FilterByFavorite(
         this.node,
@@ -64,9 +52,7 @@ export default class FilterGroup extends Control {
         'Только популярные:',
         this.state
       );
-      filterByFavoritesContainer.draw(data, this.filterMap);
-      this.filterMap.set('favorites', filterByFavoritesContainer.filter);
-      FilterGroup.filtersReset.set('favorites', filterByFavoritesContainer.reset.bind(filterByFavoritesContainer));
+      filterByFavoritesContainer.draw(data);
     } else if (title === search) {
       const search = new Control<HTMLInputElement>(this.node, 'input', 'search');
       search.node.focus();
@@ -79,26 +65,12 @@ export default class FilterGroup extends Control {
 
       const resetBtn = new Control(this.node, 'button', 'reset', 'Сброс фильтров');
       resetBtn.node.addEventListener('click', () => {
-        const result = Filter.sort(data, this.state.data.sort[0]);
+        const result = Filter.sort(data, this.state.data.sort);
 
-        const colorFilterReset = FilterGroup.filtersReset.get('colors');
-        if (colorFilterReset) colorFilterReset();
-
-        const producerFilterReset = FilterGroup.filtersReset.get('producers');
-        if (producerFilterReset) producerFilterReset();
-
-        const materialFilterReset = FilterGroup.filtersReset.get('materials');
-        if (materialFilterReset) materialFilterReset();
-
-        const favoriteFilterReset = FilterGroup.filtersReset.get('favorites');
-        if (favoriteFilterReset) favoriteFilterReset();
+        Filter.resetFilters(this.state);
 
         this.state.data = {
           ...this.state.data,
-          colors: [],
-          producers: [],
-          materials: [],
-          favorites: [],
           resultCardData: result,
         };
       });

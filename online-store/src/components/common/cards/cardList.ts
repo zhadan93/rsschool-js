@@ -8,8 +8,8 @@ import Style from '../../helpers/style';
 import './cards.css';
 
 export default class CardList extends Control {
-  private selectedCards: Map<string, HTMLElement> = new Map<string, HTMLElement>();
   private cards: Map<string, Card> = new Map<string, Card>();
+  private selectedCards: Set<string> = new Set<string>();
 
   constructor(parentNode: HTMLElement, tagName = 'div', className = '', private state: AppState<CartState>) {
     super(parentNode, tagName, className);
@@ -31,6 +31,7 @@ export default class CardList extends Control {
         const cardEl = card.node;
         const selectedCardClassName = 'card--active';
 
+        this.selectedCards = new Set(this.state.data.selectedCards);
         if (this.selectedCards.has(id)) {
           Style.toggleClass(cardEl, selectedCardClassName);
         }
@@ -42,11 +43,15 @@ export default class CardList extends Control {
           } else if (this.selectedCards.size >= MAX_CART_COUNT) {
             alert('Извините, все слоты заполнены');
           } else {
-            this.selectedCards.set(id, cardEl);
+            this.selectedCards.add(id);
             Style.toggleClass(cardEl, selectedCardClassName);
           }
 
-          this.state.data = { ...this.state.data, cartProductCount: this.selectedCards.size };
+          this.state.data = {
+            ...this.state.data,
+            selectedCards: [...this.selectedCards],
+            cartProductCount: this.selectedCards.size,
+          };
         });
       });
     } else {

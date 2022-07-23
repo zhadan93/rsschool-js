@@ -7,7 +7,6 @@ import Style from '../../../helpers/style';
 
 export default class FilterByMaterial extends Control {
   private selectedMaterialFilters: Set<string> = new Set<string>();
-  private materialFilters: Map<string, HTMLElement> = new Map<string, HTMLElement>();
 
   constructor(
     parentNode: HTMLElement,
@@ -19,20 +18,28 @@ export default class FilterByMaterial extends Control {
     super(parentNode, tagName, className, content);
   }
 
-  draw(data: CardDetails[], filterMap: Map<string, (data: CardDetails[], filterField: string) => CardDetails[]>) {
+  draw(data: CardDetails[]) {
     const materialContainer = new Control(this.node, 'ul', 'material-list');
+
+    this.selectedMaterialFilters = new Set(this.state.data.filters.materials);
 
     const materials: string[] = [];
     data.forEach((item) => materials.push(...item.material.split(', ')));
 
     const uniqueMaterials = Array.from(new Set(materials));
     uniqueMaterials.forEach((material) => {
-      const materialFilter = new Control(materialContainer.node, 'li', 'material-list__item', material);
-      this.materialFilters.set(material, materialFilter.node);
+      const materialFilter = new Filter(materialContainer.node, 'li', 'material-list__item', material, material);
 
       const materialFilterEl = materialFilter.node;
       const selectedMaterialClassName = 'material-list__item--active';
+
+      if (this.selectedMaterialFilters.has(material)) {
+        Style.toggleClass(materialFilterEl, selectedMaterialClassName);
+      }
+
       materialFilterEl.addEventListener('click', () => {
+        this.selectedMaterialFilters = new Set(this.state.data.filters.materials);
+
         if (this.selectedMaterialFilters.has(material)) {
           this.selectedMaterialFilters.delete(material);
           Style.toggleClass(materialFilterEl, selectedMaterialClassName);
@@ -41,68 +48,10 @@ export default class FilterByMaterial extends Control {
           Style.toggleClass(materialFilterEl, selectedMaterialClassName);
         }
 
-        const selectedMaterials = Array.from(this.selectedMaterialFilters);
+        this.state.data.filters.materials = Array.from(this.selectedMaterialFilters);
 
-        const filterNames: Map<string, string[]> = new Map<string, string[]>();
-        if (selectedMaterials.length) filterNames.set('materials', selectedMaterials);
-
-        for (const key in this.state.data) {
-          if (
-            key !== 'resultCardData' &&
-            key !== 'materials' &&
-            key !== 'sort' &&
-            this.state.data[key as keyof typeof this.state.data].length
-          ) {
-            filterNames.set(key, this.state.data[key as keyof typeof this.state.data] as string[]);
-          }
-        }
-
-        let initialData = data;
-        let result: CardDetails[] = [];
-        let count = 0;
-
-        for (const [key, value] of filterNames) {
-          count++;
-          const f = filterMap.get(key);
-          if (count > 1) {
-            initialData = [...result];
-            result = [];
-          }
-
-          if (f) {
-            value.forEach((filterValue) => {
-              result.push(...f(initialData, filterValue));
-            });
-          }
-        }
-
-        if (result.length) {
-          result = Array.from(new Set(result)).sort((data1, data2) => +data1.id - +data2.id);
-        }
-
-        result = filterNames.size ? result : data;
-
-        if (result.length) {
-          result = Filter.sort(result, this.state.data.sort[0]);
-        }
-
-        this.state.data = { ...this.state.data, materials: selectedMaterials, resultCardData: result };
+        Filter.filterByAll(data, this.state);
       });
-    });
-  }
-
-  filter(data: CardDetails[], filterField: string): CardDetails[] {
-    return data.filter((item) => item.material.split(', ').includes(filterField));
-  }
-
-  reset() {
-    this.state.data.materials.forEach((material) => {
-      this.selectedMaterialFilters.delete(material);
-
-      const materialFilter = this.materialFilters.get(material);
-      if (materialFilter) {
-        Style.toggleClass(materialFilter, 'material-list__item--active');
-      }
     });
   }
 }

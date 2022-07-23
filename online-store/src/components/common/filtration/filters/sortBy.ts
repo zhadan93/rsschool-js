@@ -6,7 +6,7 @@ import Filter from './filter';
 import CardDetails from '../../../types/dataInterface';
 
 export default class SortBy extends Control {
-  private selectedSort: Set<string> = new Set<string>();
+  private selectedSort = '';
 
   constructor(
     parentNode: HTMLElement,
@@ -20,33 +20,32 @@ export default class SortBy extends Control {
 
   draw() {
     const sortContainer = new Control(this.node, 'select', 'sort');
+    this.selectedSort = this.state.data.sort;
 
     const sortContainerEl = sortContainer.node;
     sortContainerEl.addEventListener('click', (e) => {
       if (e.target instanceof HTMLElement) {
         const { value } = e.target as HTMLOptionElement;
-        if (!this.selectedSort.has(value)) {
-          this.selectedSort.clear();
-          this.selectedSort.add(value);
+        if (this.selectedSort !== value) {
+          this.selectedSort = value;
 
-          const selectedSort = Array.from(this.selectedSort);
           const currentData = this.state.data.resultCardData;
           let resData: CardDetails[] = [];
 
           if (currentData.length) resData = Filter.sort(currentData, value);
 
-          this.state.data = { ...this.state.data, sort: selectedSort, resultCardData: resData };
+          this.state.data = { ...this.state.data, sort: this.selectedSort, resultCardData: resData };
         }
       }
     });
 
-    SORT_BY.forEach(({ value, label }, index) => {
+    SORT_BY.forEach(({ value, label }) => {
       const sortOption = new Control<HTMLOptionElement>(sortContainerEl, 'option', 'sort__item', label);
-      sortOption.node.value = value;
-
-      if (index === 0) {
-        this.selectedSort.add(value);
+      if (this.selectedSort === value) {
+        sortOption.node.selected = true;
       }
+
+      sortOption.node.value = value;
     });
   }
 }

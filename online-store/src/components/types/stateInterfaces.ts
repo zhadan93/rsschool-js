@@ -1,14 +1,18 @@
 import CardDetails from './dataInterface';
 
 export interface CartState {
+  selectedCards: string[];
   cartProductCount: number;
 }
 
-export interface CardState {
+export interface FilterState {
   colors: string[];
   producers: string[];
   materials: string[];
   favorites: string[];
-  sort: string[];
+}
+export interface CardState {
+  filters: FilterState;
+  sort: string;
   resultCardData: CardDetails[];
 }

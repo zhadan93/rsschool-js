@@ -7,7 +7,6 @@ import Style from '../../../helpers/style';
 
 export default class FilterByFavorite extends Control {
   private selectedFavoriteFilters: Set<string> = new Set<string>();
-  private favoriteFilters: Map<string, HTMLInputElement> = new Map<string, HTMLInputElement>();
 
   constructor(
     parentNode: HTMLElement,
@@ -19,17 +18,32 @@ export default class FilterByFavorite extends Control {
     super(parentNode, tagName, className, content);
   }
 
-  draw(data: CardDetails[], filterMap: Map<string, (data: CardDetails[], filterField: string) => CardDetails[]>) {
-    const favoriteContainer = new Control(this.node, 'div', 'favorite');
+  draw(data: CardDetails[]) {
+    const favoriteContainer = new Control(this.node, 'div', 'true');
+
+    this.selectedFavoriteFilters = new Set(this.state.data.filters.favorites);
 
     const favoriteFilterLabel = new Control(favoriteContainer.node, 'label', 'favorite__label');
-    const favoriteFilterInput = new Control<HTMLInputElement>(favoriteFilterLabel.node, 'input', 'favorite__input');
+    const favoriteFilterInput = new Filter<HTMLInputElement>(
+      favoriteFilterLabel.node,
+      'input',
+      'favorite__input',
+      '',
+      'true'
+    );
     favoriteFilterInput.node.type = 'checkbox';
-    this.favoriteFilters.set('true', favoriteFilterInput.node);
 
     const favoriteFilterEl = favoriteFilterLabel.node;
     const selectedFavoriteClassName = 'favorite__item--active';
+
+    if (this.selectedFavoriteFilters.has('true')) {
+      Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
+      favoriteFilterInput.node.checked = true;
+    }
+
     favoriteFilterEl.addEventListener('click', () => {
+      this.selectedFavoriteFilters = new Set(this.state.data.filters.favorites);
+
       if (this.selectedFavoriteFilters.has('true')) {
         this.selectedFavoriteFilters.delete('true');
         Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
@@ -38,69 +52,9 @@ export default class FilterByFavorite extends Control {
         Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
       }
 
-      const selectedFavorite = Array.from(this.selectedFavoriteFilters);
+      this.state.data.filters.favorites = Array.from(this.selectedFavoriteFilters);
 
-      const filterNames: Map<string, string[]> = new Map<string, string[]>();
-
-      if (selectedFavorite.length) filterNames.set('favorites', selectedFavorite);
-
-      for (const key in this.state.data) {
-        if (
-          key !== 'resultCardData' &&
-          key !== 'favorites' &&
-          key !== 'sort' &&
-          this.state.data[key as keyof typeof this.state.data].length
-        ) {
-          filterNames.set(key, this.state.data[key as keyof typeof this.state.data] as string[]);
-        }
-      }
-
-      let initialData = data;
-      let result: CardDetails[] = [];
-      let count = 0;
-
-      for (const [key, value] of filterNames) {
-        count++;
-        const f = filterMap.get(key);
-        if (count > 1) {
-          initialData = [...result];
-          result = [];
-        }
-
-        if (f) {
-          value.forEach((filterValue) => {
-            result.push(...f(initialData, filterValue));
-          });
-        }
-      }
-
-      if (result.length) {
-        result = Array.from(new Set(result));
-      }
-
-      result = filterNames.size ? result : data;
-
-      if (result.length) {
-        result = Filter.sort(result, this.state.data.sort[0]);
-      }
-
-      this.state.data = { ...this.state.data, favorites: selectedFavorite, resultCardData: result };
-    });
-  }
-
-  filter(data: CardDetails[], filterValue?: string): CardDetails[] {
-    return data.filter((item) => '' + item.favorite === filterValue);
-  }
-
-  reset() {
-    this.state.data.favorites.forEach((favorite) => {
-      this.selectedFavoriteFilters.delete(favorite);
-
-      const favoriteFilter = this.favoriteFilters.get(favorite);
-
-      if (favoriteFilter) {
-        favoriteFilter.checked = false;
-      }
+      Filter.filterByAll(data, this.state);
     });
   }
 }

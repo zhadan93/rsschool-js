@@ -40,7 +40,7 @@ export default class SortBy extends Control {
     });
 
     SORT_BY.forEach(({ value, label }) => {
-      const sortOption = new Control<HTMLOptionElement>(sortContainerEl, 'option', 'sort__item', label);
+      const sortOption = new Filter<HTMLOptionElement>(sortContainerEl, 'option', 'sort__item', label, value);
       if (this.selectedSort === value) {
         sortOption.node.selected = true;
       }

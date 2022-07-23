@@ -1,4 +1,5 @@
 import CardDetails from './dataInterface';
+import AppState from '../appState';
 
 export interface CartState {
   selectedCards: string[];
@@ -15,4 +16,9 @@ export interface CardState {
   filters: FilterState;
   sort: string;
   resultCardData: CardDetails[];
+}
+
+export interface CartAndCardState {
+  cartState: AppState<CartState>;
+  cardState: AppState<CardState>;
 }

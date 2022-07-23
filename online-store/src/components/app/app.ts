@@ -29,6 +29,10 @@ export default class App {
     this.cartState = new AppState<CartState>(initialCartState);
     const updateCart = (data: CartState) => {
       this.header.cartContent = data.cartProductCount;
+
+      if (data.selectedCards.length === 0) {
+        this.cardContainer.resetCardState();
+      }
     };
     this.cartState.onChange.add(updateCart);
 
@@ -55,7 +59,10 @@ export default class App {
     this.header = new Header(document.body, 'header', 'header', this.cartState);
 
     const body = new Control(document.body, 'main', 'main');
-    this.filterContainer = new FilterList(body.node, 'div', 'filters', this.cardState);
+    this.filterContainer = new FilterList(body.node, 'div', 'filters', {
+      cartState: this.cartState,
+      cardState: this.cardState,
+    });
     this.filterContainer.draw(this.data);
 
     this.cardContainer = new CardList(body.node, 'ul', 'cards', this.cartState);

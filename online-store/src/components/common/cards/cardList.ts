@@ -37,6 +37,8 @@ export default class CardList extends Control {
         }
 
         cardEl.addEventListener('click', () => {
+          this.selectedCards = new Set(this.state.data.selectedCards);
+
           if (this.selectedCards.has(id)) {
             this.selectedCards.delete(id);
             Style.toggleClass(cardEl, selectedCardClassName);
@@ -59,5 +61,16 @@ export default class CardList extends Control {
       empty.node.innerText = 'Извините, совпадений не найдено';
       this.cards.set('1', empty);
     }
+  }
+
+  resetCardState() {
+    this.selectedCards.forEach((card) => {
+      if (this.selectedCards.has(card)) {
+        const cardEl = this.cards.get(card);
+        if (cardEl) {
+          Style.toggleClass(cardEl.node, 'card--active');
+        }
+      }
+    });
   }
 }

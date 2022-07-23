@@ -72,21 +72,34 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
   }
 
   static resetFilters(state: AppState<CardState>) {
-    Object.entries(state.data.filters).forEach(([filterGroup, filterNames]) => {
-      (filterNames as string[]).forEach((filterName) => {
-        const filter = Filter.filters.get(filterName);
+    Object.entries(state.data.filters)
+      .filter(([, value]) => value.length)
+      .forEach(([filterGroup, filterNames]) => {
+        (filterNames as string[]).forEach((filterName) => {
+          const filter = Filter.filters.get(filterName);
 
-        if (filter) {
-          if (filter instanceof HTMLInputElement) {
-            filter.checked = false;
-          } else {
-            const className = filterGroup.slice(0, -1) + '-list__item--active';
-            Style.toggleClass(filter, className);
+          if (filter) {
+            if (filter instanceof HTMLInputElement) {
+              filter.checked = false;
+            } else {
+              const className = filterGroup.slice(0, -1) + '-list__item--active';
+              Style.toggleClass(filter, className);
+            }
           }
-        }
+        });
+        state.data.filters[filterGroup as keyof typeof state.data.filters] = [];
       });
-      state.data.filters[filterGroup as keyof typeof state.data.filters] = [];
-    });
+  }
+
+  static resetSortToDefault(data: CardDetails[], state: AppState<CardState>) {
+    state.data.sort = 'name_asc';
+    const sortEl = Filter.filters.get(state.data.sort);
+
+    if (sortEl instanceof HTMLOptionElement) {
+      sortEl.selected = true;
+    }
+
+    return Filter.sort(data, state.data.sort);
   }
 
   static filterBy(data: CardDetails[], filterField: string, filterName: string) {

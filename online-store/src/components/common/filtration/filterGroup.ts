@@ -44,7 +44,7 @@ export default class FilterGroup extends Control {
       const filterByMaterialContainer = new FilterByMaterial(
         this.node,
         'div',
-        'filters__by-value',
+        'filters__by-value filters__by-value--material',
         'Материал:',
         this.state.cardState
       );
@@ -68,7 +68,8 @@ export default class FilterGroup extends Control {
       const sorting = new SortBy(this.node, 'div', 'filters__by-value', '', this.state.cardState);
       sorting.draw();
 
-      const resetFilterBtn = new Control(this.node, 'button', 'reset', 'Сброс фильтров');
+      const resetBtnContainer = new Control(this.node, 'div', 'reset-container');
+      const resetFilterBtn = new Control(resetBtnContainer.node, 'button', 'reset-btn', 'Сброс фильтров');
       resetFilterBtn.node.addEventListener('click', () => {
         const result = Filter.sort(data, this.state.cardState.data.sort);
 
@@ -80,7 +81,7 @@ export default class FilterGroup extends Control {
         };
       });
 
-      const resetStorageBtn = new Control(this.node, 'button', 'reset', 'Сброс настроек');
+      const resetStorageBtn = new Control(resetBtnContainer.node, 'button', 'reset-btn', 'Сброс настроек');
       resetStorageBtn.node.addEventListener('click', () => {
         Filter.resetFilters(this.state.cardState);
         const resultData = Filter.resetSortToDefault(data, this.state.cardState);

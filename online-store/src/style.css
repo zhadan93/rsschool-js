@@ -1,7 +1,8 @@
 :root {
   --decor-text-color: #fff;
-  --hover-decor-text-color: #ffe0bf;
+  --hover-decor-color: #ffe0bf;
   --black-bg-color: #000;
+  --black-decor-color: #000;
 }
 
 * {
@@ -18,6 +19,10 @@
 }
 
 .header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
   padding: 10px 0;
 
   background-color: var(--black-bg-color);
@@ -31,14 +36,14 @@
 }
 
 .logo__icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
 
   transition: 0.7s;
 }
 
 .logo:hover .logo__icon {
-  fill: var(--hover-decor-text-color);
+  fill: var(--hover-decor-color);
 }
 
 .logo__link {
@@ -51,13 +56,22 @@
 }
 
 .logo:hover .logo__link {
-  color: var(--hover-decor-text-color);
+  color: var(--hover-decor-color);
 }
 
 .shopping-cart {
+  display: flex;
   padding: 10px;
-  background-color: var(--hover-decor-text-color);
+  background-color: var(--hover-decor-color);
   border-radius: 10px;
+}
+
+.shopping-cart__count--active {
+  margin-left: 5px;
+  padding-left: 5px;
+  border-left: 2px solid #000;
+
+  font-weight: 800;
 }
 
 .container {
@@ -71,7 +85,7 @@
 
 .main {
   min-height: calc(100vh - 150px);
-  padding: 20px 0;
+  padding: 100px 0;
 }
 
 .footer {
@@ -94,7 +108,7 @@
 }
 
 .github:hover {
-  color: var(--hover-decor-text-color);
+  color: var(--hover-decor-color);
 }
 
 .rss__link {
@@ -117,5 +131,5 @@
 }
 
 .rss__link:hover .icon {
-  fill: var(--hover-decor-text-color);
+  fill: var(--hover-decor-color);
 }

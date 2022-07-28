@@ -1,18 +1,27 @@
 .cards {
-  max-width: 1920px;
-  width: 90%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(5, 1fr);
   gap: 30px;
+  align-items: stretch;
+  justify-items: center;
+  justify-content: space-between;
+  width: 100%;
   margin: 20px auto 0;
+
+  font-size: 1.7rem;
+}
+
+.cards--empty {
+  display: flex;
+  justify-content: center;
 }
 
 .card {
-  width: 300px;
-  height: 400px;
-
-  font-size: 17px;
+  display: grid;
+  grid-template-rows: 1fr 14rem 2fr;
+  width: 100%;
+  padding-bottom: 10px;
 
   border: 2px solid #000;
   border-radius: 20px;
@@ -23,6 +32,7 @@
 
 .card:hover {
   background-color: var(--hover-decor-text-color);
+
   transform: scale(1.05);
   cursor: pointer;
 }
@@ -32,25 +42,82 @@
 }
 
 .card__name {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 7px 0;
-  height: 60px;
+  align-self: center;
   text-align: center;
+
+  font-size: 1.3rem;
 }
 
 .card__img {
   width: 100%;
-  height: 200px;
+  height: 100%;
 }
 
-.empty {
-  font-size: 30px;
+.card__characteristics {
+  padding: 5px 10px 0;
+  font-size: 1.1rem;
 }
 
-@media (max-width: 1067px) {
+@media (max-width: 1940px) {
   .cards {
-    width: 70%;
+    grid-template-columns: repeat(4, 22rem);
+  }
+}
+
+@media (max-width: 1540px) {
+  .cards {
+    grid-template-columns: repeat(3, 22rem);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1156px) {
+  html {
+    font-size: 14.5px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, 30.4vw);
+  }
+
+  .card {
+    grid-template-rows: 1fr 19.3vw 2fr;
+    min-width: 272px;
+  }
+}
+
+@media (max-width: 890px) { 
+  .cards {
+    grid-template-columns: repeat(2, calc((100% - 20px - (100% - 2* 272px - 20px)) / 2));
+  }
+
+  .card {
+    grid-template-rows: 1fr 11.81rem 2fr;
+  } 
+}
+
+@media (max-width: 602px) {
+  html {
+    font-size: 13px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, calc((100% / 2) - 20px));
+    justify-content: center;
+  }
+
+  .card {
+    grid-template-rows: 1fr 28.3vw 2fr;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards {
+    grid-template-columns: repeat(1, calc((100% / 2) - 20px));
+  }
+
+  .card {
+    grid-template-rows: 1fr 8.5rem 2fr;
   }
 }

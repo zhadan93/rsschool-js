@@ -1,6 +1,5 @@
 import Control from '../../helpers/control/htmlControl';
 import { CartAndCardState } from '../../types/stateInterfaces';
-import { FILTER_GROUP_TITLES } from '../../../config';
 import FilterByColor from './filters/filterByColor';
 import FilterByProducer from './filters/filterByProducer';
 import FilterByMaterial from './filters/filterByMaterial';
@@ -8,6 +7,13 @@ import CardDetails from '../../types/dataInterface';
 import FilterByFavorite from './filters/filterByFavorite';
 import SortBy from './filters/sortBy';
 import Filter from './filters/filter';
+import { FILTER_TITLE, FILTER_GROUP_TITLES, RESET_BTN_NAME } from '../../../constants';
+
+const [filterContainerClassName, resetBtnClassName] = ['filters__by-value', 'reset-btn'];
+const [byValueTitle, searchTitle] = FILTER_GROUP_TITLES;
+const { filterByProducerTitle, filterByColorTitle, filterByMaterialTitle, filterByFavoriteTitle, sortingTitle } =
+  FILTER_TITLE;
+const { resetFilterBtnName, resetSettingsBtnName } = RESET_BTN_NAME;
 
 export default class FilterGroup extends Control {
   constructor(
@@ -21,13 +27,12 @@ export default class FilterGroup extends Control {
     super(parentNode, tagName, className);
     new Control(this.node, 'h3', 'filters__title', title);
 
-    const [byValue, /*, byRange,*/ search] = FILTER_GROUP_TITLES;
-    if (title === byValue) {
+    if (title === byValueTitle) {
       const filterByProducerContainer = new FilterByProducer(
         this.node,
         'div',
-        'filters__by-value',
-        'Производитель:',
+        `${filterContainerClassName} filters__by-value--producer`,
+        filterByProducerTitle,
         this.state.cardState
       );
       filterByProducerContainer.draw(data);
@@ -35,8 +40,8 @@ export default class FilterGroup extends Control {
       const filterByColorContainer = new FilterByColor(
         this.node,
         'div',
-        'filters__by-value',
-        'Цвет:',
+        filterContainerClassName,
+        filterByColorTitle,
         this.state.cardState
       );
       filterByColorContainer.draw(data);
@@ -44,8 +49,8 @@ export default class FilterGroup extends Control {
       const filterByMaterialContainer = new FilterByMaterial(
         this.node,
         'div',
-        'filters__by-value filters__by-value--material',
-        'Материал:',
+        `${filterContainerClassName} filters__by-value--material`,
+        filterByMaterialTitle,
         this.state.cardState
       );
       filterByMaterialContainer.draw(data);
@@ -53,23 +58,25 @@ export default class FilterGroup extends Control {
       const filterByFavoritesContainer = new FilterByFavorite(
         this.node,
         'div',
-        'filters__by-value',
-        'Только популярные:',
+        filterContainerClassName,
+        filterByFavoriteTitle,
         this.state.cardState
       );
       filterByFavoritesContainer.draw(data);
-    } else if (title === search) {
+    }
+
+    if (title === searchTitle) {
       const search = new Control<HTMLInputElement>(this.node, 'input', 'search');
       search.node.focus();
       search.node.placeholder = 'Введите текст';
       search.node.autocomplete = 'off';
 
-      new Control(this.node, 'h3', 'filters__title', 'Сортировка');
-      const sorting = new SortBy(this.node, 'div', 'filters__by-value', '', this.state.cardState);
+      new Control(this.node, 'h3', 'filters__title', sortingTitle);
+      const sorting = new SortBy(this.node, 'div', filterContainerClassName, '', this.state.cardState);
       sorting.draw();
 
       const resetBtnContainer = new Control(this.node, 'div', 'reset-container');
-      const resetFilterBtn = new Control(resetBtnContainer.node, 'button', 'reset-btn', 'Сброс фильтров');
+      const resetFilterBtn = new Control(resetBtnContainer.node, 'button', resetBtnClassName, resetFilterBtnName);
       resetFilterBtn.node.addEventListener('click', () => {
         const result = Filter.sort(data, this.state.cardState.data.sort);
 
@@ -81,19 +88,19 @@ export default class FilterGroup extends Control {
         };
       });
 
-      const resetStorageBtn = new Control(resetBtnContainer.node, 'button', 'reset-btn', 'Сброс настроек');
+      const resetStorageBtn = new Control(resetBtnContainer.node, 'button', resetBtnClassName, resetSettingsBtnName);
       resetStorageBtn.node.addEventListener('click', () => {
         Filter.resetFilters(this.state.cardState);
         const resultData = Filter.resetSortToDefault(data, this.state.cardState);
 
-        this.state.cardState.data = {
-          ...this.state.cardState.data,
-          resultCardData: resultData,
-        };
         this.state.cartState.data = {
           ...this.state.cardState.data,
           selectedCards: [],
           cartProductCount: 0,
+        };
+        this.state.cardState.data = {
+          ...this.state.cardState.data,
+          resultCardData: resultData,
         };
       });
     }

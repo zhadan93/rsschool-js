@@ -101,7 +101,7 @@ const cardData = [
   },
   {
     id: '11',
-    name: 'Kenwood RU0W21000010(ZJG112CL)',
+    name: 'Kenwood RU0W21000010 (ZJG112CL)',
     quantity: '4',
     year: '2012',
     producer: 'Kenwood',

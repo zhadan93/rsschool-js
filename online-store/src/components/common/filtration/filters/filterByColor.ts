@@ -1,10 +1,12 @@
 import Control from '../../../helpers/control/htmlControl';
 import CardDetails from '../../../types/dataInterface';
-import { COLORS } from '../../../../config';
+import { COLORS } from '../../../../constants';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
 import Style from '../../../helpers/style';
 import Filter from './filter';
+
+const selectedColorClassName = 'color-list__item--active';
 
 export default class FilterByColor extends Control {
   private selectedColorFilters: Set<string> = new Set<string>();
@@ -29,17 +31,17 @@ export default class FilterByColor extends Control {
 
     const uniqueColors = Array.from(new Set(colors));
     uniqueColors.forEach((color) => {
+      const colorName = COLORS.find(({ value }) => value === color)?.name;
       const colorFilter = new Filter(
         colorContainer.node,
         'li',
-        `color-list__item color-list__item--${COLORS[color]}`,
+        `color-list__item color-list__item--${colorName}`,
         '',
         color
       );
       colorFilter.node.title = `${color}`;
 
       const colorFilterEl = colorFilter.node;
-      const selectedColorClassName = 'color-list__item--active';
 
       if (this.selectedColorFilters.has(color)) {
         Style.toggleClass(colorFilterEl, selectedColorClassName);
@@ -48,13 +50,10 @@ export default class FilterByColor extends Control {
       colorFilterEl.addEventListener('click', () => {
         this.selectedColorFilters = new Set(this.state.data.filters.colors);
 
-        if (this.selectedColorFilters.has(color)) {
-          this.selectedColorFilters.delete(color);
-          Style.toggleClass(colorFilterEl, selectedColorClassName);
-        } else {
-          this.selectedColorFilters.add(color);
-          Style.toggleClass(colorFilterEl, selectedColorClassName);
-        }
+        this.selectedColorFilters.has(color)
+          ? this.selectedColorFilters.delete(color)
+          : this.selectedColorFilters.add(color);
+        Style.toggleClass(colorFilterEl, selectedColorClassName);
 
         this.state.data.filters.colors = Array.from(this.selectedColorFilters);
 

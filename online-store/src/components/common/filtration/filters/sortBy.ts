@@ -1,7 +1,7 @@
 import Control from '../../../helpers/control/htmlControl';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
-import { SORT_BY } from '../../../../config';
+import { SORT_BY } from '../../../../constants';
 import Filter from './filter';
 import CardDetails from '../../../types/dataInterface';
 

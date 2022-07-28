@@ -5,6 +5,8 @@ import { CardState } from '../../../types/stateInterfaces';
 import Filter from './filter';
 import Style from '../../../helpers/style';
 
+const selectedFavoriteClassName = 'favorite__item--active';
+
 export default class FilterByFavorite extends Control {
   private selectedFavoriteFilters: Set<string> = new Set<string>();
 
@@ -34,7 +36,6 @@ export default class FilterByFavorite extends Control {
     favoriteFilterInput.node.type = 'checkbox';
 
     const favoriteFilterEl = favoriteFilterLabel.node;
-    const selectedFavoriteClassName = 'favorite__item--active';
 
     if (this.selectedFavoriteFilters.has('true')) {
       Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
@@ -44,13 +45,10 @@ export default class FilterByFavorite extends Control {
     favoriteFilterEl.addEventListener('click', () => {
       this.selectedFavoriteFilters = new Set(this.state.data.filters.favorites);
 
-      if (this.selectedFavoriteFilters.has('true')) {
-        this.selectedFavoriteFilters.delete('true');
-        Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
-      } else {
-        this.selectedFavoriteFilters.add('true');
-        Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
-      }
+      this.selectedFavoriteFilters.has('true')
+        ? this.selectedFavoriteFilters.delete('true')
+        : this.selectedFavoriteFilters.add('true');
+      Style.toggleClass(favoriteFilterEl, selectedFavoriteClassName);
 
       this.state.data.filters.favorites = Array.from(this.selectedFavoriteFilters);
 

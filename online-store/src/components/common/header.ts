@@ -5,7 +5,10 @@ import SVGUseControl from '../helpers/control/svgUseControl';
 import SVGSprite from '../../assets/svg/sprite.svg';
 import AppState from '../appState';
 import { CartState } from '../types/stateInterfaces';
+import { HEADER_CONTENT } from '../../constants';
 import Style from '../helpers/style';
+
+const { logoTitle, cartContent } = HEADER_CONTENT;
 
 export default class Header extends Control {
   private static activeCartClassName = 'shopping-cart__count--active';
@@ -29,8 +32,8 @@ export default class Header extends Control {
     const logoSvg = new SVGControl(logo.node, 'svg', 'icon logo__icon');
     new SVGUseControl(logoSvg.node, 'use', `${SVGSprite}#logo`);
     const title = new Control(logo.node, 'h1', 'logo__title');
-    new Anchor(title.node, 'a', 'logo__link', 'Online Store', '#');
-    const cart = new Control(headerContainer.node, 'div', 'shopping-cart', 'Корзина');
+    new Anchor(title.node, 'a', 'logo__link', logoTitle, '#');
+    const cart = new Control(headerContainer.node, 'div', 'shopping-cart', cartContent);
     const count = this.state.data.cartProductCount || '';
     const cartCount = new Control(cart.node, 'div', 'shopping-cart__count', `${count}`);
     this.cartCount = cartCount.node;

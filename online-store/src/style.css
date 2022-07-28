@@ -76,16 +76,25 @@
 
 .container {
   max-width: 1920px;
-  width: 90%;
+  padding: 0 20px;
   display: flex;
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
 }
 
+.header__container {
+  gap: 20px;
+}
+
 .main {
   min-height: calc(100vh - 150px);
   padding: 100px 0;
+}
+
+.container__main {
+ display: flex;
+ flex-direction: column;
 }
 
 .footer {

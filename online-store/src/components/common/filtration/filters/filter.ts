@@ -14,20 +14,20 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
 
   static sort(data: CardDetails[], sortType: string) {
     const [sortField, direction] = sortType.split('_');
-    let callback: (data1: CardDetails, data2: CardDetails) => number;
+    let callback: (currentCard: CardDetails, NextCard: CardDetails) => number;
 
     if (isFinite(+data[0][sortField as keyof typeof data[0]])) {
-      callback = (data1: CardDetails, data2: CardDetails) => {
+      callback = (currentCard: CardDetails, NextCard: CardDetails) => {
         return direction === 'asc'
-          ? +data1[sortField as keyof typeof data1] - +data2[sortField as keyof typeof data2]
-          : +data2[sortField as keyof typeof data2] - +data1[sortField as keyof typeof data1];
+          ? +currentCard[sortField as keyof typeof currentCard] - +NextCard[sortField as keyof typeof NextCard]
+          : +NextCard[sortField as keyof typeof NextCard] - +currentCard[sortField as keyof typeof currentCard];
       };
     } else {
-      callback = (data1: CardDetails, data2: CardDetails) => {
-        if (data1[sortField as keyof typeof data1] > data2[sortField as keyof typeof data2]) {
+      callback = (currentCard: CardDetails, NextCard: CardDetails) => {
+        if (currentCard[sortField as keyof typeof currentCard] > NextCard[sortField as keyof typeof NextCard]) {
           return direction === 'asc' ? 1 : -1;
         }
-        if (data1[sortField as keyof typeof data1] < data2[sortField as keyof typeof data2]) {
+        if (currentCard[sortField as keyof typeof currentCard] < NextCard[sortField as keyof typeof NextCard]) {
           return direction === 'asc' ? -1 : 1;
         }
         return 0;
@@ -58,15 +58,9 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
       });
     }
 
-    if (result.length) {
-      result = Array.from(new Set(result));
-    }
-
+    result = Array.from(new Set(result));
     result = filterNames.size ? result : data;
-
-    if (result.length) {
-      result = Filter.sort(result, state.data.sort);
-    }
+    if (result.length) result = Filter.sort(result, state.data.sort);
 
     state.data = { ...state.data, resultCardData: result };
   }
@@ -78,13 +72,11 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
         (filterNames as string[]).forEach((filterName) => {
           const filter = Filter.filters.get(filterName);
 
-          if (filter) {
-            if (filter instanceof HTMLInputElement) {
-              filter.checked = false;
-            } else {
-              const className = filterGroup.slice(0, -1) + '-list__item--active';
-              Style.toggleClass(filter, className);
-            }
+          if (filter instanceof HTMLInputElement) {
+            filter.checked = false;
+          } else if (filter) {
+            const className = filterGroup.slice(0, -1) + '-list__item--active';
+            Style.toggleClass(filter, className);
           }
         });
         state.data.filters[filterGroup as keyof typeof state.data.filters] = [];

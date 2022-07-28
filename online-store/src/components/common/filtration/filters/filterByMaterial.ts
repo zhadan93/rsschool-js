@@ -5,6 +5,8 @@ import { CardState } from '../../../types/stateInterfaces';
 import Filter from './filter';
 import Style from '../../../helpers/style';
 
+const selectedMaterialClassName = 'material-list__item--active';
+
 export default class FilterByMaterial extends Control {
   private selectedMaterialFilters: Set<string> = new Set<string>();
 
@@ -31,7 +33,6 @@ export default class FilterByMaterial extends Control {
       const materialFilter = new Filter(materialContainer.node, 'li', 'material-list__item', material, material);
 
       const materialFilterEl = materialFilter.node;
-      const selectedMaterialClassName = 'material-list__item--active';
 
       if (this.selectedMaterialFilters.has(material)) {
         Style.toggleClass(materialFilterEl, selectedMaterialClassName);
@@ -40,13 +41,10 @@ export default class FilterByMaterial extends Control {
       materialFilterEl.addEventListener('click', () => {
         this.selectedMaterialFilters = new Set(this.state.data.filters.materials);
 
-        if (this.selectedMaterialFilters.has(material)) {
-          this.selectedMaterialFilters.delete(material);
-          Style.toggleClass(materialFilterEl, selectedMaterialClassName);
-        } else {
-          this.selectedMaterialFilters.add(material);
-          Style.toggleClass(materialFilterEl, selectedMaterialClassName);
-        }
+        this.selectedMaterialFilters.has(material)
+          ? this.selectedMaterialFilters.delete(material)
+          : this.selectedMaterialFilters.add(material);
+        Style.toggleClass(materialFilterEl, selectedMaterialClassName);
 
         this.state.data.filters.materials = Array.from(this.selectedMaterialFilters);
 

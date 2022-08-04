@@ -1,9 +1,9 @@
-import HTMLControl from './app/helpers/control/htmlControl';
-import pageNavigationBtnName from '../constants';
-import Style from './app/helpers/style';
+import HTMLControl from './helpers/control/htmlControl';
+import { BTN_NAMES } from '../constants';
+import Style from './helpers/style';
 import './pageNavigation.css';
 
-const { garageBtnName, winnerBtnName } = pageNavigationBtnName;
+const { GARAGE_BTN_NAME, WINNER_BTN_NAME } = BTN_NAMES;
 const btnClassName = 'btn';
 const activeBtnClassName = 'btn--active';
 
@@ -15,13 +15,13 @@ export default class PageNavigation extends HTMLControl {
   }
 
   render(): void {
-    const garageBtn = new HTMLControl(this.node, 'button', `${btnClassName} ${activeBtnClassName}`, garageBtnName);
+    const garageBtn = new HTMLControl(this.node, 'button', `${btnClassName} ${activeBtnClassName}`, GARAGE_BTN_NAME);
     const garageBtnElement = garageBtn.node;
     garageBtnElement.addEventListener('click', () => {
       this.isSelected(garageBtnElement);
     });
 
-    const winnerBtn = new HTMLControl(this.node, 'button', btnClassName, winnerBtnName);
+    const winnerBtn = new HTMLControl(this.node, 'button', btnClassName, WINNER_BTN_NAME);
     const winnerBtnElement = winnerBtn.node;
     winnerBtnElement.addEventListener('click', () => {
       this.isSelected(winnerBtnElement);

@@ -1,0 +1,165 @@
+:root {
+  --btn-active-color: #7f7ff8;
+  --hover-btn-active-color: #b4b4ff;
+  --btn-color: #7fffd4;
+  --hover-btn-color: #bdffe9;
+  --active-btn-color: #5f5fff;
+  --black-color: #000000;
+  --disabled-color: #c7c7c7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.page-navigation {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn {
+  width: 6.25rem;
+  padding: 0.3rem 0;
+
+  background-color: var(--btn-color);
+  border-radius: 0.6rem;
+
+  outline: none;
+
+  transition: 0.7s;
+}
+
+.btn:hover {
+  background-color: var(--hover-btn-color);
+
+  cursor: pointer;
+}
+
+.btn:active {
+  background-color: var(--active-btn-color);
+
+  cursor: pointer;
+}
+
+.btn--active {
+  background-color: var(--btn-active-color);
+}
+
+.btn--active:hover {
+  background-color: var(--hover-btn-active-color);
+}
+
+.garage {
+  padding: 1.25rem 0;
+}
+
+.garage__state-change {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.form,
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: stretch;
+}
+
+.container {
+  align-items: center;
+}
+
+.input {
+  border: 0.1rem solid var(--black-color);
+  border-radius: 0.5rem;
+}
+
+.text-input {
+  padding: 0 0.6rem;
+}
+
+.color-input {
+  padding: 0;
+}
+
+.title {
+  font-size: 1.6rem;
+}
+
+.pagination__title {
+  font-size: 1.3rem;
+}
+
+.garage__cars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.garage__car {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.car-race__container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  height: 6rem;
+
+  border-bottom: 0.2rem dashed var(--black-color);
+}
+
+.engine-btn {
+  width: 2rem;
+  height: 2rem;
+
+  background-color: transparent;
+  border: 0.1rem solid var(--black-color);
+  border-radius: 0.5rem;
+
+  transition: 0.7s;
+}
+
+.engine-btn:hover {
+  background-color: var(--hover-btn-active-color);
+
+  cursor: pointer;
+}
+
+.car-icon {
+  align-self: flex-end;
+  width: 7rem;
+  height: 2.6rem;
+  margin-right: auto;
+}
+
+.garage__flag {
+  position: absolute;
+  width: 5.6rem;
+  height: 5.6rem;
+  right: 7.5rem;
+  background-image: url(assets/c073fc1e905ecf9ac927.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.6rem;
+  padding-top: 0.6rem;
+}
+
+.input--disabled,
+.input--disabled:hover,
+.btn--disabled,
+.btn--disabled:hover {
+  cursor: default;
+
+  border: 0.1rem solid var(--disabled-color);
+  background-color: transparent;
+}
+

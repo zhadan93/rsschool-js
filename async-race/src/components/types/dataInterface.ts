@@ -14,8 +14,13 @@ export interface WinnerDetails {
 
 export type WinnerCharacteristics = Omit<WinnerDetails, 'id'>;
 
-export type DataDetails = CarDetails | WinnerDetails;
+export type DataDetails = CarDetails & WinnerDetails;
 
 export type DataCharacteristics = CarCharacteristics | WinnerCharacteristics;
 
-export type AddedDataDetails = DataCharacteristics | WinnerDetails;
+export type AddedDataDetails = CarCharacteristics | WinnerDetails;
+
+export interface GarageState {
+  carCount: number;
+  selectedCar: number;
+}

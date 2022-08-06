@@ -1,6 +1,6 @@
-import HTMLControl from './helpers/control/htmlControl';
-import { BTN_NAMES } from '../constants';
-import Style from './helpers/style';
+import HTMLControl from '../helpers/control/htmlControl';
+import { BTN_NAMES } from '../../constants';
+import Style from '../helpers/style';
 import './pageNavigation.css';
 
 const { GARAGE_BTN_NAME, WINNER_BTN_NAME } = BTN_NAMES;
@@ -18,22 +18,23 @@ export default class PageNavigation extends HTMLControl {
     const garageBtn = new HTMLControl(this.node, 'button', `${btnClassName} ${activeBtnClassName}`, GARAGE_BTN_NAME);
     const garageBtnElement = garageBtn.node;
     garageBtnElement.addEventListener('click', () => {
-      this.isSelected(garageBtnElement);
+      this.changeStyle(garageBtnElement);
     });
 
     const winnerBtn = new HTMLControl(this.node, 'button', btnClassName, WINNER_BTN_NAME);
     const winnerBtnElement = winnerBtn.node;
     winnerBtnElement.addEventListener('click', () => {
-      this.isSelected(winnerBtnElement);
+      this.changeStyle(winnerBtnElement);
     });
 
     this.selectedBtn.add(garageBtnElement);
   }
 
-  isSelected(selectedElement: HTMLElement): void {
+  changeStyle(selectedElement: HTMLElement): void {
     if (!this.selectedBtn.has(selectedElement)) {
-      this.selectedBtn.forEach((value) => Style.removeClass(value, activeBtnClassName));
-      this.selectedBtn.clear();
+      const [prevSelectedBtn] = this.selectedBtn.values();
+      Style.removeClass(prevSelectedBtn, activeBtnClassName);
+      this.selectedBtn.delete(prevSelectedBtn);
       this.selectedBtn.add(selectedElement);
       Style.addClass(selectedElement, activeBtnClassName);
     }

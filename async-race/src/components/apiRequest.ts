@@ -1,5 +1,11 @@
 import { BASE_URL, REQUEST_HEADER } from '../constants';
-import { DataDetails, DataCharacteristics, AddedDataDetails } from './types/dataInterface';
+import {
+  DataDetails,
+  DataCharacteristics,
+  AddedDataDetails,
+  QueryParams,
+  PaginationDataDetails,
+} from './types/dataInterface';
 
 class ApiRequest {
   constructor(private baseUrl = BASE_URL) {}
@@ -10,10 +16,17 @@ class ApiRequest {
     return dataById;
   }
 
-  async getData(url: string): Promise<DataDetails[]> {
-    const response = await fetch(`${this.baseUrl}${url}`);
+  async getData(url: string, queryParams: QueryParams): Promise<PaginationDataDetails> {
+    const path = this.makeUrl(url, queryParams);
+    const response = await fetch(path);
+
+    const count = response.headers.get('X-Total-Count') || '0';
     const data = await response.json();
-    return data;
+
+    return {
+      data,
+      count,
+    };
   }
 
   async addData(url: string, body: AddedDataDetails): Promise<void> {
@@ -36,6 +49,17 @@ class ApiRequest {
     await fetch(`${this.baseUrl}${url}/${id}`, {
       method: 'DELETE',
     });
+  }
+
+  makeUrl(url: string, options: QueryParams): string {
+    const urlOptions = { ...options };
+    let path = `${this.baseUrl}${url}?`;
+
+    Object.keys(urlOptions).forEach((key) => {
+      path += `_${key}=${urlOptions[key as keyof typeof urlOptions]}&`;
+    });
+
+    return path.slice(0, -1);
   }
 }
 

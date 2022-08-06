@@ -24,4 +24,20 @@ export const REQUEST_HEADER = {
 export const PAGE_TITLES = {
   GARAGE_TITLE: 'Garage',
   WINNER_TITLE: 'Winners',
+  PAGINATION_TITLE: 'Page #',
+};
+
+export const PAGINATION_LIMIT = {
+  GARAGE_PAGINATION_LIMIT: 7,
+  WINNERS_PAGINATION_LIMIT: 10,
+};
+
+export const PAGINATION_BTN_NAMES = {
+  PREV_PAGINATION_BTN_NAMES: 'Prev',
+  NEXT_PAGINATION_BTN_NAMES: 'Next',
+};
+
+export const carQueriesParam = {
+  page: 0,
+  limit: PAGINATION_LIMIT.GARAGE_PAGINATION_LIMIT,
 };

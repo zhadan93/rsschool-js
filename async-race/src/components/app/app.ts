@@ -4,7 +4,7 @@ import Garage from '../garage/garage';
 import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import apiRequest from '../apiRequest';
-import { URLS } from '../../constants';
+import { URLS, carQueriesParam } from '../../constants';
 
 const { GARAGE_URL } = URLS;
 
@@ -17,12 +17,15 @@ export default class App {
     const initialGarageState = {
       carCount: 0,
       selectedCar: 0,
+      pageNumber: 1,
+      carData: [],
     };
 
     this.garageState = new AppState<GarageState>(initialGarageState);
-    const updateGarage = (data: GarageState) => {
-      this.garage.garageTitleContent = data.carCount;
+    const updateGarage = async (data: GarageState) => {
+      this.garage.renderGarage(data.carData);
     };
+
     this.garageState.onChange.add(updateGarage);
 
     this.garage = new Garage(this.garageState, null, 'article', 'garage');
@@ -34,10 +37,11 @@ export default class App {
     const pageNavigation = new PageNavigation(main.node, 'div', 'page-navigation');
     pageNavigation.render();
 
-    const appData = await apiRequest.getData(GARAGE_URL);
+    carQueriesParam.page = this.garageState.data.pageNumber;
 
-    this.garageState.data = { ...this.garageState.data, carCount: appData.length };
-    this.garage.render(appData);
+    const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParam);
+    this.garageState.data.carCount = +count;
+    this.garage.render(data);
     main.node.append(this.garage.node);
   }
 }

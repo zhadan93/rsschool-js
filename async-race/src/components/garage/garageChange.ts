@@ -30,6 +30,8 @@ export default class GarageChange extends HTMLControl {
       };
       if (btnName === CREATE_BTN_NAME) {
         await apiRequest.addData(GARAGE_URL, questionBody);
+        const count = this.state.data.carCount + 1;
+        this.state.data = { ...this.state.data, carCount: count };
       } else {
         await apiRequest.updateData(GARAGE_URL, questionBody, this.state.data.selectedCar);
       }

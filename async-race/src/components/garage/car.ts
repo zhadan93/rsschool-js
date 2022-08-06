@@ -1,7 +1,7 @@
 import HTMLControl from '../helpers/control/htmlControl';
 import AppState from '../appState';
-import { DataDetails, GarageState } from '../types/dataInterface';
-import { URLS, BTN_NAMES } from '../../constants';
+import { CarDetails, GarageState } from '../types/dataInterface';
+import { URLS, BTN_NAMES, carQueriesParam } from '../../constants';
 import apiRequest from '../apiRequest';
 import SVGControl from '../helpers/control/svgControl';
 import SVGUseControl from '../helpers/control/svgUseControl';
@@ -15,8 +15,8 @@ export default class Car extends HTMLControl {
     super(parentNode, tagName, className);
   }
 
-  render(data: DataDetails) {
-    const { name, color, id } = data;
+  render(carData: CarDetails) {
+    const { name, color, id } = carData;
 
     const carCharacteristicNavigationContainer = new HTMLControl(this.node, 'div', 'container');
 
@@ -31,9 +31,14 @@ export default class Car extends HTMLControl {
     const removeBtnElement = removeBtn.node;
     removeBtnElement.addEventListener('click', async () => {
       await apiRequest.deleteData(GARAGE_URL, id);
-      this.destroy();
-      const count = this.state.data.carCount - 1;
-      this.state.data = { ...this.state.data, carCount: count };
+
+      const { pageNumber, carCount } = this.state.data;
+
+      const currentPageNumber = (carCount - 1) % carQueriesParam.limit ? pageNumber : pageNumber - 1;
+      carQueriesParam.page = currentPageNumber;
+      const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParam);
+
+      this.state.data = { ...this.state.data, pageNumber: currentPageNumber, carCount: +count, carData: data };
     });
 
     (() => new HTMLControl(carCharacteristicNavigationContainer.node, 'h3', 'garage__car-name', name))();

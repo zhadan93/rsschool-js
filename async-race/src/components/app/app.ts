@@ -4,7 +4,7 @@ import Garage from '../garage/garage';
 import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import apiRequest from '../apiRequest';
-import { URLS, carQueriesParam } from '../../constants';
+import { URLS, carQueriesParams } from '../../constants';
 
 const { GARAGE_URL } = URLS;
 
@@ -37,9 +37,9 @@ export default class App {
     const pageNavigation = new PageNavigation(main.node, 'div', 'page-navigation');
     pageNavigation.render();
 
-    carQueriesParam.page = this.garageState.data.pageNumber;
+    carQueriesParams.page = this.garageState.data.pageNumber;
 
-    const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParam);
+    const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParams);
     this.garageState.data.carCount = +count;
     this.garage.render(data);
     main.node.append(this.garage.node);

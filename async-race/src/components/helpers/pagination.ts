@@ -1,5 +1,5 @@
 import HTMLControl from './control/htmlControl';
-import { URLS, PAGINATION_BTN_NAMES, carQueriesParam } from '../../constants';
+import { URLS, PAGINATION_BTN_NAMES, carQueriesParams } from '../../constants';
 import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import apiRequest from '../apiRequest';
@@ -50,8 +50,8 @@ export default class Pagination extends HTMLControl {
 
     this.switchButtonState();
 
-    carQueriesParam.page = this.state.data.pageNumber;
-    const { data } = await apiRequest.getData(GARAGE_URL, carQueriesParam);
+    carQueriesParams.page = this.state.data.pageNumber;
+    const { data } = await apiRequest.getData(GARAGE_URL, carQueriesParams);
     this.state.data = { ...this.state.data, carData: data };
   }
 
@@ -59,8 +59,11 @@ export default class Pagination extends HTMLControl {
     const { pageNumber, carCount } = this.state.data;
     const [prev, next] = this.buttons.values();
 
-    console.log(pageNumber, carCount);
     prev.disabled = pageNumber === 1;
-    next.disabled = Math.ceil(carCount / carQueriesParam.limit) === pageNumber;
+    next.disabled = this.getPageCount(carCount) === pageNumber;
+  }
+
+  getPageCount(count: number) {
+    return Math.ceil(count / carQueriesParams.limit);
   }
 }

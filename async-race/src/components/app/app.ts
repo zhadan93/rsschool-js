@@ -5,6 +5,7 @@ import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import apiRequest from '../apiRequest';
 import { URLS, carQueriesParams } from '../../constants';
+import LocalStorage from '../helpers/localStorage';
 
 const { GARAGE_URL } = URLS;
 
@@ -14,15 +15,20 @@ export default class App {
   private garageState: AppState<GarageState>;
 
   constructor() {
-    const initialGarageState = {
+    const savedGarageState = LocalStorage.getStorage('savedGarageState');
+    let initialGarageState = {
       carCount: 0,
-      selectedCar: 0,
+      selectedCar: null,
       pageNumber: 1,
       carData: [],
     };
-
+    initialGarageState = savedGarageState || initialGarageState;
     this.garageState = new AppState<GarageState>(initialGarageState);
     const updateGarage = async (data: GarageState) => {
+      if (data.selectedCar) {
+        this.garage.switchUpdateInputsState();
+      }
+
       this.garage.renderGarage(data.carData);
     };
 
@@ -41,7 +47,10 @@ export default class App {
 
     const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParams);
     this.garageState.data.carCount = +count;
+    this.garageState.data.carData = data;
     this.garage.render(data);
     main.node.append(this.garage.node);
+
+    window.addEventListener('beforeunload', () => LocalStorage.setStorage('savedGarageState', this.garageState.data));
   }
 }

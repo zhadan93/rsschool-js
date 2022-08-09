@@ -10,6 +10,8 @@ export const BTN_NAMES = {
   GENERATE_CARS_BTN_NAME: 'Generate Cars',
 };
 
+export const DEFAULT_COLOR = '#ffffff';
+
 export const BASE_URL = 'http://127.0.0.1:3000';
 
 export const URLS = {
@@ -92,3 +94,5 @@ export const CAR_MODEL = {
 };
 
 export const RANDOM_CARS_COUNT = 100;
+
+export const MAX_VALUE_COLOR_COMPONENT_RGB = 255;

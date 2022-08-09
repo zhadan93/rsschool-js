@@ -3,10 +3,11 @@ import { URLS, PAGINATION_BTN_NAMES, carQueriesParams } from '../../constants';
 import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import apiRequest from '../apiRequest';
+import Style from './style';
 
 const { PREV_PAGINATION_BTN_NAMES, NEXT_PAGINATION_BTN_NAMES } = PAGINATION_BTN_NAMES;
 const { GARAGE_URL } = URLS;
-const paginationBtnClassName = 'pagination__btn';
+const [paginationBtnClassName, paginationDisabledBtnClassName] = ['btn', 'btn--disabled'];
 
 export default class Pagination extends HTMLControl {
   private buttons = new Map<string, HTMLButtonElement>();
@@ -59,8 +60,21 @@ export default class Pagination extends HTMLControl {
     const { pageNumber, carCount } = this.state.data;
     const [prev, next] = this.buttons.values();
 
-    prev.disabled = pageNumber === 1;
-    next.disabled = this.getPageCount(carCount) === pageNumber;
+    const isDisabledPrev = pageNumber === 1;
+    const isDisabledNext = this.getPageCount(carCount) === pageNumber || this.getPageCount(carCount) === 0;
+    const hasDisabledPrevClassName = prev.classList.contains(paginationDisabledBtnClassName);
+    const hasDisabledNextClassName = next.classList.contains(paginationDisabledBtnClassName);
+
+    if ((isDisabledPrev && !hasDisabledPrevClassName) || (!isDisabledPrev && hasDisabledPrevClassName)) {
+      Style.toggleClass(prev, paginationDisabledBtnClassName);
+    }
+
+    if ((isDisabledNext && !hasDisabledNextClassName) || (!isDisabledNext && hasDisabledNextClassName)) {
+      Style.toggleClass(next, paginationDisabledBtnClassName);
+    }
+
+    prev.disabled = isDisabledPrev;
+    next.disabled = isDisabledNext;
   }
 
   getPageCount(count: number) {

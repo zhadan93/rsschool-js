@@ -29,26 +29,34 @@ class ApiRequest {
     };
   }
 
-  async addData(url: string, body: AddedDataDetails): Promise<void> {
-    await fetch(`${this.baseUrl}${url}`, {
+  async addData(url: string, body: AddedDataDetails): Promise<boolean> {
+    const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: REQUEST_HEADER,
     });
+
+    const isSuccess = response.status === 200;
+    return isSuccess;
   }
 
-  async updateData(url: string, body: DataCharacteristics, id: number): Promise<void> {
-    await fetch(`${this.baseUrl}${url}/${id}`, {
+  async updateData(url: string, body: DataCharacteristics, id: number): Promise<boolean> {
+    const response = await fetch(`${this.baseUrl}${url}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: REQUEST_HEADER,
     });
+    const isSuccess = response.status === 200;
+    return isSuccess;
   }
 
-  async deleteData(url: string, id: number): Promise<void> {
-    await fetch(`${this.baseUrl}${url}/${id}`, {
+  async deleteData(url: string, id: number): Promise<boolean> {
+    const response = await fetch(`${this.baseUrl}${url}/${id}`, {
       method: 'DELETE',
     });
+
+    const isSuccess = response.status === 200;
+    return isSuccess;
   }
 
   makeUrl(url: string, options: QueryParams): string {

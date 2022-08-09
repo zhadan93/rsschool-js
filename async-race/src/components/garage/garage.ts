@@ -9,7 +9,9 @@ import Pagination from '../helpers/pagination';
 const { GARAGE_TITLE, PAGINATION_TITLE } = PAGE_TITLES;
 
 export default class Garage extends HTMLControl {
-  private containerMap = new Map();
+  private containerMap = new Map<string, HTMLControl>();
+
+  private garageChangeSet = new Set<GarageChange>();
 
   constructor(private state: AppState<GarageState>, parentNode: HTMLElement | null, tagName = 'div', className = '') {
     super(parentNode, tagName, className);
@@ -18,7 +20,7 @@ export default class Garage extends HTMLControl {
   render(data: CarDetails[]): void {
     const garageChange = new GarageChange(this.state, this.node, 'section', 'garage__state-change');
     garageChange.render();
-    this.containerMap.set('garageChange', garageChange);
+    this.garageChangeSet.add(garageChange);
 
     this.renderGarage(data);
   }
@@ -46,7 +48,7 @@ export default class Garage extends HTMLControl {
   }
 
   switchUpdateInputsState() {
-    const garageChange = this.containerMap.get('garageChange');
+    const [garageChange] = Array.from(this.garageChangeSet);
 
     if (garageChange) {
       garageChange.switchUpdateInputsState();

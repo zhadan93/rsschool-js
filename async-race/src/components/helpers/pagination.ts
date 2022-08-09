@@ -62,19 +62,9 @@ export default class Pagination extends HTMLControl {
 
     const isDisabledPrev = pageNumber === 1;
     const isDisabledNext = this.getPageCount(carCount) === pageNumber || this.getPageCount(carCount) === 0;
-    const hasDisabledPrevClassName = prev.classList.contains(paginationDisabledBtnClassName);
-    const hasDisabledNextClassName = next.classList.contains(paginationDisabledBtnClassName);
 
-    if ((isDisabledPrev && !hasDisabledPrevClassName) || (!isDisabledPrev && hasDisabledPrevClassName)) {
-      Style.toggleClass(prev, paginationDisabledBtnClassName);
-    }
-
-    if ((isDisabledNext && !hasDisabledNextClassName) || (!isDisabledNext && hasDisabledNextClassName)) {
-      Style.toggleClass(next, paginationDisabledBtnClassName);
-    }
-
-    prev.disabled = isDisabledPrev;
-    next.disabled = isDisabledNext;
+    Style.switchDisabledState(prev, isDisabledPrev, paginationDisabledBtnClassName);
+    Style.switchDisabledState(next, isDisabledNext, paginationDisabledBtnClassName);
   }
 
   getPageCount(count: number) {

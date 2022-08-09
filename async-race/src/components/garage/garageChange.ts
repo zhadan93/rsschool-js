@@ -17,8 +17,7 @@ import Style from '../helpers/style';
 
 const { CREATE_BTN_NAME, UPDATE_BTN_NAME, GENERATE_CARS_BTN_NAME } = BTN_NAMES;
 const { GARAGE_URL } = URLS;
-const btnDisabledClassName = 'input--disabled';
-const inputClassName = 'input';
+const [inputClassName, disabledBtnClassName] = ['input', 'input--disabled'];
 
 export default class GarageChange extends HTMLControl {
   private createInputs = new Map<string, HTMLInputElement[]>();
@@ -79,12 +78,7 @@ export default class GarageChange extends HTMLControl {
 
     inputs?.forEach((input, index) => {
       const updateFormInput = input;
-      updateFormInput.disabled = isDisabled;
-
-      const hasClassName = updateFormInput.classList.contains(btnDisabledClassName);
-      if ((isDisabled && !hasClassName) || (!isDisabled && hasClassName)) {
-        Style.toggleClass(updateFormInput, btnDisabledClassName);
-      }
+      Style.switchDisabledState(input, isDisabled, disabledBtnClassName);
 
       if (updateFormInput.type !== 'submit') {
         updateFormInput.value = inputValues[index];

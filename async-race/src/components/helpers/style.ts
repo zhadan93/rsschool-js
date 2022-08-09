@@ -10,4 +10,19 @@ export default class Style {
   static removeClass(el: HTMLElement, className: string): void {
     el.classList.remove(className);
   }
+
+  static switchDisabledState(
+    element: HTMLInputElement | HTMLButtonElement,
+    isDisabled: boolean,
+    disabledElementClassName: string
+  ) {
+    const el = element;
+    const hasDisabledElementClassName = el.classList.contains(disabledElementClassName);
+
+    if ((isDisabled && !hasDisabledElementClassName) || (!isDisabled && hasDisabledElementClassName)) {
+      Style.toggleClass(el, disabledElementClassName);
+    }
+
+    el.disabled = isDisabled;
+  }
 }

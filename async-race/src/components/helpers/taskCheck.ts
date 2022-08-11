@@ -1,5 +1,4 @@
-console.log(`Ребят, я еще доделываю проект, если у вас будет возможность перепроверить, оставьте, пожалуйста, контакты
-Functional requirements (105 баллов)
+console.log(`Functional requirements (105 баллов)
 1. Basic structure:
   - There should be two views on the site: "Garage" and "Winners". (2.5/5) (implemented garage)
   - "Garage" view should contain its name, page number, and the full amount of items in the database (how many car user has in his garage). (5/5)

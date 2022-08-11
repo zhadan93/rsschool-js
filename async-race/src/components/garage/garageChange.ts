@@ -15,7 +15,7 @@ import InputControl from '../helpers/control/htmlInputControl';
 import apiRequest from '../apiRequest';
 import Style from '../helpers/style';
 
-const { CREATE_BTN_NAME, UPDATE_BTN_NAME, GENERATE_CARS_BTN_NAME } = BTN_NAMES;
+const { CREATE_BTN_NAME, UPDATE_BTN_NAME, GENERATE_CARS_BTN_NAME, RACE_BTN_NAME, RESET_BTN_NAME } = BTN_NAMES;
 const { GARAGE_URL } = URLS;
 const [inputClassName, disabledBtnClassName] = ['input', 'input--disabled'];
 
@@ -34,7 +34,13 @@ export default class GarageChange extends HTMLControl {
     const containerButtons = new HTMLControl(this.node, 'div', 'container');
     const containerButtonsElement = containerButtons.node;
 
-    this.generateRandomCars(containerButtonsElement);
+    (() => new HTMLControl(containerButtonsElement, 'button', 'btn', RACE_BTN_NAME))();
+
+    (() => new HTMLControl(containerButtonsElement, 'button', 'btn', RESET_BTN_NAME))();
+
+    const generateBtn = new HTMLControl(containerButtonsElement, 'button', 'btn', GENERATE_CARS_BTN_NAME);
+    const generateBtnElement = generateBtn.node;
+    generateBtnElement.addEventListener('click', this.generateRandomCars.bind(this));
   }
 
   addForm(btnName: string) {
@@ -86,25 +92,21 @@ export default class GarageChange extends HTMLControl {
     });
   }
 
-  generateRandomCars(parentNode: HTMLElement) {
-    const generateBtn = new HTMLControl(parentNode, 'button', 'btn', GENERATE_CARS_BTN_NAME);
-    const generateBtnElement = generateBtn.node;
-    generateBtnElement.addEventListener('click', () => {
-      const promises = [];
-      for (let i = 0; i < RANDOM_CARS_COUNT; i += 1) {
-        const queryParams = {
-          name: this.getRandomCarName(),
-          color: this.getRandomCarColor(),
-        };
-        const request = apiRequest.addData(GARAGE_URL, queryParams);
-        promises.push(request);
-      }
-      Promise.all(promises)
-        .then(() => apiRequest.getData(GARAGE_URL, carQueriesParams))
-        .then(({ data, count }) => {
-          this.state.data = { ...this.state.data, carData: data, carCount: +count };
-        });
-    });
+  generateRandomCars() {
+    const promises = [];
+    for (let i = 0; i < RANDOM_CARS_COUNT; i += 1) {
+      const queryParams = {
+        name: this.getRandomCarName(),
+        color: this.getRandomCarColor(),
+      };
+      const request = apiRequest.addData(GARAGE_URL, queryParams);
+      promises.push(request);
+    }
+    Promise.all(promises)
+      .then(() => apiRequest.getData(GARAGE_URL, carQueriesParams))
+      .then(({ data, count }) => {
+        this.state.data = { ...this.state.data, carData: data, carCount: +count };
+      });
   }
 
   getRandomCarName() {

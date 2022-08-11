@@ -8,6 +8,8 @@ export const BTN_NAMES = {
   CREATE_BTN_NAME: 'Create',
   UPDATE_BTN_NAME: 'Update',
   GENERATE_CARS_BTN_NAME: 'Generate Cars',
+  RACE_BTN_NAME: 'Race',
+  RESET_BTN_NAME: 'Reset',
 };
 
 export const DEFAULT_COLOR = '#ffffff';

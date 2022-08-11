@@ -25,6 +25,8 @@
   border-radius: 0.6rem;
 
   outline: none;
+
+  transition: 0.7s;
 }
 
 .btn:hover {

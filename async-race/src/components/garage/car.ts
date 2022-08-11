@@ -47,19 +47,7 @@ export default class Car extends HTMLControl {
       REMOVE_BTN_NAME
     );
     const removeBtnElement = removeBtn.node;
-    removeBtnElement.addEventListener('click', async () => {
-      const response = await apiRequest.deleteData(GARAGE_URL, id);
-
-      if (response) {
-        const { pageNumber, carCount } = this.state.data;
-
-        const currentPageNumber = (carCount - 1) % carQueriesParams.limit ? pageNumber : pageNumber - 1 || 1;
-        carQueriesParams.page = currentPageNumber;
-        const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParams);
-
-        this.state.data = { ...this.state.data, pageNumber: currentPageNumber, carCount: +count, carData: data };
-      }
-    });
+    removeBtnElement.addEventListener('click', () => this.removeCar(id));
 
     (() => new HTMLControl(carCharacteristicNavigationContainer.node, 'h3', 'garage__car-name', name))();
 
@@ -146,6 +134,20 @@ export default class Car extends HTMLControl {
 
     const raceFlag = new HTMLControl(carDrivingContainerElement, 'div', 'garage__flag');
     this.drivingCars.set('flag', raceFlag.node);
+  }
+
+  async removeCar(id: number): Promise<void> {
+    const response = await apiRequest.deleteData(GARAGE_URL, id);
+
+    if (response) {
+      const { pageNumber, carCount } = this.state.data;
+
+      const currentPageNumber = (carCount - 1) % carQueriesParams.limit ? pageNumber : pageNumber - 1 || 1;
+      carQueriesParams.page = currentPageNumber;
+      const { data, count } = await apiRequest.getData(GARAGE_URL, carQueriesParams);
+
+      this.state.data = { ...this.state.data, pageNumber: currentPageNumber, carCount: +count, carData: data };
+    }
   }
 
   handleAnimation(timing: (timeFraction: number) => number, draw: (progress: number) => void, duration: number) {

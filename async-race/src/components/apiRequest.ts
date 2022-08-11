@@ -5,6 +5,9 @@ import {
   AddedDataDetails,
   QueryParams,
   PaginationDataDetails,
+  EngineQueryParams,
+  EngineData,
+  DriveEngineData,
 } from './types/dataInterface';
 
 class ApiRequest {
@@ -59,12 +62,38 @@ class ApiRequest {
     return isSuccess;
   }
 
-  makeUrl(url: string, options: QueryParams): string {
-    const urlOptions = { ...options };
+  async startOrStopEngine(url: string, queryParams: EngineQueryParams): Promise<EngineData> {
+    const path = this.makeUrl(url, queryParams);
+    const response = await fetch(path, {
+      method: 'PATCH',
+    });
+
+    const engineData = await response.json();
+    return engineData;
+  }
+
+  async switchEngineToDriveMode(url: string, queryParams: EngineQueryParams): Promise<DriveEngineData> {
+    const path = this.makeUrl(url, queryParams);
+    const response = await fetch(path, {
+      method: 'PATCH',
+    });
+
+    if (response.status === 500) {
+      return {
+        success: false,
+      };
+    }
+
+    const data = await response.json();
+    return data;
+  }
+
+  makeUrl(url: string, options: QueryParams | EngineQueryParams): string {
+    const prefix = url === '/engine' ? '' : '_';
     let path = `${this.baseUrl}${url}?`;
 
-    Object.keys(urlOptions).forEach((key) => {
-      path += `_${key}=${urlOptions[key as keyof typeof urlOptions]}&`;
+    Object.keys(options).forEach((key) => {
+      path += `${prefix}${key}=${options[key as keyof typeof options]}&`;
     });
 
     return path.slice(0, -1);

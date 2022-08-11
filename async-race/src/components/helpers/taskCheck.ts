@@ -1,5 +1,5 @@
 console.log(`Ребят, я еще доделываю проект, если у вас будет возможность перепроверить, оставьте, пожалуйста, контакты
-Functional requirements (55 баллов)
+Functional requirements (105 баллов)
 1. Basic structure:
   - There should be two views on the site: "Garage" and "Winners". (2.5/5) (implemented garage)
   - "Garage" view should contain its name, page number, and the full amount of items in the database (how many car user has in his garage). (5/5)
@@ -12,7 +12,12 @@ Functional requirements (55 баллов)
   - There should be pagination on the "Garage" view (7 cars per one page).(10/10)
   - There should be a button to create random cars (100 cars per click). Name should be assembled from two random parts, for example "Tesla" + "Model S", or "Ford" + "Mustang" (At least 10 different names for each part). Color should be also generated randomly.(10/10)
 In development:
-3. Car animation: (0)
+3. Car animation:
+  - Near the car's picture should be buttons for starting / stoping the car engine. (5/5)
+  - User clicks to the engine start button -> UI is waiting for car's velocity answer -> animate the car and makes another request to drive. In case api returned 500 error car animation should be stopped.(20/20)
+  - User clicks to the engine stop button -> UI is waiting for answer for stopping engine -> car returned to it's initial place.(5/5)
+  - Start engine button should be disabled in case car is already in driving mode. As well as stop engine button should be disabled when car is on it's initial place.(5/5)
+  - Car animation should work fine on any screen (smallest screen size is 500px). (15/15)
 4. Race animation: (0)
 5. "Winners" view: (0)
 `);

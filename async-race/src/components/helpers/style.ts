@@ -16,13 +16,13 @@ export default class Style {
     isDisabled: boolean,
     disabledElementClassName: string
   ) {
-    const el = element;
-    const hasDisabledElementClassName = el.classList.contains(disabledElementClassName);
+    const currentElement = element;
+    const hasElementDisabledClassName = currentElement.classList.contains(disabledElementClassName);
 
-    if ((isDisabled && !hasDisabledElementClassName) || (!isDisabled && hasDisabledElementClassName)) {
-      Style.toggleClass(el, disabledElementClassName);
+    if ((isDisabled && !hasElementDisabledClassName) || (!isDisabled && hasElementDisabledClassName)) {
+      Style.toggleClass(currentElement, disabledElementClassName);
     }
 
-    el.disabled = isDisabled;
+    currentElement.disabled = isDisabled;
   }
 }

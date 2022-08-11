@@ -43,3 +43,17 @@ export interface QueryParams {
   page: number;
   limit: number;
 }
+
+export interface EngineQueryParams {
+  id: number;
+  status: string;
+}
+
+export interface EngineData {
+  velocity: number;
+  distance: number;
+}
+
+export interface DriveEngineData{
+  success: boolean;
+}

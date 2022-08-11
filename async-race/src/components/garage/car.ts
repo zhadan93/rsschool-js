@@ -8,11 +8,17 @@ import SVGUseControl from '../helpers/control/svgUseControl';
 import SVGSprite from '../../assets/svg/sprite.svg';
 import './garage.css';
 
-const { GARAGE_URL } = URLS;
+const { GARAGE_URL, ENGINE_URL } = URLS;
 const { SELECT_BTN_NAME, REMOVE_BTN_NAME, ENGINE_START_BTN_NAME, ENGINE_STOP_BTN_NAME } = BTN_NAMES;
-const [btnClassName, engineBtnClassName] = ['btn', 'engine-btn'];
+const [btnClassName, engineBtnClassName, disabledBtnClassName] = ['btn', 'engine-btn', 'btn--disabled'];
 
 export default class Car extends HTMLControl {
+  private drivingCars = new Map<string, SVGElement | HTMLElement>();
+
+  private velocity = 0;
+
+  private animationIds: number[] = [];
+
   constructor(private state: AppState<GarageState>, parentNode: HTMLElement | null, tagName = 'div', className = '') {
     super(parentNode, tagName, className);
   }
@@ -59,26 +65,139 @@ export default class Car extends HTMLControl {
 
     const carDrivingContainer = new HTMLControl(this.node, 'div', 'container car-race__container');
     const carDrivingContainerElement = carDrivingContainer.node;
-    const engineStartBtn = new HTMLControl(
+    this.drivingCars.set('trackContainer', carDrivingContainerElement);
+
+    const engineStartBtn = new HTMLControl<HTMLButtonElement>(
       carDrivingContainerElement,
       'button',
       engineBtnClassName,
       ENGINE_START_BTN_NAME
     );
     const engineStartBtnElement = engineStartBtn.node;
-    engineStartBtnElement.addEventListener('click', () => {});
 
-    const engineStoptBtn = new HTMLControl(
+    const queryParams = {
+      id,
+      status: '',
+    };
+
+    engineStartBtnElement.addEventListener('click', async () => {
+      queryParams.status = 'started';
+      const engineData = await apiRequest.startOrStopEngine(ENGINE_URL, queryParams);
+
+      if (engineData) {
+        engineStartBtnElement.disabled = true;
+        engineStartBtnElement.classList.toggle(disabledBtnClassName);
+
+        const stopBtn = this.drivingCars.get('stopEngine');
+        if (stopBtn instanceof HTMLButtonElement) {
+          stopBtn.disabled = false;
+          stopBtn.classList.toggle(disabledBtnClassName);
+        }
+
+        const { velocity, distance } = engineData;
+        this.velocity = velocity;
+
+        const time = distance / velocity;
+        this.handleAnimation(this.linear, this.draw.bind(this), time);
+
+        queryParams.status = 'drive';
+        const { success } = await apiRequest.switchEngineToDriveMode(ENGINE_URL, queryParams);
+
+        if (!success) {
+          this.stopAnimation();
+        }
+      }
+    });
+
+    this.drivingCars.set('startEngine', engineStartBtnElement);
+
+    const engineStoptBtn = new HTMLControl<HTMLButtonElement>(
       carDrivingContainerElement,
       'button',
       engineBtnClassName,
       ENGINE_STOP_BTN_NAME
     );
     const engineStoptBtnElement = engineStoptBtn.node;
-    engineStoptBtnElement.addEventListener('click', () => {});
+    engineStoptBtnElement.addEventListener('click', async () => {
+      queryParams.status = 'stopped';
+      const stoppedCar = await apiRequest.startOrStopEngine(ENGINE_URL, queryParams);
+      if (stoppedCar) {
+        const startBtn = this.drivingCars.get('startEngine');
+        if (startBtn instanceof HTMLButtonElement) {
+          startBtn.disabled = false;
+          startBtn.classList.toggle(disabledBtnClassName);
+        }
+        engineStoptBtnElement.disabled = true;
+        engineStoptBtnElement.classList.toggle(disabledBtnClassName);
+
+        this.stopAnimation();
+        this.draw(0);
+      }
+    });
+
+    engineStoptBtnElement.disabled = true;
+    engineStoptBtnElement.classList.toggle(disabledBtnClassName);
+    this.drivingCars.set('stopEngine', engineStoptBtnElement);
 
     const carSvg = new SVGControl(carDrivingContainerElement, 'svg', 'car-icon');
     const carUse = new SVGUseControl(`${SVGSprite}#car`, carSvg.node);
     carUse.node.style.fill = color;
+    this.drivingCars.set('car', carSvg.node);
+
+    const raceFlag = new HTMLControl(carDrivingContainerElement, 'div', 'garage__flag');
+    this.drivingCars.set('flag', raceFlag.node);
+  }
+
+  handleAnimation(timing: (timeFraction: number) => number, draw: (progress: number) => void, duration: number) {
+    const start = performance.now();
+    const animations = this.animationIds;
+
+    requestAnimationFrame(function animate(time) {
+      let timeFraction = (time - start) / duration;
+      if (timeFraction > 1) timeFraction = 1;
+
+      const progress = timing(timeFraction);
+
+      draw(progress);
+
+      if (timeFraction < 1) {
+        const animationId = requestAnimationFrame(animate);
+        animations.push(animationId);
+      }
+    });
+  }
+
+  linear(timeFraction: number): number {
+    return timeFraction;
+  }
+
+  draw(progress: number): void {
+    const car = this.drivingCars.get('car');
+
+    if (car instanceof SVGElement) {
+      const track = this.getTrackDistance(car);
+      car.style.marginLeft = `${progress * track}px`;
+    }
+  }
+
+  getTrackDistance(car: SVGElement): number {
+    const flag = this.drivingCars.get('flag');
+    const trackContainer = this.drivingCars.get('trackContainer');
+    const startEngineBtn = this.drivingCars.get('startEngine');
+    let track = 0;
+
+    if (car && flag && trackContainer && startEngineBtn) {
+      const flagComputedStyle = getComputedStyle(flag);
+      const trackContainerComputedStyle = getComputedStyle(trackContainer);
+      const gap = parseInt(trackContainerComputedStyle.gap, 10);
+      const startFlagRight = parseInt(flagComputedStyle.right, 10) + flag.clientWidth / 2;
+      track = trackContainer.clientWidth - startFlagRight - 2 * startEngineBtn.clientWidth - gap * 2;
+    }
+
+    return track;
+  }
+
+  stopAnimation() {
+    this.animationIds.forEach((animationId) => cancelAnimationFrame(animationId));
   }
 }

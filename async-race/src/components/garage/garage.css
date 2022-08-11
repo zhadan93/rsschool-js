@@ -33,16 +33,6 @@
   padding: 0;
 }
 
-.input--disabled,
-.input--disabled:hover,
-.btn--disabled,
-.btn--disabled:hover {
-  cursor: default;
-
-  border: 0.1rem solid var(--disabled-color);
-  background-color: transparent;
-}
-
 .title {
   font-size: 1.6rem;
 }
@@ -64,14 +54,11 @@
 }
 
 .car-race__container {
+  position: relative;
   display: flex;
   align-items: flex-start;
   height: 6rem;
 
-  background-image: url('../../assets/img/wing.png');
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-  background-position: right 5.6rem top;
   border-bottom: 0.2rem dashed var(--black-color);
 }
 
@@ -79,8 +66,17 @@
   width: 2rem;
   height: 2rem;
 
+  background-color: transparent;
   border: 0.1rem solid var(--black-color);
   border-radius: 0.5rem;
+
+  transition: 0.7s;
+}
+
+.engine-btn:hover {
+  background-color: var(--hover-btn-active-color);
+
+  cursor: pointer;
 }
 
 .car-icon {
@@ -90,8 +86,28 @@
   margin-right: auto;
 }
 
+.garage__flag {
+  position: absolute;
+  width: 5.6rem;
+  height: 5.6rem;
+  right: 7.5rem;
+  background-image: url('../../assets/img/wing.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .pagination {
   display: flex;
   gap: 0.6rem;
   padding-top: 0.6rem;
+}
+
+.input--disabled,
+.input--disabled:hover,
+.btn--disabled,
+.btn--disabled:hover {
+  cursor: default;
+
+  border: 0.1rem solid var(--disabled-color);
+  background-color: transparent;
 }

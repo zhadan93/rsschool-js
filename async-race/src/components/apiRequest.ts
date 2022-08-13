@@ -39,8 +39,7 @@ class ApiRequest {
       headers: REQUEST_HEADER,
     });
 
-    const isSuccess = response.status === 200;
-    return isSuccess;
+    return response.status === 200;
   }
 
   async updateData(url: string, body: DataCharacteristics, id: number): Promise<boolean> {
@@ -49,8 +48,8 @@ class ApiRequest {
       body: JSON.stringify(body),
       headers: REQUEST_HEADER,
     });
-    const isSuccess = response.status === 200;
-    return isSuccess;
+
+    return response.status === 200;
   }
 
   async deleteData(url: string, id: number): Promise<boolean> {
@@ -58,8 +57,7 @@ class ApiRequest {
       method: 'DELETE',
     });
 
-    const isSuccess = response.status === 200;
-    return isSuccess;
+    return response.status === 200;
   }
 
   async startOrStopEngine(url: string, queryParams: EngineQueryParams): Promise<EngineData> {
@@ -92,8 +90,8 @@ class ApiRequest {
     const prefix = url === '/engine' ? '' : '_';
     let path = `${this.baseUrl}${url}?`;
 
-    Object.keys(options).forEach((key) => {
-      path += `${prefix}${key}=${options[key as keyof typeof options]}&`;
+    Object.entries(options).forEach(([key, value]) => {
+      path += `${prefix}${key}=${value}&`;
     });
 
     return path.slice(0, -1);

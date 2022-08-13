@@ -7,8 +7,7 @@ import {
   BTN_NAMES,
   URLS,
   RANDOM_CARS_COUNT,
-  CAR_BRAND,
-  CAR_MODEL,
+  CAR_MODELS,
   carQueriesParams,
 } from '../../constants';
 import InputControl from '../helpers/control/htmlInputControl';
@@ -93,15 +92,15 @@ export default class GarageChange extends HTMLControl {
   }
 
   generateRandomCars() {
-    const promises = [];
-    for (let i = 0; i < RANDOM_CARS_COUNT; i += 1) {
+    const promises = [...Array(RANDOM_CARS_COUNT)].map(() => {
       const queryParams = {
         name: this.getRandomCarName(),
         color: this.getRandomCarColor(),
       };
-      const request = apiRequest.addData(GARAGE_URL, queryParams);
-      promises.push(request);
-    }
+
+      return apiRequest.addData(GARAGE_URL, queryParams);
+    });
+
     Promise.all(promises)
       .then(() => apiRequest.getData(GARAGE_URL, carQueriesParams))
       .then(({ data, count }) => {
@@ -109,20 +108,25 @@ export default class GarageChange extends HTMLControl {
       });
   }
 
-  getRandomCarName() {
-    const randomBrand = this.getRandomNumber(CAR_BRAND.length - 1);
-    const brand = CAR_BRAND.at(randomBrand);
+  getRandomCarName(): string {
+    const carBrands = Object.entries(CAR_MODELS);
+    const randomBrand = this.getRandomNumber(carBrands.length - 1);
+    const carBrand = carBrands.at(randomBrand);
 
-    const brandModels = CAR_MODEL[brand as keyof typeof CAR_MODEL];
-    const randomModel = this.getRandomNumber(brandModels.length - 1);
-    const model = brandModels.at(randomModel);
+    let carName = '';
 
-    return `${brand} ${model}`;
+    if (carBrand) {
+      const [brand, models] = carBrand;
+      const randomModel = this.getRandomNumber(models.length - 1);
+      const model = models.at(randomModel);
+      carName = `${brand} ${model}`;
+    }
+
+    return carName;
   }
 
-  getRandomCarColor() {
-    const rgb = new Array(3)
-      .fill(1)
+  getRandomCarColor(): string {
+    const rgb = [...new Array(3)]
       .map(() => `${this.getRandomNumber(MAX_VALUE_COLOR_COMPONENT_RGB).toString(16)}`)
       .reduce((currentColorComponent, colorComponent) => {
         let color = currentColorComponent;
@@ -133,7 +137,7 @@ export default class GarageChange extends HTMLControl {
     return rgb;
   }
 
-  getRandomNumber(max: number, min = 0) {
+  getRandomNumber(max: number, min = 0): number {
     const rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   }

@@ -47,20 +47,7 @@ export const carQueriesParams = {
   limit: PAGINATION_LIMIT.GARAGE_PAGINATION_LIMIT,
 };
 
-export const CAR_BRAND = [
-  'Audi',
-  'BMW',
-  'Ford',
-  'Honda',
-  'Mitsubishi',
-  'Kia',
-  'Mazda',
-  'Lexus',
-  'Hyundai',
-  'Volkswagen',
-];
-
-export const CAR_MODEL = {
+export const CAR_MODELS = {
   Audi: ['A3', 'A5', 'Q3', 'A8', 'Q5', 'SQ8', 'E-tron', 'S5', 'RS 6', 'A6'],
   BMW: ['M2', 'X7', 'M8', 'M5', 'X3', '6 Gran Turismo', 'X1', '8 Gran Coupe', '7', 'X4'],
   Ford: ['Explorer', 'Fiesta', 'Focus', 'Mondeo', 'Kuga', 'Ranger', 'ST', 'Galaxy', 'Edge', 'Wagon'],

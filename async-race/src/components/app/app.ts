@@ -37,7 +37,7 @@ export default class App {
     this.garage = new Garage(this.garageState, null, 'article', 'garage');
   }
 
-  async render() {
+  async render(): Promise<void> {
     const main = new HTMLControl(document.body, 'main', 'main');
 
     const pageNavigation = new PageNavigation(main.node, 'div', 'page-navigation');

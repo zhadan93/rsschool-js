@@ -15,7 +15,7 @@ export default class Style {
     element: HTMLInputElement | HTMLButtonElement,
     isDisabled: boolean,
     disabledElementClassName: string
-  ) {
+  ): void {
     const currentElement = element;
     const hasElementDisabledClassName = currentElement.classList.contains(disabledElementClassName);
 

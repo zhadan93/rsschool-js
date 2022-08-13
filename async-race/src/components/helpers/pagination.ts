@@ -16,7 +16,7 @@ export default class Pagination extends HTMLControl {
     super(parentNode, tagName, className);
   }
 
-  render() {
+  render(): void {
     const prevPaginationBtn = new HTMLControl<HTMLButtonElement>(
       this.node,
       'button',
@@ -46,7 +46,7 @@ export default class Pagination extends HTMLControl {
     this.switchButtonState();
   }
 
-  async handleEvent(elementName: string) {
+  async handleEvent(elementName: string): Promise<void> {
     this.state.data.pageNumber += elementName === PREV_PAGINATION_BTN_NAMES ? -1 : 1;
 
     this.switchButtonState();
@@ -67,7 +67,7 @@ export default class Pagination extends HTMLControl {
     Style.switchDisabledState(next, isDisabledNext, paginationDisabledBtnClassName);
   }
 
-  getPageCount(count: number) {
+  getPageCount(count: number): number {
     return Math.ceil(count / carQueriesParams.limit);
   }
 }

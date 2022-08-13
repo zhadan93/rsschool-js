@@ -6,6 +6,7 @@ import apiRequest from '../apiRequest';
 import SVGControl from '../helpers/control/svgControl';
 import SVGUseControl from '../helpers/control/svgUseControl';
 import SVGSprite from '../../assets/svg/sprite.svg';
+import Style from '../helpers/style';
 import './garage.css';
 
 const { GARAGE_URL, ENGINE_URL } = URLS;
@@ -13,7 +14,9 @@ const { SELECT_BTN_NAME, REMOVE_BTN_NAME, ENGINE_START_BTN_NAME, ENGINE_STOP_BTN
 const [btnClassName, engineBtnClassName, disabledBtnClassName] = ['btn', 'engine-btn', 'btn--disabled'];
 
 export default class Car extends HTMLControl {
-  private drivingCars = new Map<string, SVGElement | HTMLElement>();
+  private drivingCars = new Map<string, HTMLElement | SVGElement | HTMLButtonElement>();
+
+  private disabledDrivingButton = new Set<HTMLButtonElement>();
 
   private velocity = 0;
 
@@ -69,18 +72,13 @@ export default class Car extends HTMLControl {
     };
 
     engineStartBtnElement.addEventListener('click', async () => {
+      this.changeDisabledDrivingButton(engineStartBtnElement);
+
       queryParams.status = 'started';
       const engineData = await apiRequest.startOrStopEngine(ENGINE_URL, queryParams);
 
       if (engineData) {
-        engineStartBtnElement.disabled = true;
-        engineStartBtnElement.classList.toggle(disabledBtnClassName);
-
-        const stopBtn = this.drivingCars.get('stopEngine');
-        if (stopBtn instanceof HTMLButtonElement) {
-          stopBtn.disabled = false;
-          stopBtn.classList.toggle(disabledBtnClassName);
-        }
+        this.switchButtonState();
 
         const { velocity, distance } = engineData;
         this.velocity = velocity;
@@ -97,7 +95,7 @@ export default class Car extends HTMLControl {
       }
     });
 
-    this.drivingCars.set('startEngine', engineStartBtnElement);
+    this.drivingCars.set('startEngineBtn', engineStartBtnElement);
 
     const engineStoptBtn = new HTMLControl<HTMLButtonElement>(
       carDrivingContainerElement,
@@ -105,27 +103,24 @@ export default class Car extends HTMLControl {
       engineBtnClassName,
       ENGINE_STOP_BTN_NAME
     );
-    const engineStoptBtnElement = engineStoptBtn.node;
-    engineStoptBtnElement.addEventListener('click', async () => {
+    const engineStopBtnElement = engineStoptBtn.node;
+    engineStopBtnElement.addEventListener('click', async () => {
+      this.changeDisabledDrivingButton(engineStopBtnElement);
+
       queryParams.status = 'stopped';
       const stoppedCar = await apiRequest.startOrStopEngine(ENGINE_URL, queryParams);
       if (stoppedCar) {
-        const startBtn = this.drivingCars.get('startEngine');
-        if (startBtn instanceof HTMLButtonElement) {
-          startBtn.disabled = false;
-          startBtn.classList.toggle(disabledBtnClassName);
-        }
-        engineStoptBtnElement.disabled = true;
-        engineStoptBtnElement.classList.toggle(disabledBtnClassName);
+        this.switchButtonState();
 
         this.stopAnimation();
         this.draw(0);
       }
     });
 
-    engineStoptBtnElement.disabled = true;
-    engineStoptBtnElement.classList.toggle(disabledBtnClassName);
-    this.drivingCars.set('stopEngine', engineStoptBtnElement);
+    this.drivingCars.set('stopEngineBtn', engineStopBtnElement);
+
+    this.disabledDrivingButton.add(engineStopBtnElement);
+    this.switchButtonState();
 
     const carSvg = new SVGControl(carDrivingContainerElement, 'svg', 'car-icon');
     const carUse = new SVGUseControl(`${SVGSprite}#car`, carSvg.node);
@@ -185,7 +180,7 @@ export default class Car extends HTMLControl {
   getTrackDistance(car: SVGElement): number {
     const flag = this.drivingCars.get('flag');
     const trackContainer = this.drivingCars.get('trackContainer');
-    const startEngineBtn = this.drivingCars.get('startEngine');
+    const startEngineBtn = this.drivingCars.get('startEngineBtn');
     let track = 0;
 
     if (car && flag && trackContainer && startEngineBtn) {
@@ -201,5 +196,21 @@ export default class Car extends HTMLControl {
 
   stopAnimation() {
     this.animationIds.forEach((animationId) => cancelAnimationFrame(animationId));
+  }
+
+  switchButtonState(): void {
+    const drivingButtons = [this.drivingCars.get('startEngineBtn'), this.drivingCars.get('stopEngineBtn')];
+
+    drivingButtons.forEach((btn) => {
+      if (btn instanceof HTMLButtonElement) {
+        const isDisabled = this.disabledDrivingButton.has(btn);
+        Style.switchDisabledState(btn, isDisabled, disabledBtnClassName);
+      }
+    });
+  }
+
+  changeDisabledDrivingButton(disabledBtn: HTMLButtonElement) {
+    this.disabledDrivingButton.clear();
+    this.disabledDrivingButton.add(disabledBtn);
   }
 }

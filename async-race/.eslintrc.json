@@ -19,6 +19,7 @@
     "node": true
   },
   "rules": {
+    "no-plusplus": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "no-debugger": "off",
     "no-console": 0,

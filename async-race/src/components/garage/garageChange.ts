@@ -2,13 +2,13 @@ import HTMLControl from '../helpers/control/htmlControl';
 import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import {
-  DEFAULT_COLOR,
   MAX_VALUE_COLOR_COMPONENT_RGB,
   BTN_NAMES,
   URLS,
   RANDOM_CARS_COUNT,
   CAR_MODELS,
   carQueriesParams,
+  DEFAULT_VALUES_CAR_INPUTS,
 } from '../../constants';
 import InputControl from '../helpers/control/htmlInputControl';
 import apiRequest from '../apiRequest';
@@ -19,7 +19,7 @@ const { GARAGE_URL } = URLS;
 const [inputClassName, disabledBtnClassName] = ['input', 'input--disabled'];
 
 export default class GarageChange extends HTMLControl {
-  private createInputs = new Map<string, HTMLInputElement[]>();
+  private inputs = new Map<string, HTMLInputElement[]>();
 
   constructor(private state: AppState<GarageState>, parentNode: HTMLElement | null, tagName = 'div', className = '') {
     super(parentNode, tagName, className);
@@ -27,6 +27,8 @@ export default class GarageChange extends HTMLControl {
 
   render() {
     this.addForm(CREATE_BTN_NAME);
+    this.switchInputsValues(CREATE_BTN_NAME);
+
     this.addForm(UPDATE_BTN_NAME);
     this.switchUpdateInputsState();
 
@@ -46,18 +48,35 @@ export default class GarageChange extends HTMLControl {
     const form = new HTMLControl(this.node, 'form', 'form');
 
     const nameCarInput = new InputControl(form.node, `${inputClassName} text-input`, 'text');
+    const nameCarInputElement = nameCarInput.node;
+
     const colorCarInput = new InputControl(form.node, `${inputClassName} color-input`, 'color');
+    const colorCarInputElement = colorCarInput.node;
+
     const submitBtn = new InputControl(form.node, 'btn', 'submit', btnName);
+
+    nameCarInputElement.addEventListener('input', () => {
+      const inputValue = btnName === CREATE_BTN_NAME ? this.state.data.carCreating : this.state.data.selectedCar;
+      if (inputValue) {
+        inputValue.name = nameCarInputElement.value;
+      }
+    });
+
+    colorCarInputElement.addEventListener('change', () => {
+      const inputValue = btnName === CREATE_BTN_NAME ? this.state.data.carCreating : this.state.data.selectedCar;
+      if (inputValue) {
+        inputValue.color = colorCarInputElement.value;
+      }
+    });
+
     submitBtn.node.addEventListener('click', async () => {
       const questionBody = {
-        name: `${nameCarInput.node.value}`,
-        color: `${colorCarInput.node.value}`,
+        name: `${nameCarInputElement.value}`,
+        color: `${colorCarInputElement.value}`,
       };
       if (btnName === CREATE_BTN_NAME) {
-        const response = await apiRequest.addData(GARAGE_URL, questionBody);
-        if (response) {
-          this.state.data.carCount += 1;
-        }
+        await apiRequest.addData(GARAGE_URL, questionBody);
+        this.state.data.carCreating = DEFAULT_VALUES_CAR_INPUTS;
       } else {
         const id = this.state.data.selectedCar?.id;
         this.state.data.selectedCar = null;
@@ -67,23 +86,28 @@ export default class GarageChange extends HTMLControl {
         }
       }
     });
-    this.createInputs.set(btnName, [nameCarInput.node, colorCarInput.node, submitBtn.node]);
+
+    this.inputs.set(btnName, [nameCarInputElement, colorCarInputElement, submitBtn.node]);
   }
 
-  switchUpdateInputsState() {
+  switchUpdateInputsState(): void {
     const { selectedCar } = this.state.data;
-    const inputs = this.createInputs.get(UPDATE_BTN_NAME);
+    const inputs = this.inputs.get(UPDATE_BTN_NAME);
+    const isDisabled = selectedCar === null;
 
-    let [inputValues, isDisabled] = [['', DEFAULT_COLOR], true];
+    inputs?.forEach((input) => {
+      Style.switchDisabledState(input, isDisabled, disabledBtnClassName);
+    });
 
-    if (selectedCar) {
-      isDisabled = false;
-      inputValues = Object.values(selectedCar).splice(0, 2);
-    }
+    this.switchInputsValues(UPDATE_BTN_NAME);
+  }
+
+  switchInputsValues(btnName: string) {
+    const inputValues = this.getInputValues(btnName);
+    const inputs = this.inputs.get(btnName);
 
     inputs?.forEach((input, index) => {
       const updateFormInput = input;
-      Style.switchDisabledState(input, isDisabled, disabledBtnClassName);
 
       if (updateFormInput.type !== 'submit') {
         updateFormInput.value = inputValues[index];
@@ -91,7 +115,18 @@ export default class GarageChange extends HTMLControl {
     });
   }
 
-  generateRandomCars() {
+  getInputValues(btnName: string): string[] {
+    let [name, color] = Object.values(DEFAULT_VALUES_CAR_INPUTS);
+    const inputValues = btnName === UPDATE_BTN_NAME ? this.state.data.selectedCar : this.state.data.carCreating;
+
+    if (inputValues) {
+      [name, color] = Object.values(inputValues);
+    }
+
+    return [name, color];
+  }
+
+  generateRandomCars(): void {
     const promises = [...Array(RANDOM_CARS_COUNT)].map(() => {
       const queryParams = {
         name: this.getRandomCarName(),

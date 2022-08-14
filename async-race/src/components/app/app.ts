@@ -4,7 +4,7 @@ import Garage from '../garage/garage';
 import AppState from '../appState';
 import { GarageState } from '../types/dataInterface';
 import apiRequest from '../apiRequest';
-import { URLS, carQueriesParams } from '../../constants';
+import { URLS, carQueriesParams, DEFAULT_VALUES_CAR_INPUTS } from '../../constants';
 import LocalStorage from '../helpers/localStorage';
 
 const { GARAGE_URL } = URLS;
@@ -19,10 +19,11 @@ export default class App {
     let initialGarageState = {
       carCount: 0,
       selectedCar: null,
+      carCreating: DEFAULT_VALUES_CAR_INPUTS,
       pageNumber: 1,
       carData: [],
     };
-    initialGarageState = savedGarageState || initialGarageState;
+    initialGarageState = savedGarageState ? { ...savedGarageState, carData: [] } : initialGarageState;
     this.garageState = new AppState<GarageState>(initialGarageState);
     const updateGarage = async (data: GarageState) => {
       if (data.selectedCar) {
@@ -51,6 +52,13 @@ export default class App {
     this.garage.render(data);
     main.node.append(this.garage.node);
 
-    window.addEventListener('beforeunload', () => LocalStorage.setStorage('savedGarageState', this.garageState.data));
+    window.addEventListener('beforeunload', () =>
+      LocalStorage.setStorage('savedGarageState', {
+        carCount: this.garageState.data.carCount,
+        selectedCar: this.garageState.data.selectedCar,
+        carCreating: this.garageState.data.carCreating,
+        pageNumber: this.garageState.data.pageNumber,
+      })
+    );
   }
 }

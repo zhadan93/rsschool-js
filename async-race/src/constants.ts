@@ -85,3 +85,8 @@ export const CAR_MODELS = {
 export const RANDOM_CARS_COUNT = 100;
 
 export const MAX_VALUE_COLOR_COMPONENT_RGB = 255;
+
+export const DEFAULT_VALUES_CAR_INPUTS = {
+  name: '',
+  color: '#ffffff',
+};

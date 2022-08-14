@@ -35,6 +35,7 @@ export type AddedDataDetails = CarCharacteristics | WinnerDetails;
 export interface GarageState {
   carCount: number;
   selectedCar: CarDetails | null;
+  carCreating: CarCharacteristics;
   pageNumber: number;
   carData: CarDetails[];
 }

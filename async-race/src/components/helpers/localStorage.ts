@@ -8,7 +8,7 @@ export default class LocalStorage {
     return savedState;
   }
 
-  static setStorage(key: string, obj: GarageState) {
+  static setStorage(key: string, obj: Omit<GarageState, 'carData'>) {
     window.localStorage.setItem(key, JSON.stringify(obj));
   }
 }

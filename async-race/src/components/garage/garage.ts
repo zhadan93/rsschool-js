@@ -7,7 +7,8 @@ import { PAGE_TITLES } from '../../constants';
 import Pagination from '../helpers/pagination';
 
 const { GARAGE_TITLE, PAGINATION_TITLE } = PAGE_TITLES;
-const garageContainerId = 'container';
+const garageContainerId = 'carsContainer';
+const garagePageContainerId = 'garageContainer';
 
 export default class Garage extends HTMLControl {
   private containerMap = new Map<string, HTMLControl>();
@@ -19,7 +20,13 @@ export default class Garage extends HTMLControl {
   }
 
   render(data: CarDetails[]): void {
-    const garageChange = new GarageChange(this.state, this.node, 'section', 'garage__state-change');
+    const garagePageContainer = new HTMLControl(this.node, 'div');
+    const garagePageContainerElement = garagePageContainer.node;
+
+    this.containerMap.get(garagePageContainerId)?.destroy();
+    this.containerMap.set(garagePageContainerId, garagePageContainer);
+
+    const garageChange = new GarageChange(this.state, garagePageContainerElement, 'section', 'garage__state-change');
     garageChange.render();
     this.garageChangeSet.add(garageChange);
 
@@ -27,24 +34,28 @@ export default class Garage extends HTMLControl {
   }
 
   async renderGarage(data: CarDetails[]): Promise<void> {
-    const garageContainer = new HTMLControl(this.node, 'section', 'garage__container');
-    const garageContainerElement = garageContainer.node;
+    const carsParentNode = this.containerMap.get(garagePageContainerId)?.node;
 
-    this.containerMap.get(garageContainerId)?.destroy();
-    this.containerMap.set(garageContainerId, garageContainer);
+    if (carsParentNode) {
+      const garageContainer = new HTMLControl(carsParentNode, 'section', 'garage__container');
+      const garageContainerElement = garageContainer.node;
 
-    const { carCount, pageNumber } = this.state.data;
-    const garageTitle = new HTMLControl(garageContainerElement, 'h1', 'title', `${GARAGE_TITLE}`);
-    (() => new HTMLControl(garageTitle.node, 'span', '', `(${carCount})`))();
+      this.containerMap.get(garageContainerId)?.destroy();
+      this.containerMap.set(garageContainerId, garageContainer);
 
-    const paginationTitle = new HTMLControl(garageContainerElement, 'h2', 'pagination__title', `${PAGINATION_TITLE}`);
-    (() => new HTMLControl(paginationTitle.node, 'span', '', `${pageNumber}`))();
+      const { carCount, pageNumber } = this.state.data;
+      const garageTitle = new HTMLControl(garageContainerElement, 'h1', 'title', `${GARAGE_TITLE}`);
+      (() => new HTMLControl(garageTitle.node, 'span', '', `(${carCount})`))();
 
-    const carsContainer = new Cars(this.state, garageContainerElement, 'div', 'garage__cars');
-    carsContainer.render(data);
+      const paginationTitle = new HTMLControl(garageContainerElement, 'h2', 'pagination__title', `${PAGINATION_TITLE}`);
+      (() => new HTMLControl(paginationTitle.node, 'span', '', `${pageNumber}`))();
 
-    const paginationContainer = new Pagination(this.state, garageContainerElement, 'div', 'pagination');
-    paginationContainer.render();
+      const carsContainer = new Cars(this.state, garageContainerElement, 'div', 'garage__cars');
+      carsContainer.render(data);
+
+      const paginationContainer = new Pagination(this.state, garageContainerElement, 'div', 'pagination');
+      paginationContainer.render();
+    }
   }
 
   switchUpdateInputsState() {

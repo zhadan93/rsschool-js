@@ -90,3 +90,5 @@ export const DEFAULT_VALUES_CAR_INPUTS = {
   name: '',
   color: '#ffffff',
 };
+
+export const APP_PAGES_NAMES = ['garage', 'winners'];

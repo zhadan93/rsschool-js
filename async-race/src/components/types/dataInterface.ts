@@ -55,6 +55,10 @@ export interface EngineData {
   distance: number;
 }
 
-export interface DriveEngineData{
+export interface DriveEngineData {
   success: boolean;
+}
+
+export interface PageNavigationState {
+  selectedPage: string;
 }

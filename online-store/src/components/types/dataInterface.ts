@@ -1,4 +1,4 @@
-export default interface CardDetails {
+export interface CardDetails {
   id: string;
   name: string;
   quantity: string;
@@ -8,3 +8,5 @@ export default interface CardDetails {
   material: string;
   favorite: boolean;
 }
+
+export type CardKeys = keyof CardDetails;

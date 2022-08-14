@@ -1,4 +1,4 @@
-import CardDetails from '../../../types/dataInterface';
+import { CardDetails, CardKeys } from '../../../types/dataInterface';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
 import Control from '../../../helpers/control/htmlControl';
@@ -16,18 +16,18 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
     const [sortField, direction] = sortType.split('_');
     let callback: (currentCard: CardDetails, NextCard: CardDetails) => number;
 
-    if (isFinite(+data[0][sortField as keyof typeof data[0]])) {
+    if (isFinite(+data[0][sortField as CardKeys])) {
       callback = (currentCard: CardDetails, NextCard: CardDetails) => {
         return direction === 'asc'
-          ? +currentCard[sortField as keyof typeof currentCard] - +NextCard[sortField as keyof typeof NextCard]
-          : +NextCard[sortField as keyof typeof NextCard] - +currentCard[sortField as keyof typeof currentCard];
+          ? +currentCard[sortField as CardKeys] - +NextCard[sortField as CardKeys]
+          : +NextCard[sortField as CardKeys] - +currentCard[sortField as CardKeys];
       };
     } else {
       callback = (currentCard: CardDetails, NextCard: CardDetails) => {
-        if (currentCard[sortField as keyof typeof currentCard] > NextCard[sortField as keyof typeof NextCard]) {
+        if (currentCard[sortField as CardKeys] > NextCard[sortField as CardKeys]) {
           return direction === 'asc' ? 1 : -1;
         }
-        if (currentCard[sortField as keyof typeof currentCard] < NextCard[sortField as keyof typeof NextCard]) {
+        if (currentCard[sortField as CardKeys] < NextCard[sortField as CardKeys]) {
           return direction === 'asc' ? -1 : 1;
         }
         return 0;
@@ -69,18 +69,22 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
     Object.entries(state.data.filters)
       .filter(([, value]) => value.length)
       .forEach(([filterGroup, filterNames]) => {
-        (filterNames as string[]).forEach((filterName) => {
-          const filter = Filter.filters.get(filterName);
-
-          if (filter instanceof HTMLInputElement) {
-            filter.checked = false;
-          } else if (filter) {
-            const className = filterGroup.slice(0, -1) + '-list__item--active';
-            Style.toggleClass(filter, className);
-          }
-        });
+        Filter.resetFiltersByGroup(filterGroup, filterNames);
         state.data.filters[filterGroup as keyof typeof state.data.filters] = [];
       });
+  }
+
+  static resetFiltersByGroup(filterGroup: string, filterNames: string[]) {
+    (filterNames as string[]).forEach((filterName) => {
+      const filter = Filter.filters.get(filterName);
+
+      if (filter instanceof HTMLInputElement) {
+        filter.checked = false;
+      } else if (filter) {
+        const className = filterGroup.slice(0, -1) + '-list__item--active';
+        Style.toggleClass(filter, className);
+      }
+    });
   }
 
   static resetSortToDefault(data: CardDetails[], state: AppState<CardState>) {
@@ -96,7 +100,7 @@ export default class Filter<NodeType extends HTMLElement> extends Control<NodeTy
 
   static filterBy(data: CardDetails[], filterField: string, filterName: string) {
     return data.filter((item) => {
-      const value = item[filterField as keyof typeof item];
+      const value = item[filterField as CardKeys];
 
       if (typeof value === 'boolean') {
         return '' + value === filterName;

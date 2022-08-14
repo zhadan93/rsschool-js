@@ -1,4 +1,4 @@
-import CardDetails from '../../types/dataInterface';
+import { CardDetails } from '../../types/dataInterface';
 import Control from '../../helpers/control/htmlControl';
 import Img from '../../helpers/control/htmlImgControl';
 import { CARD_CONTENT } from '../../../constants';

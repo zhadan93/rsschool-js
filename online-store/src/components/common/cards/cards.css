@@ -1,4 +1,12 @@
 .cards {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto 0;
+
+  font-size: 1.7rem;
+}
+
+.card-container {
   display: grid;
   grid-auto-rows: 1fr;
   grid-template-columns: repeat(5, 1fr);
@@ -7,14 +15,6 @@
   justify-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 20px auto 0;
-
-  font-size: 1.7rem;
-}
-
-.cards--empty {
-  display: flex;
-  justify-content: center;
 }
 
 .card {
@@ -59,13 +59,13 @@
 }
 
 @media (max-width: 1940px) {
-  .cards {
+  .card-container {
     grid-template-columns: repeat(4, 22rem);
   }
 }
 
 @media (max-width: 1540px) {
-  .cards {
+  .card-container {
     grid-template-columns: repeat(3, 22rem);
     gap: 20px;
   }
@@ -76,7 +76,7 @@
     font-size: 14.5px;
   }
 
-  .cards {
+  .card-container {
     grid-template-columns: repeat(3, 30.4vw);
   }
 
@@ -87,7 +87,7 @@
 }
 
 @media (max-width: 890px) { 
-  .cards {
+  .card-container {
     grid-template-columns: repeat(2, calc((100% - 20px - (100% - 2* 272px - 20px)) / 2));
   }
 
@@ -101,7 +101,7 @@
     font-size: 13px;
   }
 
-  .cards {
+  .card-container {
     grid-template-columns: repeat(2, calc((100% / 2) - 20px));
     justify-content: center;
   }
@@ -113,7 +113,7 @@
 }
 
 @media (max-width: 480px) {
-  .cards {
+  .card-container {
     grid-template-columns: repeat(1, calc((100% / 2) - 20px));
   }
 

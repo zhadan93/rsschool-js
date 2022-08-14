@@ -3,7 +3,7 @@ import { CartAndCardState } from '../../types/stateInterfaces';
 import FilterByColor from './filters/filterByColor';
 import FilterByProducer from './filters/filterByProducer';
 import FilterByMaterial from './filters/filterByMaterial';
-import CardDetails from '../../types/dataInterface';
+import { CardDetails } from '../../types/dataInterface';
 import FilterByFavorite from './filters/filterByFavorite';
 import SortBy from './filters/sortBy';
 import Filter from './filters/filter';

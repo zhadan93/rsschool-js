@@ -1,5 +1,5 @@
 import Control from '../helpers/control/htmlControl';
-import CardDetails from '../types/dataInterface';
+import { CardDetails } from '../types/dataInterface';
 import CardList from '../common/cards/cardList';
 import cardData from '../../data/data';
 import Footer from '../common/footer';

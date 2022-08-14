@@ -1,5 +1,5 @@
 import Control from '../../../helpers/control/htmlControl';
-import CardDetails from '../../../types/dataInterface';
+import { CardDetails } from '../../../types/dataInterface';
 import { COLORS } from '../../../../constants';
 import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';

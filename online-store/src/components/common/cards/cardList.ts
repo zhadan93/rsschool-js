@@ -1,6 +1,6 @@
 import Control from '../../helpers/control/htmlControl';
 import Card from './card';
-import CardDetails from '../../types/dataInterface';
+import { CardDetails } from '../../types/dataInterface';
 import AppState from '../../appState';
 import { CartState } from '../../types/stateInterfaces';
 import { MAX_CART_COUNT } from '../../../constants';
@@ -11,7 +11,6 @@ import './cards.css';
 const selectedCardClassName = 'card--active';
 const { fullCartAlert, emptyFilterResultAlert } = ALERTS;
 export default class CardList extends Control {
-  private cards: Map<string, Card> = new Map<string, Card>();
   private selectedCards: Set<string> = new Set<string>();
 
   constructor(parentNode: HTMLElement, tagName = 'div', className = '', private state: AppState<CartState>) {
@@ -19,15 +18,14 @@ export default class CardList extends Control {
   }
 
   draw(data: CardDetails[]): void {
-    this.cards.forEach((card) => card.destroy());
     this.node.textContent = '';
-    Style.removeClass(this.node, 'cards--empty');
+
+    const cardContainer = new Control(this.node, 'div', 'card-container');
 
     data.forEach((item) => {
       const { id } = item;
-      const card = new Card(this.node, 'li', 'card');
+      const card = new Card(cardContainer.node, 'li', 'card');
       card.createCard(item);
-      this.cards.set(id, card);
 
       const cardEl = card.node;
 
@@ -53,8 +51,8 @@ export default class CardList extends Control {
     });
 
     if (data.length === 0) {
+      cardContainer.destroy();
       this.node.textContent = emptyFilterResultAlert;
-      Style.addClass(this.node, 'cards--empty');
     }
   }
 }

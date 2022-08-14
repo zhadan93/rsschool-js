@@ -3,7 +3,7 @@ import AppState from '../../../appState';
 import { CardState } from '../../../types/stateInterfaces';
 import { SORT_BY } from '../../../../constants';
 import Filter from './filter';
-import CardDetails from '../../../types/dataInterface';
+import { CardDetails } from '../../../types/dataInterface';
 
 export default class SortBy extends Control {
   private selectedSort = '';

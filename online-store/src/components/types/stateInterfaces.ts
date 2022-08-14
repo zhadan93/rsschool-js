@@ -1,4 +1,4 @@
-import CardDetails from './dataInterface';
+import { CardDetails } from './dataInterface';
 import AppState from '../appState';
 
 export interface CartState {

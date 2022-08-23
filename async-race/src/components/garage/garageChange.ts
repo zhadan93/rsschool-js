@@ -55,15 +55,16 @@ export default class GarageChange extends HTMLControl {
 
     const submitBtn = new InputControl(form.node, 'btn', 'submit', btnName);
 
+    const { carCreating, selectedCar } = this.state.data;
+    const inputValue = btnName === CREATE_BTN_NAME ? carCreating : selectedCar;
+
     nameCarInputElement.addEventListener('input', () => {
-      const inputValue = btnName === CREATE_BTN_NAME ? this.state.data.carCreating : this.state.data.selectedCar;
       if (inputValue) {
         inputValue.name = nameCarInputElement.value;
       }
     });
 
     colorCarInputElement.addEventListener('change', () => {
-      const inputValue = btnName === CREATE_BTN_NAME ? this.state.data.carCreating : this.state.data.selectedCar;
       if (inputValue) {
         inputValue.color = colorCarInputElement.value;
       }

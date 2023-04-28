@@ -5,44 +5,30 @@ class App {
   constructor(private controller: AppController = new AppController(), private view: AppView = new AppView()) {}
 
   start() {
-    const romanAlphabet: string[] = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z',
-    ];
+    const sources = document.querySelector('.sources');
 
-    this.view.drawAlphabet(romanAlphabet);
+    this.controller.getSources((data) => {
+      this.view.drawPagination(data);
+      const pagination = document.querySelector('.pagination');
 
-    const alphabetContainer = document.querySelector('.alphabet');
-    alphabetContainer?.addEventListener('click', (e) =>
-      this.controller.getSources(e, (data) => this.view.drawSources(data))
-    );
+      pagination?.addEventListener('click', (e) => {
+        const target = e.target;
 
-    const sourcesContainer = document.querySelector('.sources');
-    sourcesContainer?.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
+        if (target instanceof Element && target.closest('.pagination__item')) {
+          const letterId = target.getAttribute('data-letter-id');
+
+          if (pagination instanceof Element && pagination.getAttribute('data-pagination') !== letterId && letterId) {
+            this.view.activePaginationBtn(target);
+            pagination.setAttribute('data-pagination', letterId);
+            this.controller.getSources((data) => {
+              this.view.drawSources(data);
+            });
+          }
+        }
+      });
+    });
+
+    sources?.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
   }
 }
 

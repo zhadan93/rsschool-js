@@ -31,29 +31,24 @@ class AppController extends AppLoader {
   }
 
   getNews(e: Event, callback: MyCallback<NewsList>): void {
-    let target = e.target;
+    const target = e.target;
     const newsContainer = e.currentTarget;
 
-    while (target !== newsContainer) {
-      if (target instanceof Element) {
-        if (target.classList.contains('source__item')) {
-          const sourceId = target.getAttribute('data-source-id');
+    if (target instanceof Element) {
+      const sourcesItem = target.closest('.source__item');
+      const sourceId = sourcesItem?.getAttribute('data-source-id');
 
-          if (newsContainer instanceof Element && newsContainer.getAttribute('data-source') !== sourceId && sourceId) {
-            newsContainer.setAttribute('data-source', sourceId);
-            super.getResp<NewsList>(
-              {
-                endpoint: Endpoints.everything,
-                options: {
-                  sources: sourceId,
-                },
-              },
-              callback
-            );
-          }
-          return;
-        }
-        target = target.parentNode;
+      if (newsContainer instanceof Element && newsContainer.getAttribute('data-source') !== sourceId && sourceId) {
+        newsContainer.setAttribute('data-source', sourceId);
+        super.getResp<NewsList>(
+          {
+            endpoint: Endpoints.everything,
+            options: {
+              sources: sourceId,
+            },
+          },
+          callback
+        );
       }
     }
   }

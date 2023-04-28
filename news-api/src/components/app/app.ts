@@ -34,15 +34,15 @@ class App {
       'Z',
     ];
 
-    const sourcesContainer = document.querySelector('.sources');
-    sourcesContainer?.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
-
     this.view.drawAlphabet(romanAlphabet);
 
     const alphabetContainer = document.querySelector('.alphabet');
     alphabetContainer?.addEventListener('click', (e) =>
       this.controller.getSources(e, (data) => this.view.drawSources(data))
     );
+
+    const sourcesContainer = document.querySelector('.sources');
+    sourcesContainer?.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
   }
 }
 

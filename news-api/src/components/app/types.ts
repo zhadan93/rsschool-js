@@ -1,2 +1,2 @@
-type MyCallback<T> = (data?: T) => void;
+type MyCallback<T> = (data: T) => void;
 export default MyCallback;

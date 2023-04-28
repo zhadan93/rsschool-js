@@ -5,12 +5,7 @@ import Endpoint from '../app/enums';
 class Loader {
   constructor(readonly baseLink: string, private options: AppOptions) {}
 
-  getResp<T>(
-    { endpoint, options = {} }: ApiRequest,
-    callback: MyCallback<T> = () => {
-      console.error('No callback for GET response');
-    }
-  ): void {
+  getResp<T>({ endpoint, options = {} }: ApiRequest, callback: MyCallback<T>): void {
     this.load<T>('GET', endpoint, callback, options);
   }
 

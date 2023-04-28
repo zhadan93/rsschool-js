@@ -1,0 +1,29 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 40px;
+  row-gap: 10px;
+  max-width: 70%;
+  margin: 0 auto;
+
+  color: var(--turquoise-color);
+  font-size: 28px;
+  font-family: "GloriaHallelujah", sans-serif;
+}
+
+.pagination__item {
+  list-style: none;
+  transition: 0.7s;
+}
+
+.pagination__item:hover {
+  color: var(--purple-color);
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.pagination__item_active {
+  color: var(--turquoise-color);
+  text-shadow: 1px 1px 2px var(--footer-gradient-from), 0 0 1em var(--footer-gradient-to), 0 0 0.2em var(--footer-gradient-to);
+}

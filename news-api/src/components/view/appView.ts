@@ -4,33 +4,33 @@ import Alphabet from './alphabet/alphabet';
 import { SourceList, NewsList } from '../app/interfaces';
 
 class AppView {
-    constructor(
-        private news: News = new News(),
-        private sources: Sources = new Sources(),
-        private alphabet: Alphabet = new Alphabet()
-    ) {}
+  constructor(
+    private news: News = new News(),
+    private sources: Sources = new Sources(),
+    private alphabet: Alphabet = new Alphabet()
+  ) {}
 
-    drawNews(data?: NewsList): void {
-        const values = data?.articles ? data.articles : [];
-        this.news.draw(values);
+  drawNews(data?: NewsList): void {
+    const values = data?.articles ? data.articles : [];
+    this.news.draw(values);
+  }
+
+  drawSources(data?: SourceList): void {
+    let values = data?.sources ? data.sources : [];
+    const alphabetContainer = document.querySelector('.alphabet');
+    const letterId = alphabetContainer?.getAttribute('data-alphabet');
+
+    if (letterId) {
+      values = values.filter((item) => item.name.startsWith(letterId));
     }
 
-    drawSources(data?: SourceList): void {
-        let values = data?.sources ? data.sources : [];
-        const alphabetContainer = document.querySelector('.alphabet');
-        const letterId = alphabetContainer?.getAttribute('data-alphabet');
+    this.sources.draw(values);
+  }
 
-        if (letterId) {
-            values = values.filter((item) => item.name.startsWith(letterId));
-        }
-
-        this.sources.draw(values);
-    }
-
-    drawAlphabet(data?: string[]): void {
-        const values = data?.length ? data : [];
-        this.alphabet.draw(values);
-    }
+  drawAlphabet(data?: string[]): void {
+    const values = data?.length ? data : [];
+    this.alphabet.draw(values);
+  }
 }
 
 export default AppView;

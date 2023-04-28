@@ -2,50 +2,48 @@ import AppController from '../controller/controller';
 import AppView from '../view/appView';
 
 class App {
-    constructor(private controller: AppController = new AppController(), private view: AppView = new AppView()) {}
+  constructor(private controller: AppController = new AppController(), private view: AppView = new AppView()) {}
 
-    start() {
-        const romanAlphabet: string[] = [
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F',
-            'G',
-            'H',
-            'I',
-            'J',
-            'K',
-            'L',
-            'M',
-            'N',
-            'O',
-            'P',
-            'Q',
-            'R',
-            'S',
-            'T',
-            'U',
-            'V',
-            'W',
-            'X',
-            'Y',
-            'Z',
-        ];
+  start() {
+    const romanAlphabet: string[] = [
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+      'Q',
+      'R',
+      'S',
+      'T',
+      'U',
+      'V',
+      'W',
+      'X',
+      'Y',
+      'Z',
+    ];
 
-        const sourcesContainer = document.querySelector('.sources');
-        sourcesContainer?.addEventListener('click', (e) =>
-            this.controller.getNews(e, (data) => this.view.drawNews(data))
-        );
+    const sourcesContainer = document.querySelector('.sources');
+    sourcesContainer?.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
 
-        this.view.drawAlphabet(romanAlphabet);
+    this.view.drawAlphabet(romanAlphabet);
 
-        const alphabetContainer = document.querySelector('.alphabet');
-        alphabetContainer?.addEventListener('click', (e) =>
-            this.controller.getSources(e, (data) => this.view.drawSources(data))
-        );
-    }
+    const alphabetContainer = document.querySelector('.alphabet');
+    alphabetContainer?.addEventListener('click', (e) =>
+      this.controller.getSources(e, (data) => this.view.drawSources(data))
+    );
+  }
 }
 
 export default App;
